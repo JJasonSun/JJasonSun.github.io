@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章阅读 - JJasonSun</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 引入 marked.js 用于解析 Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        .blog-content {
+            max-width: 800px;
+            margin: 100px auto 60px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .blog-content h1, .blog-content h2, .blog-content h3 {
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            color: var(--secondary-color);
+        }
+
+        .blog-content p {
+            margin-bottom: 1em;
+            line-height: 1.8;
+        }
+
+        .blog-content pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 1em 0;
+        }
+
+        .blog-content code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            background: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 3px;
+            color: #d63384;
+        }
+
+        .blog-content pre code {
+            background: transparent;
+            color: #333;
+            padding: 0;
+        }
+
+        .blog-content blockquote {
+            border-left: 4px solid var(--primary-color);
+            margin: 1em 0;
+            padding-left: 1em;
+            color: #666;
+            background: #f9f9f9;
+            padding: 10px 20px;
+        }
+
+        .blog-content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border-radius: 5px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">JJasonSun</a>
+            <ul class="nav-links">
+                <li><a href="index.html#home">首页</a></li>
+                <li><a href="index.html#about">关于我</a></li>
+                <li><a href="index.html#blog">博客</a></li>
+                <li><a href="index.html#contact">联系方式</a></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <article class="blog-content" id="article-content">
+            <a href="index.html#blog" class="back-link"><i class="fas fa-arrow-left"></i> 返回文章列表</a>
+            <div id="markdown-render">正在加载文章...</div>
+        </article>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 JJasonSun. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        // 获取 URL 参数中的文章路径
+        const urlParams = new URLSearchParams(window.location.search);
+        const postFile = urlParams.get('post');
+
+        if (postFile) {
+            fetch(`posts/${postFile}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('文章未找到');
+                    return response.text();
+                })
+                .then(text => {
+                    document.getElementById('markdown-render').innerHTML = marked.parse(text);
+                    // 简单的代码高亮处理（如果需要更高级的可以使用 highlight.js）
+                    document.title = postFile.replace('.md', '') + " - JJasonSun";
+                })
+                .catch(err => {
+                    document.getElementById('markdown-render').innerHTML = `<p style="color:red">加载文章失败: ${err.message}</p>`;
+                });
+        } else {
+            document.getElementById('markdown-render').innerHTML = '<p>未指定文章。</p>';
+        }
+    </script>
+</body>
+</html>

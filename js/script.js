@@ -30,6 +30,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Load Blog Posts
+    const blogContainer = document.getElementById('blog-container');
+    if (blogContainer && typeof blogPosts !== 'undefined') {
+        blogPosts.forEach(post => {
+            const article = document.createElement('article');
+            article.className = 'blog-card';
+            article.innerHTML = `
+                <h3>${post.title}</h3>
+                <p class="date">${post.date}</p>
+                <p>${post.summary}</p>
+                <a href="${post.link}">阅读更多</a>
+            `;
+            blogContainer.appendChild(article);
+        });
+    }
+
     // Simple scroll animation (optional)
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {

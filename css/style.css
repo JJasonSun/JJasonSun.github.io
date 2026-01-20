@@ -6,20 +6,94 @@
 }
 
 :root {
+    /* Light Mode Variables (Default) */
     --primary-color: #3498db;
     --secondary-color: #2c3e50;
     --text-color: #333;
+    --text-muted: #666;
+    --text-white: #fff;
     --bg-color: #fff;
     --bg-light: #f4f4f4;
     --bg-dark: #2c3e50;
-    --text-white: #fff;
+    --card-bg: #fff;
+    --shadow-color: rgba(0,0,0,0.1);
+    --border-color: #eee;
+    --code-bg: #f4f4f4;
+    --code-text: #d63384;
+    --motto-bg: #eef7ff;
+    --hero-gradient-start: #2c3e50;
+    --hero-gradient-end: #3498db;
     --transition: all 0.3s ease;
 }
 
+/* Dark Mode Variables (System Preference) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-color: #61dafb;
+        --secondary-color: #e0e0e0;
+        --text-color: #e0e0e0;
+        --text-muted: #aaa;
+        --text-white: #e0e0e0;
+        --bg-color: #121212;
+        --bg-light: #1e1e1e;
+        --bg-dark: #000000;
+        --card-bg: #1e1e1e;
+        --shadow-color: rgba(0,0,0,0.5);
+        --border-color: #333;
+        --code-bg: #2d2d2d;
+        --code-text: #ff79c6;
+        --motto-bg: #1a2634;
+        --hero-gradient-start: #1a1a1a;
+        --hero-gradient-end: #2c3e50;
+    }
+}
+
+/* Force Light Mode */
+[data-theme="light"] {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --text-color: #333;
+    --text-muted: #666;
+    --text-white: #fff;
+    --bg-color: #fff;
+    --bg-light: #f4f4f4;
+    --bg-dark: #2c3e50;
+    --card-bg: #fff;
+    --shadow-color: rgba(0,0,0,0.1);
+    --border-color: #eee;
+    --code-bg: #f4f4f4;
+    --code-text: #d63384;
+    --motto-bg: #eef7ff;
+    --hero-gradient-start: #2c3e50;
+    --hero-gradient-end: #3498db;
+}
+
+/* Force Dark Mode */
+[data-theme="dark"] {
+    --primary-color: #61dafb;
+    --secondary-color: #e0e0e0;
+    --text-color: #e0e0e0;
+    --text-muted: #aaa;
+    --text-white: #e0e0e0;
+    --bg-color: #121212;
+    --bg-light: #1e1e1e;
+    --bg-dark: #000000;
+    --card-bg: #1e1e1e;
+    --shadow-color: rgba(0,0,0,0.5);
+    --border-color: #333;
+    --code-bg: #2d2d2d;
+    --code-text: #ff79c6;
+    --motto-bg: #1a2634;
+    --hero-gradient-start: #1a1a1a;
+    --hero-gradient-end: #2c3e50;
+}
+
 body {
+    background-color: var(--bg-color);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -63,10 +137,11 @@ ul {
 /* Navbar */
 .navbar {
     background-color: var(--bg-color);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px var(--shadow-color);
     position: sticky;
     top: 0;
     z-index: 1000;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .navbar .container {
@@ -100,15 +175,31 @@ ul {
     color: var(--primary-color);
 }
 
+.theme-btn {
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-left: 15px;
+    padding: 5px;
+    transition: var(--transition);
+}
+
+.theme-btn:hover {
+    color: var(--primary-color);
+}
+
 .hamburger {
     display: none;
     cursor: pointer;
+    color: var(--secondary-color);
 }
 
 /* Hero Section */
 .hero {
     height: 100vh;
-    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
     color: #fff;
     display: flex;
     align-items: center;
@@ -118,11 +209,23 @@ ul {
 .hero h1 {
     font-size: 3rem;
     margin-bottom: 20px;
+    color: #fff;
 }
 
 .hero p {
     font-size: 1.5rem;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.hero-motto {
+    font-size: 1.8rem;
+    font-weight: bold;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    margin-bottom: 40px;
+    color: #e0f7fa;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .hero-btns .btn {
@@ -153,7 +256,65 @@ ul {
     color: var(--secondary-color);
 }
 
-/* About Section */
+/* About Section (Home) */
+.about-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.about-image {
+    flex-shrink: 0;
+}
+
+.about-image img {
+    width: 200px !important;
+    height: 200px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--primary-color);
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+.about-text {
+    flex: 1;
+    text-align: left;
+}
+
+.motto {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin: 20px 0;
+    padding: 15px 20px;
+    background-color: var(--motto-bg);
+    border-left: 5px solid var(--primary-color);
+    border-radius: 0 8px 8px 0;
+    font-family: 'Georgia', serif;
+}
+
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+    
+    .about-text {
+        text-align: center;
+    }
+    
+    .motto {
+        text-align: center;
+        border-left: none;
+        border-top: 5px solid var(--primary-color);
+        border-radius: 0 0 8px 8px;
+    }
+}
+
 .skills-list {
     display: flex;
     flex-wrap: wrap;
@@ -178,20 +339,26 @@ ul {
 }
 
 .blog-card {
-    background: #fff;
+    background: var(--card-bg);
     padding: 20px;
     border-left: 4px solid var(--primary-color);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px var(--shadow-color);
+    transition: background-color 0.3s ease;
 }
 
 .blog-card h3 {
     margin-bottom: 5px;
+    color: var(--text-color);
 }
 
 .blog-card .date {
     font-size: 0.85rem;
-    color: #999;
+    color: var(--text-muted);
     margin-bottom: 10px;
+}
+
+.blog-card p {
+    color: var(--text-color);
 }
 
 .blog-card a {
@@ -233,10 +400,201 @@ footer {
     font-size: 0.9rem;
 }
 
-/* Responsive */
+/* =========================================
+   About Page Styles (Extracted)
+   ========================================= */
+.about-page {
+    min-height: calc(100vh - 140px);
+    display: flex;
+    align-items: center;
+    background: var(--bg-light);
+    padding: 40px 0;
+    transition: background-color 0.3s ease;
+}
+
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    gap: 80px;
+}
+
+.about-text-content {
+    flex: 1;
+}
+
+.about-image-full {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.about-image-full img {
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 20px 20px 0 var(--primary-color), 0 0 20px var(--shadow-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-image-full img:hover {
+    transform: translate(-10px, -10px);
+    box-shadow: 30px 30px 0 var(--primary-color), 0 0 30px var(--shadow-color);
+}
+
+.about-title {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+    position: relative;
+    display: inline-block;
+}
+
+.about-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 5px;
+    background: var(--primary-color);
+}
+
+.about-intro {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-bottom: 30px;
+    line-height: 1.8;
+}
+
+.motto-large {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-family: 'Georgia', serif;
+    margin: 30px 0;
+    padding: 20px 30px;
+    background: var(--motto-bg);
+    border-left: 8px solid var(--primary-color);
+    border-radius: 0 10px 10px 0;
+    transition: background-color 0.3s ease;
+}
+
+.tech-stack-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--secondary-color);
+}
+
+.skills-list-large li {
+    padding: 8px 20px;
+    font-size: 1rem;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 5px var(--shadow-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+@media (max-width: 992px) {
+    .about-container {
+        flex-direction: column; 
+        gap: 40px;
+        padding: 0 20px;
+    }
+
+    .about-image-full img {
+        max-width: 100%;
+        box-shadow: 10px 10px 0 var(--primary-color);
+    }
+    
+    .about-title {
+        font-size: 2.5rem;
+    }
+}
+
+/* =========================================
+   Blog Post Page Styles (Extracted)
+   ========================================= */
+.blog-content {
+    max-width: 800px;
+    margin: 100px auto 60px;
+    padding: 20px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    transition: background-color 0.3s ease;
+}
+
+.blog-content h1, .blog-content h2, .blog-content h3 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    color: var(--secondary-color);
+}
+
+.blog-content p, .blog-content li {
+    margin-bottom: 1em;
+    line-height: 1.8;
+    color: var(--text-color);
+}
+
+.blog-content pre {
+    background: var(--code-bg);
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 1em 0;
+    transition: background-color 0.3s ease;
+}
+
+.blog-content code {
+    font-family: Consolas, Monaco, 'Andale Mono', monospace;
+    background: var(--code-bg);
+    padding: 2px 5px;
+    border-radius: 3px;
+    color: var(--code-text);
+}
+
+.blog-content pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+
+.blog-content blockquote {
+    border-left: 4px solid var(--primary-color);
+    margin: 1em 0;
+    padding-left: 1em;
+    color: var(--text-muted);
+    background: var(--bg-light);
+    padding: 10px 20px;
+}
+
+.blog-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    border-radius: 5px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Responsive Navbar */
 @media (max-width: 768px) {
     .nav-links {
-        display: none; /* Hide for now, JS will toggle */
+        display: none;
         flex-direction: column;
         position: absolute;
         top: 60px;
@@ -244,7 +602,7 @@ footer {
         background: var(--bg-color);
         width: 100%;
         text-align: center;
-        box-shadow: 0 5px 5px rgba(0,0,0,0.1);
+        box-shadow: 0 5px 5px var(--shadow-color);
     }
 
     .nav-links.active {

@@ -1,4 +1,44 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Theme Toggle Logic
+    const themeToggle = document.getElementById('theme-toggle');
+    
+    // States: 'auto' -> 'light' -> 'dark'
+    const themes = ['auto', 'light', 'dark'];
+    
+    function getStoredTheme() {
+        return localStorage.getItem('theme') || 'auto';
+    }
+
+    function setTheme(theme) {
+        if (theme === 'auto') {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.removeItem('theme');
+            themeToggle.innerHTML = '<i class="fas fa-adjust"></i>';
+            themeToggle.setAttribute('title', '跟随系统');
+        } else {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (theme === 'dark') {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                themeToggle.setAttribute('title', '深色模式');
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                themeToggle.setAttribute('title', '浅色模式');
+            }
+        }
+    }
+
+    // Initialize
+    if (themeToggle) {
+        setTheme(getStoredTheme());
+        
+        themeToggle.addEventListener('click', () => {
+            const current = getStoredTheme();
+            const nextIndex = (themes.indexOf(current) + 1) % themes.length;
+            setTheme(themes[nextIndex]);
+        });
+    }
+
     // Mobile Menu Toggle
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
@@ -14,18 +54,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Smooth Scrolling for Anchor Links
+    // Smooth Scrolling for Anchor Links (Updated to allow external links)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
             const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth'
-                });
+            // 如果是页面内跳转才阻止默认行为
+            if (targetId.startsWith('#') && targetId.length > 1) {
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JJasonSun - 个人主页</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">JJasonSun</a>
+            <ul class="nav-links">
+                <li><a href="#home">首页</a></li>
+                <li><a href="#about">关于我</a></li>
+                <li><a href="#blog">博客</a></li>
+                <li><a href="#contact">联系方式</a></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首页/Hero区域 -->
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>你好，我是 Jason Sun</h1>
+            <p>全栈开发者 / 开源爱好者 / 技术博主</p>
+            <div class="hero-btns">
+                <a href="#about" class="btn primary">关于我</a>
+                <a href="#contact" class="btn secondary">联系我</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我 -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">关于我</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>我是一名热爱技术的开发者，专注于构建高效、优雅的 Web 应用。热衷于探索新技术，分享技术心得。</p>
+                    <p>主要技术栈包括：</p>
+                    <ul class="skills-list">
+                        <li>Python / Django / Flask</li>
+                        <li>JavaScript / React / Vue</li>
+                        <li>Node.js</li>
+                        <li>Docker / DevOps</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 博客预览 -->
+    <section id="blog" class="section">
+        <div class="container">
+            <h2 class="section-title">最新文章</h2>
+            <div class="blog-grid">
+                <article class="blog-card">
+                    <h3>如何优化 React 应用性能</h3>
+                    <p class="date">2023-10-15</p>
+                    <p>深入探讨 React 渲染机制与性能优化技巧...</p>
+                    <a href="#">阅读更多</a>
+                </article>
+                <article class="blog-card">
+                    <h3>Python 异步编程指南</h3>
+                    <p class="date">2023-09-22</p>
+                    <p>从 async/await 到 asyncio 实战...</p>
+                    <a href="#">阅读更多</a>
+                </article>
+                <article class="blog-card">
+                    <h3>Docker 容器化最佳实践</h3>
+                    <p class="date">2023-08-10</p>
+                    <p>构建轻量、安全的 Docker 镜像...</p>
+                    <a href="#">阅读更多</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系方式 -->
+    <section id="contact" class="section bg-dark">
+        <div class="container">
+            <h2 class="section-title text-white">联系我</h2>
+            <div class="contact-content">
+                <p class="text-white">有合作意向或技术交流？欢迎通过以下方式联系。</p>
+                <div class="social-links">
+                    <a href="https://github.com/JJasonSun" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="mailto:example@email.com"><i class="fas fa-envelope"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 JJasonSun. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

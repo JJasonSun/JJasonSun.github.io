@@ -5,6 +5,10 @@
     box-sizing: border-box;
 }
 
+html {
+    overflow-y: scroll; /* Fix layout shift between pages with/without scrollbars */
+}
+
 :root {
     /* Light Mode Variables (Default) */
     --primary-color: #3498db;
@@ -24,6 +28,13 @@
     --hero-gradient-start: #2c3e50;
     --hero-gradient-end: #3498db;
     --transition: all 0.3s ease;
+    
+    /* Article Specific */
+    --article-code-bg: #f4f4f4;
+    --article-blockquote-bg: #f4f4f4;
+    --article-blockquote-text: #666;
+    --article-link-color: #3498db;
+    --image-opacity: 1;
 }
 
 /* Dark Mode Variables (System Preference) */
@@ -45,6 +56,13 @@
         --motto-bg: #1a2634;
         --hero-gradient-start: #1a1a1a;
         --hero-gradient-end: #2c3e50;
+
+        /* Article Specific Overrides for Dark Mode */
+        --article-code-bg: #1a1a1a;
+        --article-blockquote-bg: #252525;
+        --article-blockquote-text: #bbb;
+        --article-link-color: #61dafb;
+        --image-opacity: 0.9;
     }
 }
 
@@ -66,6 +84,12 @@
     --motto-bg: #eef7ff;
     --hero-gradient-start: #2c3e50;
     --hero-gradient-end: #3498db;
+
+    --article-code-bg: #f4f4f4;
+    --article-blockquote-bg: #f4f4f4;
+    --article-blockquote-text: #666;
+    --article-link-color: #3498db;
+    --image-opacity: 1;
 }
 
 /* Force Dark Mode */
@@ -86,6 +110,12 @@
     --motto-bg: #1a2634;
     --hero-gradient-start: #1a1a1a;
     --hero-gradient-end: #2c3e50;
+
+    --article-code-bg: #1a1a1a;
+    --article-blockquote-bg: #252525;
+    --article-blockquote-text: #bbb;
+    --article-link-color: #61dafb;
+    --image-opacity: 0.9;
 }
 
 body {
@@ -620,4 +650,320 @@ footer {
     .hero h1 {
         font-size: 2rem;
     }
+}
+
+/* Deep Dark Mode Overrides for Blog Content (Supports both .blog-content and .article-container) */
+/* NOTE: Most overrides are now handled by CSS variables. Only special cases remain here. */
+
+.blog-content blockquote,
+.article-container blockquote {
+    background: var(--article-blockquote-bg);
+    color: var(--article-blockquote-text);
+    border-left-color: var(--primary-color);
+}
+
+.blog-content pre,
+.article-container pre {
+    background: var(--article-code-bg);
+}
+
+.blog-content img,
+.article-container img {
+    opacity: var(--image-opacity);
+}
+
+.blog-content a,
+.article-container a {
+    color: var(--article-link-color);
+}
+
+/* Scrollbar thumbs color sync */
+[data-theme="dark"] .toc-content::-webkit-scrollbar-thumb,
+:root:not([data-theme="light"]) .toc-content::-webkit-scrollbar-thumb {
+    background: #444;
+}
+
+[data-theme="dark"] .toc-content::-webkit-scrollbar-thumb:hover,
+:root:not([data-theme="light"]) .toc-content::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+
+.article-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background: var(--card-bg);
+    min-height: 100vh;
+    transition: background-color 0.3s ease;
+}
+
+.article-header {
+    margin-bottom: 40px;
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color); /* Use CSS variable */
+}
+
+.article-title {
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.article-meta {
+    color: var(--text-muted); /* Use CSS variable */
+    font-size: 0.9rem;
+}
+
+.article-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-color); /* Use CSS variable */
+}
+
+.article-content h2 {
+    font-size: 1.8rem;
+    color: var(--secondary-color);
+    margin: 40px 0 20px;
+    padding-left: 15px;
+    border-left: 5px solid var(--primary-color);
+}
+
+.article-content h3 {
+    font-size: 1.4rem;
+    color: var(--text-color); /* Updated for dark mode */
+    margin: 30px 0 15px;
+}
+
+.article-content p {
+    margin-bottom: 20px;
+}
+
+.article-content ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.article-content li {
+    margin-bottom: 10px;
+}
+
+/* 引用块样式优化 */
+.callout {
+    padding: 20px;
+    border-radius: 8px;
+    margin: 25px 0;
+    border-left: 5px solid;
+}
+
+.callout.info {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+    color: #0d47a1;
+}
+
+/* Dark mode override for callouts */
+[data-theme="dark"] .callout.info,
+:root:not([data-theme="light"]) .callout.info {
+    background-color: #1a2634;
+    color: #90caf9;
+}
+
+.callout.warning {
+    background-color: #fff3e0;
+    border-color: #ff9800;
+    color: #e65100;
+}
+
+.callout-title {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+/* Prism 代码块微调 */
+pre[class*="language-"] {
+    border-radius: 8px;
+    margin: 20px 0;
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+code[class*="language-"] {
+    font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 0.95em;
+}
+
+/* 行内代码样式 */
+:not(pre) > code,
+:not(pre) > code[class*="language-"] {
+    background-color: rgba(150, 150, 150, 0.1) !important; /* 半透明背景，强制覆盖 */
+    color: var(--code-text);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: Consolas, monospace;
+    font-size: 0.9em;
+    text-shadow: none !important; /* 去除 Prism 可能带来的阴影 */
+}
+
+.back-nav {
+    margin-bottom: 30px;
+}
+
+.back-nav a {
+    display: inline-flex;
+    align-items: center;
+    color: var(--primary-color);
+    font-weight: 600;
+    transition: transform 0.2s;
+}
+
+.back-nav a:hover {
+    transform: translateX(-5px);
+}
+
+.back-nav i {
+    margin-right: 8px;
+}
+
+/* =========================================
+   Article Layout with Sidebar (TOC)
+   ========================================= */
+.article-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+}
+
+/* Adjust article container when in wrapper */
+.article-wrapper .article-container {
+    margin: 0; /* Flex handles centering */
+    width: 100%;
+    max-width: 800px;
+    min-height: auto;
+    /* Keep background and shadow for card look */
+    background: var(--card-bg);
+    box-shadow: 0 2px 10px var(--shadow-color);
+    border-radius: 8px;
+}
+
+/* Restore card style for the article content if needed */
+.article-container {
+    /* Existing styles are fine, but inside wrapper we might want to tweak */
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+.toc-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 100px; /* Navbar height + gap */
+    display: none; /* Hidden by default on small screens */
+}
+
+@media (min-width: 1150px) {
+    .toc-sidebar {
+        display: block;
+    }
+}
+
+.toc-content {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    border-left: 4px solid var(--primary-color);
+}
+
+.toc-content h3 {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    font-weight: 600;
+}
+
+#toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#toc li {
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+#toc a {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    display: block;
+    padding: 4px 0;
+    transition: all 0.2s;
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    padding-left: 10px;
+}
+
+#toc a:hover {
+    color: var(--primary-color);
+    background-color: var(--bg-light);
+    border-left-color: var(--primary-color);
+}
+
+#toc a.active {
+    color: var(--primary-color);
+    font-weight: 600;
+    border-left-color: var(--primary-color);
+    background-color: var(--bg-light);
+}
+
+#toc .toc-h2 {
+    font-weight: 500;
+}
+
+#toc .toc-h3 {
+    padding-left: 25px;
+    font-size: 0.85rem;
+}
+
+/* Custom scrollbar for TOC */
+.toc-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.toc-content::-webkit-scrollbar-track {
+    background: var(--bg-light); 
+}
+
+.toc-content::-webkit-scrollbar-thumb {
+    background: #ccc; 
+    border-radius: 3px;
+}
+
+.toc-content::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color); 
+}
+
+[data-theme="dark"] .toc-content::-webkit-scrollbar-thumb {
+    background: #444;
+}
+
+[data-theme="dark"] .toc-content::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
 }

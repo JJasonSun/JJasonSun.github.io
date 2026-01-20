@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Configuration
+    const HEADER_OFFSET = 80;
+
     // Theme Toggle Logic
     const themeToggle = document.getElementById('theme-toggle');
     
@@ -63,8 +66,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
                     e.preventDefault();
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
+                    
+                    // Adjust scroll position for fixed header
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - HEADER_OFFSET;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
                     });
                 }
             }
@@ -103,4 +112,102 @@ document.addEventListener('DOMContentLoaded', () => {
         el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
         observer.observe(el);
     });
+
+    // ==========================================
+    // Automatic Table of Contents (TOC) Generation
+    // ==========================================
+    const tocNav = document.getElementById('toc');
+    const articleContent = document.querySelector('.article-content');
+
+    if (tocNav && articleContent) {
+        const headers = articleContent.querySelectorAll('h2, h3');
+        
+        if (headers.length > 0) {
+            const ul = document.createElement('ul');
+            
+            headers.forEach((header, index) => {
+                // Ensure header has an ID
+                if (!header.id) {
+                    // Generate ID from text or fallback to index
+                    const id = header.textContent
+                        .trim()
+                        .toLowerCase()
+                        .replace(/\s+/g, '-')
+                        .replace(/[^\w\u4e00-\u9fa5-]/g, ''); // Keep Chinese chars
+                    header.id = id || `heading-${index}`;
+                }
+
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                
+                a.href = `#${header.id}`;
+                a.textContent = header.textContent;
+                a.className = header.tagName === 'H2' ? 'toc-h2' : 'toc-h3';
+                
+                // Add click handler for smooth scrolling with offset
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetElement = document.getElementById(header.id);
+                    if (targetElement) {
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - HEADER_OFFSET;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                        
+                        // Update active state manually
+                        document.querySelectorAll('#toc a').forEach(link => link.classList.remove('active'));
+                        a.classList.add('active');
+                    }
+                });
+
+                li.appendChild(a);
+                ul.appendChild(li);
+            });
+            
+            tocNav.appendChild(ul);
+
+            // Scroll Spy using IntersectionObserver
+            const scrollSpyOptions = {
+                root: null,
+                rootMargin: '-100px 0px -70% 0px', // Trigger when element is near top
+                threshold: 0
+            };
+
+            const scrollSpyCallback = (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const activeId = entry.target.id;
+                        document.querySelectorAll('#toc a').forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${activeId}`) {
+                                link.classList.add('active');
+                                
+                                // Auto scroll sidebar to active item
+                                const sidebar = document.querySelector('.toc-content');
+                                if (sidebar) {
+                                    const linkTop = link.offsetTop;
+                                    const sidebarHeight = sidebar.clientHeight;
+                                    const scrollAmount = linkTop - (sidebarHeight / 2);
+                                    sidebar.scrollTo({
+                                        top: scrollAmount,
+                                        behavior: 'smooth'
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            };
+
+            const spyObserver = new IntersectionObserver(scrollSpyCallback, scrollSpyOptions);
+            headers.forEach(header => spyObserver.observe(header));
+        } else {
+            // Hide sidebar if no headers found
+            const sidebar = document.querySelector('.toc-sidebar');
+            if (sidebar) sidebar.style.display = 'none';
+        }
+    }
 });

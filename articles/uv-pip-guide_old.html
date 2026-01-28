@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用 uv pip 管理项目环境：Python 开发新选择 - JJasonSun</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Prism.js CSS (主题：Okaidia，类似 Monokai) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
+    <!-- Prism.js Toolbar & Plugins CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css">
+    
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: var(--card-bg); /* Use CSS variable for dark mode */
+            min-height: 100vh;
+            transition: background-color 0.3s ease;
+        }
+
+        .article-header {
+            margin-bottom: 40px;
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color); /* Use CSS variable */
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .article-meta {
+            color: var(--text-muted); /* Use CSS variable */
+            font-size: 0.9rem;
+        }
+
+        .article-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-color); /* Use CSS variable */
+        }
+
+        .article-content h2 {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            margin: 40px 0 20px;
+            padding-left: 15px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .article-content h3 {
+            font-size: 1.4rem;
+            color: var(--text-color); /* Updated for dark mode */
+            margin: 30px 0 15px;
+        }
+
+        .article-content p {
+            margin-bottom: 20px;
+        }
+
+        .article-content ul {
+            list-style: disc;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .article-content li {
+            margin-bottom: 10px;
+        }
+
+        /* 引用块样式优化 */
+        .callout {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border-left: 5px solid;
+        }
+
+        .callout.info {
+            background-color: #e3f2fd;
+            border-color: #2196f3;
+            color: #0d47a1;
+        }
+        
+        /* Dark mode override for callouts */
+        [data-theme="dark"] .callout.info {
+            background-color: #1a2634;
+            color: #90caf9;
+        }
+
+        .callout.warning {
+            background-color: #fff3e0;
+            border-color: #ff9800;
+            color: #e65100;
+        }
+
+        .callout-title {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* Prism 代码块微调 */
+        pre[class*="language-"] {
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+        
+        code[class*="language-"] {
+            font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            font-size: 0.95em;
+        }
+
+        /* 行内代码样式 */
+        :not(pre) > code {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, monospace;
+            font-size: 0.9em;
+        }
+
+        .back-nav {
+            margin-bottom: 30px;
+        }
+
+        .back-nav a {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .back-nav a:hover {
+            transform: translateX(-5px);
+        }
+
+        .back-nav i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 复用导航栏 (静态) -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">JJasonSun</a>
+            <ul class="nav-links">
+                <li><a href="../index.html#home">首页</a></li>
+                <li><a href="../index.html#about">关于我</a></li>
+                <li><a href="../index.html#blog">博客</a></li>
+                <li><a href="../index.html#contact">联系方式</a></li>
+                <li><button id="theme-toggle" class="theme-btn"><i class="fas fa-adjust"></i></button></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="article-wrapper">
+        <div class="article-container">
+            <div class="back-nav">
+                <a href="../index.html#blog"><i class="fas fa-arrow-left"></i> 返回文章列表</a>
+            </div>
+
+        <header class="article-header">
+            <h1 class="article-title">使用 uv pip 管理项目环境：Python 开发新选择</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar-alt"></i> 2026-01-06</span>
+                <span style="margin: 0 10px">|</span>
+                <span><i class="far fa-folder"></i> Python 工具</span>
+            </div>
+        </header>
+
+        <article class="article-content">
+            <div class="callout info">
+                <span class="callout-title">核心逻辑</span>
+                <p><strong>uv 分为两种使用模式：</strong></p>
+                <ul>
+                    <li><strong>「项目模式」</strong>：默认用 <code>pyproject.toml</code> 管理依赖（适合需要打包、共享的项目）；</li>
+                    <li><strong>「无配置模式」</strong>：用 <code>uv pip</code> 命令，完全兼容 pip 语法，不用任何配置文件（适合机器学习、快速实验类项目）。</li>
+                </ul>
+                <p>流程简述：<code>.venv + requirements.txt + uv pip install</code></p>
+            </div>
+
+            <h2>无 Python 安装 UV</h2>
+            
+            <h3>在线一键脚本（最省事）</h3>
+            <pre><code class="language-powershell"># 1. 设置环境变量（注意末尾的斜杠不能少）
+# export GITHUB_MIRROR=https://mirror.ghproxy.com/
+
+# 2. 验证变量是否生效
+# echo $GITHUB_MIRROR  # 应输出 https://mirror.ghproxy.com/
+
+# 官方安装脚本会自动把可执行文件放到 ~/.cargo/bin 并写 PATH
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source ~/.cargo/env      # 让当前终端立即生效
+uv --version             # 验证</code></pre>
+
+            <pre><code class="language-powershell"># 以管理员权限打开 PowerShell，执行
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+# 安装程序会把 uv.exe 放到 C:\Users\<你>\.local\bin
+# 按提示把该目录加进 PATH 后，重新打开终端
+uv --version</code></pre>
+
+            <p>全程不需要 Python，脚本里已经附带对应平台的二进制包 。</p>
+
+            <h3>离线手动下载（内网 / 机器没 curl）</h3>
+            <ol>
+                <li>在能上网的电脑打开 <a href="https://github.com/astral-sh/uv/releases/latest" target="_blank">https://github.com/astral-sh/uv/releases/latest</a> 根据系统下载对应压缩包，例如
+                    <ul>
+                        <li>Windows 10+ 64bit → <code>uv-x86_64-pc-windows-msvc.zip</code></li>
+                        <li>Linux x86_64 → <code>uv-x86_64-unknown-linux-gnu.tar.gz</code></li>
+                        <li>macOS Apple Silicon → <code>uv-aarch64-apple-darwin.tar.gz</code></li>
+                    </ul>
+                </li>
+                <li>解压后得到单文件 <code>uv</code>（或 <code>uv.exe</code>），把它放到
+                    <ul>
+                        <li>Windows：<code>C:\Users\<你>\.local\bin\</code></li>
+                        <li>Linux/macOS：<code>~/.local/bin/</code> 或 <code>/usr/local/bin/</code></li>
+                    </ul>
+                    并确保该目录已在系统 PATH。
+                </li>
+                <li>终端执行
+                    <pre><code class="language-powershell">uv --version</code></pre>
+                </li>
+            </ol>
+
+            <p>装完就能直接管理 Python 版本与虚拟环境</p>
+
+            <pre><code class="language-powershell"># 让 uv 自己下载一个 Python 解释器
+uv python install 3.12
+
+# 建虚拟环境
+uv venv --python 3.12
+
+# 装包
+uv pip install requests
+
+# 运行脚本
+uv run python your_script.py</code></pre>
+
+            <p>全程无需系统里先装 Python，uv 会自动下载所需解释器 。</p>
+
+            <hr style="margin: 40px 0; border: 0; border-top: 1px solid var(--border-color);">
+
+            <h2>初始化：为项目创建 .venv 虚拟环境</h2>
+            <h3>在项目根目录</h3>
+            <pre><code class="language-powershell">uv venv 
+# 或者
+uv venv --python 3.12 # 省略路径时，uv 默认使用 .venv 这个名字，即建在当前目录下的 .venv/ 里
+# 或者 
+uv venv --python 3.12 new_env # 把环境建在当前目录下的 new_env/ 文件夹里（名字任你取）</code></pre>
+
+            <p><strong>说明：</strong></p>
+            <ul>
+                <li>这会在当前目录下新建一个 .venv（只对这个项目生效）。</li>
+                <li>以后所有 Python 相关操作，都通过 <code>uv</code> 调用 .venv，不需要自己 <code>activate</code>。</li>
+            </ul>
+
+            <h3>UV 虚拟环境的本质</h3>
+            <div class="callout warning">
+                <span class="callout-title">注意</span>
+                <p><code>uv</code> 创建的虚拟环境 <strong>不包含 Python 解释器本身</strong>，只记录了 <strong>绝对路径</strong> 指向原来的解释器</p>
+                <ul>
+                    <li>如果使用<code>uv venv</code>，只要不带 --python <版本>，uv 就会按 <code>PATH</code> 顺序找系统里已安装的任何 Python（官方安装包、Miniconda、MS Store…都可），找到第一个就拿来用，在 <code>pyvenv.cfg</code> 里写下它的路径。这里不会触发下载，也不会去 uv 自己的“工具箱”里翻。</li>
+                    <li>如果使用<code>uv venv --python 3.12</code>，uv 会先看自己“工具箱”里有没有 <strong>通过 <code>uv python install</code> 下载的 3.12</strong>（<code>~/.local/share/uv/python/python-3.12.*</code> 或 Windows 的 <code>%LOCALAPPDATA%\uv\data\python\...</code>），如果找到了，就直接把虚拟环境指向这一份 <strong>便携版 3.12</strong>；找不到就自动去下载，再指向它。</li>
+                    <li>所以本质上<code>uv</code>在<code>.venv</code>里管理的只有当前项目的依赖包，而<code>Python</code>全部安装在<code>UV</code>统一管理的 Python 路径（<code>%LOCALAPPDATA%\uv\data\python</code>）中，<code>uv</code>会自动生成快捷方式来指向你想要的版本的<code>Python</code></li>
+                </ul>
+            </div>
+            
+            <hr style="margin: 40px 0; border: 0; border-top: 1px solid var(--border-color);">
+
+            <h2>安装和维护依赖（核心三件事）</h2>
+            <h3>首次安装依赖</h3>
+            <p>直接用 <code>uv pip install</code> 往 .venv 里装包：</p>
+
+            <pre><code class="language-powershell">uv pip install pymysql requests beautifulsoup4 neo4j
+uv pip install -r requirements.txt</code></pre>
+
+            <ul>
+                <li><code>uv</code> 会自动使用你刚才创建的 .venv，无需手动激活。</li>
+            </ul>
+
+            <div class="callout warning">
+                <span class="callout-title">警告</span>
+                <p><code>uv pip install</code> 只把包装进 <strong>当前虚拟环境</strong> 的 <code>site-packages</code> 目录，<strong>不会</strong> 动到那个“真正的”Python 解释器所在目录。</p>
+                <p>换句话说：<br>
+                虚拟环境 → 独立仓库<br>
+                系统 Python → 独立仓库</p>
+                <p>两边互不干扰；删掉虚拟环境，系统 Python 依旧干净。</p>
+            </div>
+            
+            <p>安装完成后可以测试一下：</p>
+
+            <pre><code class="language-powershell">uv run python -c "import pymysql, requests, bs4, neo4j; print('imports ok')"</code></pre>
+
+            <p><strong>这也是使用 UV 跑一小段代码的方式</strong></p>
+
+            <h3>导出或更新 requirements.txt</h3>
+            <p>当你对依赖比较满意时，把当前环境“冻结”下来：</p>
+
+            <pre><code class="language-powershell">uv pip freeze > requirements.txt</code></pre>
+
+        </article>
+    </div>
+    
+    <aside class="toc-sidebar">
+        <div class="toc-content">
+            <h3>文章目录</h3>
+            <nav id="toc"></nav>
+        </div>
+    </aside>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 JJasonSun. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 脚本引用 -->
+    <script src="../js/script.js"></script>
+    
+    <!-- Prism.js 核心库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <!-- 自动加载语言支持 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

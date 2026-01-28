@@ -2,72 +2,64 @@ document.addEventListener('DOMContentLoaded', () => {
     // Configuration
     const HEADER_OFFSET = 80;
 
-    // Theme Toggle Logic
-    const themeToggle = document.getElementById('theme-toggle');
+    // ==========================================
+    // Theme Controller (DaisyUI)
+    // ==========================================
+    // Select all theme controllers (desktop/mobile)
+    const themeControllers = document.querySelectorAll('.theme-controller');
     
-    // States: 'auto' -> 'light' -> 'dark'
-    const themes = ['auto', 'light', 'dark'];
+    // 1. Initialize from localStorage
+    const savedTheme = localStorage.getItem('theme') || 'light';
     
-    function getStoredTheme() {
-        return localStorage.getItem('theme') || 'auto';
-    }
-
-    function setTheme(theme) {
-        if (theme === 'auto') {
-            document.documentElement.removeAttribute('data-theme');
-            localStorage.removeItem('theme');
-            themeToggle.innerHTML = '<i class="fas fa-adjust"></i>';
-            themeToggle.setAttribute('title', '跟随系统');
-        } else {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            if (theme === 'dark') {
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-                themeToggle.setAttribute('title', '深色模式');
-            } else {
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                themeToggle.setAttribute('title', '浅色模式');
-            }
+    // Set theme on <html>
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    
+    // Sync checkboxes
+    themeControllers.forEach(controller => {
+        if (controller.type === 'checkbox') {
+             // value="dark": checked=dark, unchecked=light
+             if (controller.value === 'dark') {
+                  controller.checked = (savedTheme === 'dark');
+             } else {
+                  controller.checked = (controller.value === savedTheme);
+             }
         }
-    }
-
-    // Initialize
-    if (themeToggle) {
-        setTheme(getStoredTheme());
         
-        themeToggle.addEventListener('click', () => {
-            const current = getStoredTheme();
-            const nextIndex = (themes.indexOf(current) + 1) % themes.length;
-            setTheme(themes[nextIndex]);
+        // 2. Listen for changes
+        controller.addEventListener('change', (e) => {
+            let newTheme = 'light';
+            if (e.target.value === 'dark') {
+                newTheme = e.target.checked ? 'dark' : 'light';
+            } else {
+                newTheme = e.target.checked ? e.target.value : 'light'; // Fallback
+            }
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Sync other controllers
+            themeControllers.forEach(other => {
+                if (other !== e.target && other.type === 'checkbox') {
+                    if (other.value === 'dark') {
+                        other.checked = (newTheme === 'dark');
+                    }
+                }
+            });
         });
-    }
-
-    // Mobile Menu Toggle
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
-
-    hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
     });
 
-    // Close mobile menu when clicking a link
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-        });
-    });
 
-    // Smooth Scrolling for Anchor Links (Updated to allow external links)
+    // ==========================================
+    // Smooth Scrolling for Anchor Links
+    // ==========================================
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
-            // 如果是页面内跳转才阻止默认行为
             if (targetId.startsWith('#') && targetId.length > 1) {
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
                     e.preventDefault();
                     
-                    // Adjust scroll position for fixed header
                     const elementPosition = targetElement.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - HEADER_OFFSET;
 
@@ -78,39 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-    });
-
-    // Load Blog Posts
-    const blogContainer = document.getElementById('blog-container');
-    if (blogContainer && typeof blogPosts !== 'undefined') {
-        blogPosts.forEach(post => {
-            const article = document.createElement('article');
-            article.className = 'blog-card';
-            article.innerHTML = `
-                <h3>${post.title}</h3>
-                <p class="date">${post.date}</p>
-                <p>${post.summary}</p>
-                <a href="${post.link}">阅读更多</a>
-            `;
-            blogContainer.appendChild(article);
-        });
-    }
-
-    // Simple scroll animation (optional)
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = 1;
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.project-card, .blog-card').forEach(el => {
-        el.style.opacity = 0;
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        observer.observe(el);
     });
 
     // ==========================================
@@ -124,16 +83,16 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (headers.length > 0) {
             const ul = document.createElement('ul');
+            // Check if we already have styles for ul in CSS
             
             headers.forEach((header, index) => {
-                // Ensure header has an ID
+                // Generate ID if missing
                 if (!header.id) {
-                    // Generate ID from text or fallback to index
                     const id = header.textContent
                         .trim()
                         .toLowerCase()
                         .replace(/\s+/g, '-')
-                        .replace(/[^\w\u4e00-\u9fa5-]/g, ''); // Keep Chinese chars
+                        .replace(/[^\w\u4e00-\u9fa5-]/g, ''); 
                     header.id = id || `heading-${index}`;
                 }
 
@@ -142,9 +101,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 a.href = `#${header.id}`;
                 a.textContent = header.textContent;
-                a.className = header.tagName === 'H2' ? 'toc-h2' : 'toc-h3';
                 
-                // Add click handler for smooth scrolling with offset
+                // Set class based on hierarchy
+                if (header.tagName === 'H2') {
+                    a.className = 'toc-h2 block py-1 hover:text-primary transition-colors';
+                } else {
+                    a.className = 'toc-h3 block py-1 pl-4 text-sm opacity-80 hover:text-primary transition-colors';
+                }
+                
+                // Click handler
                 a.addEventListener('click', (e) => {
                     e.preventDefault();
                     const targetElement = document.getElementById(header.id);
@@ -157,9 +122,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             behavior: "smooth"
                         });
                         
-                        // Update active state manually
-                        document.querySelectorAll('#toc a').forEach(link => link.classList.remove('active'));
-                        a.classList.add('active');
+                        // Update active state
+                        document.querySelectorAll('#toc a').forEach(link => {
+                            link.classList.remove('text-primary', 'font-bold');
+                            // Also remove custom active logic from CSS
+                            link.classList.remove('active');
+                        });
+                        a.classList.add('text-primary', 'font-bold', 'active');
                     }
                 });
 
@@ -167,12 +136,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 ul.appendChild(li);
             });
             
+            tocNav.innerHTML = ''; 
             tocNav.appendChild(ul);
 
-            // Scroll Spy using IntersectionObserver
+            // ==========================================
+            // Scroll Spy
+            // ==========================================
             const scrollSpyOptions = {
                 root: null,
-                rootMargin: '-100px 0px -70% 0px', // Trigger when element is near top
+                rootMargin: '-100px 0px -70% 0px',
                 threshold: 0
             };
 
@@ -181,11 +153,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (entry.isIntersecting) {
                         const activeId = entry.target.id;
                         document.querySelectorAll('#toc a').forEach(link => {
-                            link.classList.remove('active');
+                            link.classList.remove('text-primary', 'font-bold', 'active');
+                            
                             if (link.getAttribute('href') === `#${activeId}`) {
-                                link.classList.add('active');
+                                link.classList.add('text-primary', 'font-bold', 'active');
                                 
-                                // Auto scroll sidebar to active item
+                                // Scroll sidebar
                                 const sidebar = document.querySelector('.toc-content');
                                 if (sidebar) {
                                     const linkTop = link.offsetTop;
@@ -205,9 +178,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const spyObserver = new IntersectionObserver(scrollSpyCallback, scrollSpyOptions);
             headers.forEach(header => spyObserver.observe(header));
         } else {
-            // Hide sidebar if no headers found
-            const sidebar = document.querySelector('.toc-sidebar');
-            if (sidebar) sidebar.style.display = 'none';
+             const sidebarContainer = document.querySelector('.toc-content')?.parentElement;
+             if (sidebarContainer) {
+                 sidebarContainer.style.display = 'none';
+             }
         }
     }
 });

@@ -1,64 +1,271 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>关于我 - JJasonSun</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
+    <style>
+        /* Custom animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .animate-slide-in-left {
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+        
+        .animate-slide-in-right {
+            animation: slideInRight 0.8s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+        
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Skill badge hover */
+        .skill-badge {
+            transition: all 0.3s ease;
+        }
+        
+        .skill-badge:hover {
+            transform: translateY(-2px) scale(1.05);
+        }
+        
+        /* Social icon hover */
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-4px) scale(1.1);
+        }
+        
+        /* Image hover effect */
+        .profile-image {
+            transition: all 0.5s ease;
+        }
+        
+        .profile-image:hover {
+            transform: scale(1.02);
+        }
+        
+        /* Smooth scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: oklch(var(--b2));
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: oklch(var(--p) / 0.5);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: oklch(var(--p) / 0.8);
+        }
+    </style>
 </head>
-<body>
+<body class="min-h-screen bg-base-200 flex flex-col">
     <!-- 导航栏 -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">JJasonSun</a>
-            <ul class="nav-links">
-                <li><a href="index.html">首页</a></li>
-                <li><a href="about.html" class="active" style="color: var(--primary-color)">关于我</a></li>
-                <li><a href="index.html#blog">博客</a></li>
-                <li><a href="index.html#contact">联系方式</a></li>
-                <li><button id="theme-toggle" class="theme-btn"><i class="fas fa-adjust"></i></button></li>
+    <div class="navbar bg-base-100/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-base-200">
+        <div class="navbar-start">
+            <div class="dropdown">
+                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+                </div>
+                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-lg bg-base-100 rounded-box w-52">
+                    <li><a href="index.html" class="flex items-center gap-2"><i class="fas fa-home w-4"></i>首页</a></li>
+                    <li><a href="about.html" class="flex items-center gap-2 active"><i class="fas fa-user w-4"></i>关于我</a></li>
+                    <li><a href="index.html#blog" class="flex items-center gap-2"><i class="fas fa-blog w-4"></i>博客</a></li>
+                    <li><a href="#contact" class="flex items-center gap-2"><i class="fas fa-envelope w-4"></i>联系方式</a></li>
+                </ul>
+            </div>
+            <a href="index.html" class="btn btn-ghost text-xl font-bold">
+                <span class="gradient-text">JJasonSun</span>
+            </a>
+        </div>
+        <div class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal px-1 font-medium gap-1">
+                <li><a href="index.html" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">首页</a></li>
+                <li><a href="about.html" class="rounded-lg bg-primary/10 text-primary">关于我</a></li>
+                <li><a href="index.html#blog" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">博客</a></li>
+                <li><a href="#contact" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">联系方式</a></li>
             </ul>
-            <div class="hamburger">
-                <i class="fas fa-bars"></i>
-            </div>
-        </nav>
-
-    <div class="about-page">
-        <div class="about-container">
-            <!-- 左侧：文字内容 -->
-            <div class="about-text-content">
-                <h1 class="about-title">关于我</h1>
-
-                <div class="about-intro">
-                    <p>你好！我是 JJason Sun，目前是华东师范大学数据科学与工程学院（DaSE, ECNU）的硕士研究生。</p>
-                    <p>我正在学习大语言模型（LLM）和 Web 开发，关注于构建智能、交互式的Web应用。</p>
-                </div>
-
-                <div class="tech-stack">
-                    <h3 class="tech-stack-title">核心技术栈</h3>
-                    <ul class="skills-list skills-list-large">
-                        <li>Python / FastAPI</li>
-                        <li>Vue 3 / JavaScript</li>
-                        <li>MySQL / SQLAlchemy</li>
-                        <li>OpenAI API / LLM</li>
-                        <li>Prompt Engineering</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- 右侧：全量照片 -->
-            <div class="about-image-full">
-                <img src="assets/profile.png" alt="Jason Sun">
-            </div>
+        </div>
+        <div class="navbar-end">
+            <label class="swap swap-rotate btn btn-ghost btn-circle hover:bg-primary/10">
+                <input type="checkbox" class="theme-controller" value="dark" />
+                <svg class="swap-on fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"/></svg>
+                <svg class="swap-off fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/></svg>
+            </label>
         </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 JJasonSun. All Rights Reserved.</p>
+    <!-- 主体内容 -->
+    <div class="flex-grow">
+        <!-- Hero Section -->
+        <section class="py-16 md:py-24 bg-gradient-to-br from-base-200 via-base-100 to-base-200">
+            <div class="container mx-auto px-4 max-w-6xl">
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+                    <!-- 图片 -->
+                    <div class="lg:w-2/5 animate-slide-in-left">
+                        <div class="relative">
+                            <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl transform rotate-3"></div>
+                            <img src="assets/profile.png" 
+                                 class="profile-image relative rounded-2xl shadow-2xl w-full max-w-md mx-auto" 
+                                 alt="Jason Sun"
+                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'relative bg-gradient-to-br from-primary to-secondary rounded-2xl shadow-2xl w-full max-w-md mx-auto aspect-square flex items-center justify-center text-8xl text-white font-bold\'>J</div>'" />
+                        </div>
+                    </div>
+                    
+                    <!-- 文字内容 -->
+                    <div class="lg:w-3/5 animate-slide-in-right">
+                        <span class="badge badge-primary badge-outline mb-4">ABOUT ME</span>
+                        <h1 class="text-4xl md:text-5xl font-bold mb-6">
+                            关于<span class="gradient-text">我</span>
+                        </h1>
+                        
+                        <div class="space-y-4 text-base-content/80 text-lg leading-relaxed">
+                            <p class="flex items-start gap-3">
+                                <i class="fas fa-graduation-cap text-primary mt-1"></i>
+                                <span>你好！我是 <strong class="text-base-content">JJason Sun</strong>，目前是华东师范大学数据科学与工程学院（DaSE, ECNU）的硕士研究生。</span>
+                            </p>
+                            <p class="flex items-start gap-3">
+                                <i class="fas fa-code text-primary mt-1"></i>
+                                <span>我正在学习大语言模型（LLM）和 Web 开发，关注于构建智能、交互式的Web应用。</span>
+                            </p>
+                        </div>
+                        
+                        <!-- 技术栈 -->
+                        <div class="mt-10">
+                            <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                                <i class="fas fa-layer-group text-primary"></i>
+                                核心技术栈
+                            </h3>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="skill-badge badge badge-lg gap-2 py-4 px-4 bg-blue-500/10 text-blue-600 border-blue-500/20">
+                                    <i class="fab fa-python"></i> Python / FastAPI
+                                </span>
+                                <span class="skill-badge badge badge-lg gap-2 py-4 px-4 bg-green-500/10 text-green-600 border-green-500/20">
+                                    <i class="fab fa-vuejs"></i> Vue 3 / JavaScript
+                                </span>
+                                <span class="skill-badge badge badge-lg gap-2 py-4 px-4 bg-orange-500/10 text-orange-600 border-orange-500/20">
+                                    <i class="fas fa-database"></i> MySQL / SQLAlchemy
+                                </span>
+                                <span class="skill-badge badge badge-lg gap-2 py-4 px-4 bg-purple-500/10 text-purple-600 border-purple-500/20">
+                                    <i class="fas fa-brain"></i> OpenAI API / LLM
+                                </span>
+                                <span class="skill-badge badge badge-lg gap-2 py-4 px-4 bg-pink-500/10 text-pink-600 border-pink-500/20">
+                                    <i class="fas fa-wand-magic-sparkles"></i> Prompt Engineering
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- CTA -->
+                        <div class="mt-10 flex flex-wrap gap-4">
+                            <a href="#contact" class="btn btn-primary shadow-lg hover:shadow-primary/25 hover:scale-105 transition-all">
+                                <i class="fas fa-paper-plane mr-2"></i>联系我
+                            </a>
+                            <a href="index.html#blog" class="btn btn-outline hover:scale-105 transition-all">
+                                <i class="fas fa-blog mr-2"></i>查看博客
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 联系方式 -->
+    <section id="contact" class="py-20 bg-gradient-to-br from-base-300 to-base-200">
+        <div class="container mx-auto px-4 text-center max-w-4xl">
+            <span class="badge badge-primary badge-outline mb-4">CONTACT</span>
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">联系我</h2>
+            <p class="mb-12 text-lg text-base-content/70 max-w-md mx-auto">
+                有合作意向或技术交流？欢迎通过以下方式联系。
+            </p>
+            
+            <div class="flex justify-center gap-6 flex-wrap">
+                <a href="https://github.com/JJasonSun" target="_blank" 
+                   class="social-icon btn btn-circle btn-lg bg-base-100 border-base-300 hover:bg-[#333] hover:text-white hover:border-[#333]">
+                    <i class="fab fa-github text-xl"></i>
+                </a>
+                <a href="mailto:jiajiesun11@gmail.com" 
+                   class="social-icon btn btn-circle btn-lg bg-base-100 border-base-300 hover:bg-primary hover:text-white hover:border-primary">
+                    <i class="fas fa-envelope text-xl"></i>
+                </a>
+                <a href="#" 
+                   class="social-icon btn btn-circle btn-lg bg-base-100 border-base-300 hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2]">
+                    <i class="fab fa-twitter text-xl"></i>
+                </a>
+                <a href="#" 
+                   class="social-icon btn btn-circle btn-lg bg-base-100 border-base-300 hover:bg-[#0077B5] hover:text-white hover:border-[#0077B5]">
+                    <i class="fab fa-linkedin-in text-xl"></i>
+                </a>
+            </div>
+            
+            <div class="mt-12 p-6 bg-base-100 rounded-2xl shadow-lg inline-block">
+                <p class="text-sm text-base-content/60 mb-2">或者直接发送邮件至</p>
+                <a href="mailto:jiajiesun11@gmail.com" class="text-primary font-medium hover:underline">
+                    jiajiesun11@gmail.com
+                </a>
+            </div>
         </div>
+    </section>
+
+    <footer class="footer footer-center p-8 bg-base-300 text-base-content border-t border-base-200">
+        <aside>
+            <p class="text-sm">
+                <i class="far fa-copyright"></i> 2024 JJasonSun. All Rights Reserved.
+            </p>
+            <p class="text-xs text-base-content/50 mt-2">
+                Built with <i class="fas fa-heart text-red-500"></i> using Tailwind CSS & DaisyUI
+            </p>
+        </aside>
     </footer>
 
     <script src="js/script.js"></script>

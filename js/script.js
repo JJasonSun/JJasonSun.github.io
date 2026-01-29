@@ -1,23 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Configuration
+    // 配置项
     const HEADER_OFFSET = 80;
 
     // ==========================================
-    // Theme Controller (DaisyUI)
+    // 主题控制器 (DaisyUI)
     // ==========================================
-    // Select all theme controllers (desktop/mobile)
+    // 选择所有主题控制器（桌面端/移动端）
     const themeControllers = document.querySelectorAll('.theme-controller');
     
-    // 1. Initialize from localStorage
+    // 1. 从 localStorage 初始化主题
     const savedTheme = localStorage.getItem('theme') || 'light';
     
-    // Set theme on <html>
+    // 在 <html> 标签上设置主题
     document.documentElement.setAttribute('data-theme', savedTheme);
     
-    // Sync checkboxes
+    // 同步复选框状态
     themeControllers.forEach(controller => {
         if (controller.type === 'checkbox') {
-             // value="dark": checked=dark, unchecked=light
+             // value="dark": 选中=深色, 未选中=浅色
              if (controller.value === 'dark') {
                   controller.checked = (savedTheme === 'dark');
              } else {
@@ -25,19 +25,19 @@ document.addEventListener('DOMContentLoaded', () => {
              }
         }
         
-        // 2. Listen for changes
+        // 2. 监听主题变化
         controller.addEventListener('change', (e) => {
             let newTheme = 'light';
             if (e.target.value === 'dark') {
                 newTheme = e.target.checked ? 'dark' : 'light';
             } else {
-                newTheme = e.target.checked ? e.target.value : 'light'; // Fallback
+                newTheme = e.target.checked ? e.target.value : 'light'; // 后备方案
             }
             
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             
-            // Sync other controllers
+            // 同步其他控制器
             themeControllers.forEach(other => {
                 if (other !== e.target && other.type === 'checkbox') {
                     if (other.value === 'dark') {
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================
-    // Smooth Scrolling for Anchor Links
+    // 锚点链接平滑滚动
     // ==========================================
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
-    // Automatic Table of Contents (TOC) Generation
+    // 自动生成文章目录 (TOC)
     // ==========================================
     const tocNav = document.getElementById('toc');
     const articleContent = document.querySelector('.article-content');
@@ -83,10 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (headers.length > 0) {
             const ul = document.createElement('ul');
-            // Check if we already have styles for ul in CSS
+            // 检查 CSS 中是否已有 ul 样式
             
             headers.forEach((header, index) => {
-                // Generate ID if missing
+                // 如果没有 ID 则生成
                 if (!header.id) {
                     const id = header.textContent
                         .trim()
@@ -102,14 +102,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 a.href = `#${header.id}`;
                 a.textContent = header.textContent;
                 
-                // Set class based on hierarchy
+                // 根据标题层级设置类名
                 if (header.tagName === 'H2') {
                     a.className = 'toc-h2 block py-1 hover:text-primary transition-colors';
                 } else {
                     a.className = 'toc-h3 block py-1 pl-4 text-sm opacity-80 hover:text-primary transition-colors';
                 }
                 
-                // Click handler
+                // 点击处理器
                 a.addEventListener('click', (e) => {
                     e.preventDefault();
                     const targetElement = document.getElementById(header.id);
@@ -122,10 +122,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             behavior: "smooth"
                         });
                         
-                        // Update active state
+                        // 更新激活状态
                         document.querySelectorAll('#toc a').forEach(link => {
                             link.classList.remove('text-primary', 'font-bold');
-                            // Also remove custom active logic from CSS
+                            // 同时移除 CSS 中的自定义激活逻辑
                             link.classList.remove('active');
                         });
                         a.classList.add('text-primary', 'font-bold', 'active');
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tocNav.appendChild(ul);
 
             // ==========================================
-            // Scroll Spy
+            // 滚动监听（Scroll Spy）
             // ==========================================
             const scrollSpyOptions = {
                 root: null,
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             if (link.getAttribute('href') === `#${activeId}`) {
                                 link.classList.add('text-primary', 'font-bold', 'active');
                                 
-                                // Scroll sidebar
+                                // 滚动侧边栏
                                 const sidebar = document.querySelector('.toc-content');
                                 if (sidebar) {
                                     const linkTop = link.offsetTop;

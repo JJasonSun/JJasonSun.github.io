@@ -4,89 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JJasonSun - 个人主页</title>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* Custom animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-        
-        .animate-fade-in-up-delay-1 {
-            animation: fadeInUp 0.8s ease-out 0.2s forwards;
-            opacity: 0;
-        }
-        
-        .animate-fade-in-up-delay-2 {
-            animation: fadeInUp 0.8s ease-out 0.4s forwards;
-            opacity: 0;
-        }
-        
-        .animate-float {
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        /* Gradient text */
-        .gradient-text {
-            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        /* Card hover effects */
-        .blog-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .blog-card:hover {
-            transform: translateY(-8px);
-        }
-        
-        /* Social icon hover */
-        .social-icon {
-            transition: all 0.3s ease;
-        }
-        
-        .social-icon:hover {
-            transform: translateY(-4px) scale(1.1);
-        }
-        
-        /* Smooth scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: oklch(var(--b2));
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: oklch(var(--p) / 0.5);
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: oklch(var(--p) / 0.8);
-        }
-    </style>
+    
+    <!-- 公共样式文件 -->
+    <link rel="stylesheet" href="css/common.css">
 </head>
 <body class="min-h-screen bg-base-200">
 
@@ -227,7 +150,7 @@
     <footer class="footer footer-center p-8 bg-base-300 text-base-content border-t border-base-200">
         <aside>
             <p class="text-sm">
-                <i class="far fa-copyright"></i> 2024 JJasonSun. All Rights Reserved.
+                <i class="far fa-copyright"></i> 2026 JJasonSun. All Rights Reserved.
             </p>
             <p class="text-xs text-base-content/50 mt-2">
                 Built with <i class="fas fa-heart text-red-500"></i> using Tailwind CSS & DaisyUI
@@ -238,8 +161,8 @@
     <script src="js/blog-data.js?v=3"></script>
     <script src="js/script.js"></script>
     <script>
-        // Render blog posts from static blogPosts array (defined in blog-data.js)
-        // To add a new article: just add an entry to js/blog-data.js
+        // 从静态 blogPosts 数组渲染博客文章（定义在 blog-data.js 中）
+        // 添加新文章：只需在 js/blog-data.js 中添加条目
         (function() {
             const blogContainer = document.getElementById('blog-container');
             if (!blogContainer || typeof blogPosts === 'undefined') return;

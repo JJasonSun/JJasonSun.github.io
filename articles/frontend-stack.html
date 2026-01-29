@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>前端技术栈速览：Vue 3 · Tailwind · daisyUI · Croppie - JJasonSun</title>
-    <meta name="post:meta" content='{"title":"前端技术栈速览：Vue 3 · Tailwind · daisyUI · Croppie","date":"2026-01-27","summary":"整理 Vue 3 + Tailwind + daisyUI + Croppie 的核心用法与安装指引，作为前端项目的快速上手清单。","link":"articles/frontend-stack.html"}'>
+    <title>现代前端技术栈入门指南：Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI - JJasonSun</title>
+    <meta name="post:meta" content='{"title":"现代前端技术栈入门指南：Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI","date":"2026-01-27","summary":"系统梳理 Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI 技术栈，从框架选型到样式系统的完整入门指南。","link":"articles/frontend-stack.html"}'>
     <!-- Tailwind CSS with Typography Plugin -->
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
@@ -14,24 +14,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css">
     
-    <style>
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
-        .gradient-text {
-            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: oklch(var(--b2)); }
-        ::-webkit-scrollbar-thumb { background: oklch(var(--p) / 0.5); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: oklch(var(--p) / 0.8); }
-        #toc a.active { color: oklch(var(--p)); border-left: 2px solid oklch(var(--p)); background-color: oklch(var(--p) / 0.1); }
-    </style>
+    <!-- 公共样式文件 -->
+    <link rel="stylesheet" href="../css/common.css">
 </head>
 <body class="min-h-screen bg-base-200 flex flex-col">
 
@@ -83,151 +67,334 @@
                     </div>
 
                     <header class="mb-10 border-b border-base-200 pb-8">
-                        <h1 class="text-3xl md:text-5xl font-extrabold mb-6 leading-relaxed text-base-content">
-                            前端技术栈速览：<br>
-                            <span class="text-primary">Vue 3 · Tailwind · daisyUI · Croppie</span>
+                        <h1 class="text-3xl md:text-4xl font-extrabold mb-6 leading-relaxed text-base-content">
+                            🌱 现代前端技术栈入门指南：<br>
+                            <span class="text-primary">Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI</span>
                         </h1>
                         <div class="flex flex-wrap items-center gap-6 text-sm text-base-content/70">
                             <span class="flex items-center gap-2 bg-base-200 px-3 py-1 rounded-full">
                                 <i class="far fa-calendar-alt text-primary"></i> 2026-01-27
                             </span>
                             <span class="flex items-center gap-2 bg-base-200 px-3 py-1 rounded-full">
-                                <i class="far fa-folder text-primary"></i> 前端资料
+                                <i class="far fa-folder text-primary"></i> 前端入门
                             </span>
                         </div>
                     </header>
 
                     <article class="article-content prose prose-lg max-w-none 
-                        prose-headings:text-base-content prose-headings:font-bold 
-                        prose-p:text-base-content/80 prose-li:text-base-content/80
-                        prose-pre:bg-[#272822] prose-pre:p-0 prose-pre:rounded-xl prose-pre:shadow-lg
-                        prose-strong:text-primary">
+                        prose-headings:text-base-content prose-headings:font-bold prose-headings:tracking-tight
+                        prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-3 prose-h2:border-b prose-h2:border-base-300
+                        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4
+                        prose-h4:text-lg prose-h4:mt-6 prose-h4:mb-3
+                        prose-p:text-base-content/80 prose-p:leading-relaxed prose-p:my-4
+                        prose-li:text-base-content/80 prose-li:leading-relaxed prose-li:my-2
+                        prose-ul:my-6 prose-ol:my-6
+                        prose-table:my-6
+                        prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+                        prose-strong:text-base-content prose-strong:font-semibold
+                        prose-code:text-sm prose-code:bg-base-200 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
+                        prose-pre:bg-[#272822] prose-pre:p-0 prose-pre:rounded-xl prose-pre:shadow-lg prose-pre:my-6
+                        prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic">
 
-                        <div role="alert" class="alert bg-info/10 border-info/20 shadow-sm mb-8 not-prose flex items-start gap-4">
-                            <i class="fas fa-info-circle text-info text-2xl mt-1"></i>
-                            <div>
-                                <h3 class="font-bold text-info text-lg mb-2">栈组合概要</h3>
-                                <div class="text-sm text-base-content/80 space-y-2">
-                                    <p><strong>Vue 3</strong> 作为核心框架，Composition API + 更佳 TS 支持。</p>
-                                    <p><strong>Tailwind CSS</strong> 原子化样式，直接写 class；<strong>daisyUI</strong> 作为 Tailwind 插件补齐按钮 / 卡片 / Modal 等 UI 组件与主题。</p>
-                                    <p><strong>Croppie</strong> 处理头像裁剪等上传前预览，直接用原生版本即可。</p>
-                                    <p class="font-mono bg-base-100 inline-block px-2 py-1 rounded border border-base-200 text-xs">推荐工作流：Vite + Tailwind + daisyUI + Vue 3 组件化，按需集成 Croppie</p>
-                                </div>
+                        <h2>一、核心框架：Vue 3</h2>
+
+                        <h3>1.1 什么是 Vue 3？</h3>
+                        <p>Vue 3 是渐进式 JavaScript 框架 Vue.js 的最新主要版本，是前端开发的核心工具，负责管理<strong>组件结构</strong>、<strong>状态数据</strong>和<strong>页面交互逻辑</strong>。</p>
+
+                        <h3>1.2 核心特点</h3>
+                        <div class="overflow-x-auto">
+                            <table class="table table-zebra">
+                                <thead>
+                                    <tr>
+                                        <th>特性</th>
+                                        <th>说明</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Composition API</strong></td>
+                                        <td>全新的组合式 API，让代码逻辑更易组织和复用</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>更好的 TypeScript 支持</strong></td>
+                                        <td>从底层重写，原生支持 TS，类型推断更精准</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>更高性能</strong></td>
+                                        <td>响应式系统基于 Proxy，内存占用更低，运行更快</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h3>1.3 学习资源</h3>
+                        <p>📘 <a href="https://cn.vuejs.org/guide/quick-start" class="link link-primary" target="_blank">Vue 3 官方中文文档</a> — 最权威的学习指南，包含从安装到进阶的完整教程</p>
+
+                        <div class="divider text-base-content/20"></div>
+
+                        <h2>二、构建工具：Vite</h2>
+
+                        <h3>2.1 为什么选择 Vite？</h3>
+                        <p>Vite 是 Vue 团队开发的新一代前端构建工具，取代了传统的 Vue CLI。它解决了传统工具<strong>启动慢</strong>、<strong>热更新慢</strong>的痛点：</p>
+                        <ul>
+                            <li>⚡ <strong>秒级冷启动</strong> — 利用浏览器原生 ES 模块，无需打包即可运行</li>
+                            <li>🔥 <strong>瞬时热更新（HMR）</strong> — 修改代码后页面即时响应，不刷新状态</li>
+                            <li>📦 <strong>优化的生产构建</strong> — 使用 Rollup 打包，输出高度优化的静态资源</li>
+                        </ul>
+
+                        <div role="alert" class="alert bg-info/10 border-info/20 shadow-sm mb-6 not-prose flex items-center gap-4">
+                            <i class="fas fa-lightbulb text-info text-2xl flex-shrink-0"></i>
+                            <div class="text-sm text-base-content/80 text-left">
+                                <p><strong>提示</strong>：Vue CLI 已进入维护模式，官方推荐新项目使用 Vite。</p>
                             </div>
                         </div>
 
-                        <h2>核心框架：Vue 3</h2>
-                        <p>Vue 3 提供组合式 API、更优 TS 体验与更高性能，官方推荐使用 Vite 构建。快速上手步骤：</p>
-                        <ol>
-                            <li>确保已安装 Node.js <code>^20.19.0 || >=22.12.0</code>。</li>
-                            <li>创建项目并按提示选择特性：</li>
-                        </ol>
-                        <pre><code class="language-bash">npm create vue@latest
-cd &lt;project-name&gt;
-npm install
-npm run dev</code></pre>
-                        <p>无需构建的场景可用 CDN 直接挂载：</p>
-<pre><code class="language-html">&lt;script src="https://unpkg.com/vue@3/dist/vue.global.js"&gt;&lt;/script&gt;
-&lt;div id="app"&gt;{{ message }}&lt;/div&gt;
-&lt;script&gt;
-  const { createApp, ref } = Vue
-  createApp({
-    setup() {
-      const message = ref('Hello Vue!')
-      return { message }
-    }
-  }).mount('#app')
-&lt;/script&gt;</code></pre>
+                        <div class="divider text-base-content/20"></div>
+
+                        <h2>三、样式系统</h2>
+
+                        <h3>3.1 Tailwind CSS — 原子化 CSS 框架</h3>
+
+                        <h4>定位</h4>
+                        <p>负责<strong>页面布局</strong>与<strong>视觉样式</strong>，采用"工具类优先"（Utility-First）的理念。</p>
+
+                        <h4>与传统 CSS 的区别</h4>
+                        <div class="overflow-x-auto">
+                            <table class="table table-zebra">
+                                <thead>
+                                    <tr>
+                                        <th>传统方式</th>
+                                        <th>Tailwind CSS 方式</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>编写 .css 文件，自定义类名</td>
+                                        <td>直接在 HTML/模板中使用预定义工具类</td>
+                                    </tr>
+                                    <tr>
+                                        <td>需要思考类名命名（BEM 规范）</td>
+                                        <td>直接组合 flex、pt-4、text-center 等原子类</td>
+                                    </tr>
+                                    <tr>
+                                        <td>样式与结构分离</td>
+                                        <td>样式即结构，快速迭代</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h4>示例对比</h4>
+                        <pre><code class="language-html">&lt;!-- 传统方式 --&gt;
+&lt;style&gt;
+.card {
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+&lt;/style&gt;
+&lt;div class="card"&gt;内容&lt;/div&gt;
+
+&lt;!-- Tailwind CSS 方式 --&gt;
+&lt;div class="p-6 rounded-lg shadow-md"&gt;内容&lt;/div&gt;</code></pre>
+
+                        <h4>安装方式（Vite 项目）</h4>
+                        <p>📘 <a href="https://tailwindcss.com/docs/installation/using-vite" class="link link-primary" target="_blank">Tailwind CSS + Vite 官方安装指南</a></p>
+                        <pre><code class="language-bash">npm install -D tailwindcss @tailwindcss/vite</code></pre>
+
+                        <h3>3.2 DaisyUI — 基于 Tailwind 的 UI 组件库</h3>
+
+                        <h4>定位</h4>
+                        <p>在 Tailwind CSS 基础上提供<strong>语义化的组件层</strong>，让你无需从零搭建界面。</p>
+
+                        <h4>核心作用</h4>
+                        <div class="overflow-x-auto">
+                            <table class="table table-zebra">
+                                <thead>
+                                    <tr>
+                                        <th>功能</th>
+                                        <th>说明</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>现成组件</strong></td>
+                                        <td>提供 Button、Card、Modal、Form、Navbar 等常用组件</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>主题系统</strong></td>
+                                        <td>内置 30+ 款精美主题，一键切换配色方案</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>语义化类名</strong></td>
+                                        <td>使用 btn、card、modal 等直观类名，代替冗长的工具类组合</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h4>依赖关系</h4>
+                        <div role="alert" class="alert bg-warning/10 border-warning/20 shadow-sm mb-6 not-prose flex items-center gap-4">
+                            <i class="fas fa-exclamation-triangle text-warning text-2xl flex-shrink-0"></i>
+                            <div class="text-sm text-base-content/80 text-left">
+                                <p><strong>重要</strong>：DaisyUI 必须<strong>先安装 Tailwind CSS</strong>，它是对 Tailwind 的扩展而非替代。</p>
+                            </div>
+                        </div>
+
+                        <h4>使用示例</h4>
+                        <pre><code class="language-html">&lt;!-- 纯 Tailwind：需要写很多工具类 --&gt;
+&lt;button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2"&gt;
+  提交
+&lt;/button&gt;
+
+&lt;!-- DaisyUI：语义化类名，简洁优雅 --&gt;
+&lt;button class="btn btn-primary"&gt;提交&lt;/button&gt;</code></pre>
+
+                        <h4>学习资源</h4>
                         <ul>
-                            <li>文档：<a href="https://cn.vuejs.org/guide/quick-start" class="link link-primary" target="_blank">快速上手</a>（官方中文）。</li>
-                            <li>推荐 IDE：VS Code + 官方 <code>Vue - Official</code> 扩展。</li>
+                            <li>📘 <a href="https://daisyui.com/docs/install/" class="link link-primary" target="_blank">DaisyUI 安装文档</a></li>
+                            <li>📘 <a href="https://daisyui.com/components/" class="link link-primary" target="_blank">DaisyUI 组件文档</a> — 包含所有组件的视觉示例和代码片段</li>
                         </ul>
 
                         <div class="divider text-base-content/20"></div>
 
-                        <h2>样式系统：Tailwind CSS</h2>
-                        <p>Tailwind 扫描模板类名生成样式，零运行时，最顺滑的组合是直接作为 Vite 插件使用。</p>
-                        <ol>
-                            <li>在项目根创建 Vite 项目或复用现有项目。</li>
-                            <li>安装插件：</li>
-                        </ol>
-                        <pre><code class="language-bash">npm install tailwindcss @tailwindcss/vite</code></pre>
-                        <ol start="3">
-                            <li>在 <code>vite.config.ts</code>/<code>.js</code> 中启用插件：</li>
-                        </ol>
-                        <pre><code class="language-ts">import { defineConfig } from 'vite'
-import tailwindcss from '@tailwindcss/vite'
+                        <h2>四、路由管理：Vue Router 4</h2>
 
-export default defineConfig({
-  plugins: [tailwindcss()],
-})</code></pre>
-                        <ol start="4">
-                            <li>在样式文件（如 <code>src/style.css</code>）引入：</li>
-                        </ol>
-                        <pre><code class="language-css">@import "tailwindcss";</code></pre>
-                        <ol start="5">
-                            <li>运行开发服务器并开始使用原子类：</li>
-                        </ol>
-                        <pre><code class="language-bash">npm run dev</code></pre>
-                        <p>官方指引：<a href="https://tailwindcss.com/docs/installation/using-vite" class="link link-primary" target="_blank">Using Vite</a>。</p>
-
-                        <div class="divider text-base-content/20"></div>
-
-                        <h2>UI 组件：daisyUI</h2>
-                        <p>daisyUI 基于 Tailwind，提供 Button / Card / Modal / Form 等 60+ 组件与主题系统，装好 Tailwind 后直接作为插件使用。</p>
-                        <ol>
-                            <li>安装插件：</li>
-                        </ol>
-                        <pre><code class="language-bash">npm i -D daisyui@latest</code></pre>
-                        <ol start="2">
-                            <li>在主样式中启用：</li>
-                        </ol>
-                        <pre><code class="language-css">@import "tailwindcss";
-@plugin "daisyui";</code></pre>
-                        <p>更多框架安装示例与组件清单：
-                            <a href="https://daisyui.com/docs/install/" class="link link-primary" target="_blank">安装文档</a> ·
-                            <a href="https://daisyui.com/components/" class="link link-primary" target="_blank">组件列表</a>
-                        </p>
-
-                        <div class="divider text-base-content/20"></div>
-
-                        <h2>图片裁剪：Croppie</h2>
-                        <p>轻量图片裁剪库，适合头像、上传前处理。Vue 3 可直接用原生 Croppie；需要旋转/缩放/圆形裁剪时开启相应选项。</p>
-                        <ol>
-                            <li>安装或直接引用静态资源：</li>
-                        </ol>
-                        <pre><code class="language-bash">npm install croppie</code></pre>
-                        <pre><code class="language-html">&lt;link rel="stylesheet" href="croppie.css" /&gt;
-&lt;script src="croppie.js"&gt;&lt;/script&gt;</code></pre>
-                        <ol start="2">
-                            <li>基础用法（原生或 jQuery）：</li>
-                        </ol>
-                        <pre><code class="language-js">// 原生
-const el = document.getElementById('crop');
-const croppie = new Croppie(el, {
-  viewport: { width: 200, height: 200, type: 'circle' },
-  boundary: { width: 320, height: 320 },
-  enableExif: true,
-});
-
-// 绑定图片
-croppie.bind({ url: '/avatar.jpg' });
-
-// 导出结果
-const blob = await croppie.result({ type: 'blob', format: 'png', size: 'viewport' });</code></pre>
+                        <h3>4.1 作用</h3>
+                        <p>Vue Router 是 Vue.js 的官方路由管理器，负责<strong>单页应用（SPA）的页面导航</strong>：</p>
                         <ul>
-                            <li>常用选项：<code>enableExif</code>（读取方向）、<code>enableZoom</code>/<code>enableResize</code>、<code>viewport</code>（宽高与类型）。</li>
-                            <li>文档与 Demo：<a href="https://foliotek.github.io/Croppie/" class="link link-primary" target="_blank">官方站点</a>。</li>
+                            <li>定义 URL 与组件的映射关系</li>
+                            <li>实现页面无刷新切换</li>
+                            <li>管理导航守卫、动态路由、路由参数等</li>
                         </ul>
 
+                        <h3>4.2 与 Vue 3 的协同</h3>
+                        <p>Vue Router 4 专为 Vue 3 设计，完美支持 Composition API 风格：</p>
+                        <pre><code class="language-javascript">// 组合式 API 风格的路由使用
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()  // 路由实例，用于编程式导航
+const route = useRoute()    // 当前路由信息，获取参数等</code></pre>
+
                         <div class="divider text-base-content/20"></div>
 
-                        <h2>组合建议</h2>
+                        <h2>五、图片处理：Croppie</h2>
+
+                        <h3>5.1 定位</h3>
+                        <p><strong>图片裁剪库</strong>，常用于需要用户上传并编辑图片的场景。</p>
+
+                        <h3>5.2 典型使用场景</h3>
                         <ul>
-                            <li><strong>快速 MVP</strong>：Vue 3 + Tailwind + daisyUI，零设计成本；Croppie 按需引入。</li>
-                            <li><strong>设计系统</strong>：daisyUI 主题能力 + Tailwind 原子化，先确定配色与字号 token，再抽象组件。</li>
-                            <li><strong>部署/生产</strong>：Vite 构建，<code>npm run build</code> 产物发布；CDN 模式仅适合静态增强或 Demo。</li>
+                            <li>✂️ <strong>头像裁剪</strong> — 用户上传头像时进行选区裁剪</li>
+                            <li>🖼️ <strong>图片上传前处理</strong> — 限制尺寸、调整构图后再上传服务器</li>
                         </ul>
+
+                        <h3>5.3 Vue 3 中的注意事项</h3>
+                        <div role="alert" class="alert bg-warning/10 border-warning/20 shadow-sm mb-6 not-prose flex items-center gap-4">
+                            <i class="fas fa-exclamation-triangle text-warning text-2xl flex-shrink-0"></i>
+                            <div class="text-sm text-base-content/80 text-left">
+                                <p><strong>注意</strong>：<code>vue-croppie</code> 插件<strong>不支持 Vue 3</strong>，课程中直接使用原生 <code>Croppie</code> 库，通过 ref 操作 DOM 方式集成。</p>
+                            </div>
+                        </div>
+                        <p>📘 <a href="https://foliotek.github.io/Croppie/" class="link link-primary" target="_blank">Croppie 官方文档</a></p>
+
+                        <div class="divider text-base-content/20"></div>
+
+                        <h2>六、技术栈关系图</h2>
+                        <pre><code class="language-plaintext">┌─────────────────────────────────────────────────────────┐
+│                    Vue 3（核心框架）                      │
+│         负责：组件逻辑、状态管理、响应式数据                 │
+└─────────────────────────────────────────────────────────┘
+                           │
+    ┌──────────────────────┼──────────────────────┐
+    ▼                      ▼                      ▼
+┌─────────┐         ┌─────────────┐         ┌──────────┐
+│  Vite   │         │ Vue Router  │         │ Croppie  │
+│ 构建工具 │         │   路由管理   │         │ 图片裁剪 │
+└─────────┘         └─────────────┘         └──────────┘
+                           │
+                           ▼
+              ┌─────────────────────┐
+              │   Tailwind CSS      │
+              │   原子化样式框架     │
+              │   负责：布局、视觉    │
+              └─────────────────────┘
+                           │
+                           ▼
+              ┌─────────────────────┐
+              │      DaisyUI        │
+              │   基于 Tailwind     │
+              │   提供语义化组件     │
+              └─────────────────────┘</code></pre>
+
+                        <div class="divider text-base-content/20"></div>
+
+                        <h2>七、学习路径建议</h2>
+                        <p>如果你是初学者，建议按以下顺序学习：</p>
+                        <ol>
+                            <li><strong>Vue 3 基础</strong> → 掌握模板语法、响应式数据、组件通信</li>
+                            <li><strong>Vite 使用</strong> → 了解项目结构、开发服务器、构建命令</li>
+                            <li><strong>Tailwind CSS</strong> → 熟悉常用工具类、布局方式</li>
+                            <li><strong>DaisyUI</strong> → 使用现成组件快速搭建界面</li>
+                            <li><strong>Vue Router</strong> → 添加多页面导航能力</li>
+                            <li><strong>Croppie</strong> → 按需集成图片处理功能</li>
+                        </ol>
+
+                        <div class="divider text-base-content/20"></div>
+
+                        <h2>八、总结</h2>
+                        <div class="overflow-x-auto">
+                            <table class="table table-zebra">
+                                <thead>
+                                    <tr>
+                                        <th>技术</th>
+                                        <th>一句话定位</th>
+                                        <th>核心价值</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Vue 3</strong></td>
+                                        <td>前端核心框架</td>
+                                        <td>组件化开发、响应式数据、逻辑复用</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Vite</strong></td>
+                                        <td>现代构建工具</td>
+                                        <td>极速开发体验、优化生产构建</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Vue Router</strong></td>
+                                        <td>官方路由管理</td>
+                                        <td>单页应用导航、深度集成 Vue</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Tailwind CSS</strong></td>
+                                        <td>原子化样式框架</td>
+                                        <td>不写 CSS 文件、快速构建界面</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DaisyUI</strong></td>
+                                        <td>Tailwind 组件库</td>
+                                        <td>现成组件、主题系统、语义化类名</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Croppie</strong></td>
+                                        <td>图片裁剪库</td>
+                                        <td>头像处理、上传前编辑</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <p class="mt-6">这套技术栈遵循<strong>"约定优于配置"</strong>的理念，从 Vue 3 的 Composition API 到 Tailwind 的工具类，再到 DaisyUI 的语义化组件，每一层都在<strong>减少样板代码</strong>，让你专注于业务逻辑本身。</p>
+
+                        <div role="alert" class="alert bg-success/10 border-success/20 shadow-sm mb-6 not-prose flex items-center gap-4">
+                            <i class="fas fa-rocket text-success text-2xl flex-shrink-0"></i>
+                            <div class="text-sm text-base-content/80 text-left">
+                                <p><strong>下一步</strong>：访问 <a href="https://cn.vuejs.org/guide/quick-start" class="link link-primary" target="_blank">Vue 3 官方文档</a> 开始你的第一个 Vite 项目！</p>
+                            </div>
+                        </div>
                     </article>
 
                     <div class="mt-12 pt-8 border-t border-base-200">
@@ -257,7 +424,7 @@ const blob = await croppie.result({ type: 'blob', format: 'png', size: 'viewport
     <footer class="footer footer-center p-8 bg-base-300 text-base-content border-t border-base-200 mt-auto">
         <aside>
             <p class="text-sm">
-                <i class="far fa-copyright"></i> 2024 JJasonSun. All Rights Reserved.
+                <i class="far fa-copyright"></i> 2026 JJasonSun. All Rights Reserved.
             </p>
             <p class="text-xs text-base-content/50 mt-2">
                 Built with <i class="fas fa-heart text-red-500"></i> using Tailwind CSS & DaisyUI

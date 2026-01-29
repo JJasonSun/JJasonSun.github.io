@@ -1,8 +1,8 @@
 const blogPosts = [
     {
-        title: "前端技术栈速览：Vue 3 · Tailwind · daisyUI · Croppie",
+        title: "现代前端技术栈入门指南：Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI",
         date: "2026-01-27",
-        summary: "整理 Vue 3 + Tailwind + daisyUI + Croppie 的核心用法与安装指引，作为前端项目的快速上手清单。",
+        summary: "系统梳理 Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI 技术栈，从框架选型到样式系统的完整入门指南",
         link: "articles/frontend-stack.html"
     },
     {

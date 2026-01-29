@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前端技术栈速览：Vue 3 · Tailwind · daisyUI · Croppie - JJasonSun</title>
+    <meta name="post:meta" content='{"title":"前端技术栈速览：Vue 3 · Tailwind · daisyUI · Croppie","date":"2026-01-27","summary":"整理 Vue 3 + Tailwind + daisyUI + Croppie 的核心用法与安装指引，作为前端项目的快速上手清单。","link":"articles/frontend-stack.html"}'>
+    <!-- Tailwind CSS with Typography Plugin -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Prism.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css">
+    
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+        .gradient-text {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: oklch(var(--b2)); }
+        ::-webkit-scrollbar-thumb { background: oklch(var(--p) / 0.5); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: oklch(var(--p) / 0.8); }
+        #toc a.active { color: oklch(var(--p)); border-left: 2px solid oklch(var(--p)); background-color: oklch(var(--p) / 0.1); }
+    </style>
+</head>
+<body class="min-h-screen bg-base-200 flex flex-col">
+
+    <!-- 导航栏 -->
+    <div class="navbar bg-base-100/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-base-200">
+        <div class="navbar-start">
+            <div class="dropdown">
+                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+                </div>
+                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-lg bg-base-100 rounded-box w-52">
+                    <li><a href="../index.html" class="flex items-center gap-2"><i class="fas fa-home w-4"></i>首页</a></li>
+                    <li><a href="../about.html" class="flex items-center gap-2"><i class="fas fa-user w-4"></i>关于我</a></li>
+                    <li><a href="../index.html#blog" class="flex items-center gap-2"><i class="fas fa-blog w-4"></i>博客</a></li>
+                    <li><a href="../index.html#contact" class="flex items-center gap-2"><i class="fas fa-envelope w-4"></i>联系方式</a></li>
+                </ul>
+            </div>
+            <a href="../index.html" class="btn btn-ghost text-xl font-bold">
+                <span class="gradient-text">JJasonSun</span>
+            </a>
+        </div>
+        <div class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal px-1 font-medium gap-1">
+                <li><a href="../index.html" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">首页</a></li>
+                <li><a href="../about.html" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">关于我</a></li>
+                <li><a href="../index.html#blog" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">博客</a></li>
+                <li><a href="../index.html#contact" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">联系方式</a></li>
+            </ul>
+        </div>
+        <div class="navbar-end">
+             <label class="swap swap-rotate btn btn-ghost btn-circle hover:bg-primary/10">
+                <input type="checkbox" class="theme-controller" value="dark" />
+                <svg class="swap-on fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"/></svg>
+                <svg class="swap-off fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/></svg>
+            </label>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 flex-grow max-w-7xl animate-fade-in-up">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div class="lg:col-span-3">
+                <div class="bg-base-100 rounded-2xl shadow-xl p-8 md:p-12 mb-8 border border-base-content/5">
+                    <div class="text-sm breadcrumbs mb-6 text-base-content/60">
+                        <ul>
+                            <li><a href="../index.html" class="hover:text-primary">首页</a></li>
+                            <li><a href="../index.html#blog" class="hover:text-primary">博客</a></li>
+                            <li>正文</li>
+                        </ul>
+                    </div>
+
+                    <header class="mb-10 border-b border-base-200 pb-8">
+                        <h1 class="text-3xl md:text-5xl font-extrabold mb-6 leading-relaxed text-base-content">
+                            前端技术栈速览：<br>
+                            <span class="text-primary">Vue 3 · Tailwind · daisyUI · Croppie</span>
+                        </h1>
+                        <div class="flex flex-wrap items-center gap-6 text-sm text-base-content/70">
+                            <span class="flex items-center gap-2 bg-base-200 px-3 py-1 rounded-full">
+                                <i class="far fa-calendar-alt text-primary"></i> 2026-01-27
+                            </span>
+                            <span class="flex items-center gap-2 bg-base-200 px-3 py-1 rounded-full">
+                                <i class="far fa-folder text-primary"></i> 前端资料
+                            </span>
+                        </div>
+                    </header>
+
+                    <article class="article-content prose prose-lg max-w-none 
+                        prose-headings:text-base-content prose-headings:font-bold 
+                        prose-p:text-base-content/80 prose-li:text-base-content/80
+                        prose-pre:bg-[#272822] prose-pre:p-0 prose-pre:rounded-xl prose-pre:shadow-lg
+                        prose-strong:text-primary">
+
+                        <div role="alert" class="alert bg-info/10 border-info/20 shadow-sm mb-8 not-prose flex items-start gap-4">
+                            <i class="fas fa-info-circle text-info text-2xl mt-1"></i>
+                            <div>
+                                <h3 class="font-bold text-info text-lg mb-2">栈组合概要</h3>
+                                <div class="text-sm text-base-content/80 space-y-2">
+                                    <p><strong>Vue 3</strong> 作为核心框架，Composition API + 更佳 TS 支持。</p>
+                                    <p><strong>Tailwind CSS</strong> 原子化样式，直接写 class；<strong>daisyUI</strong> 作为 Tailwind 插件补齐按钮 / 卡片 / Modal 等 UI 组件与主题。</p>
+                                    <p><strong>Croppie</strong> 处理头像裁剪等上传前预览，直接用原生版本即可。</p>
+                                    <p class="font-mono bg-base-100 inline-block px-2 py-1 rounded border border-base-200 text-xs">推荐工作流：Vite + Tailwind + daisyUI + Vue 3 组件化，按需集成 Croppie</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h2>核心框架：Vue 3</h2>
+                        <p>Vue 3 提供组合式 API、更优 TS 体验与更高性能，官方推荐使用 Vite 构建。快速上手步骤：</p>
+                        <ol>
+                            <li>确保已安装 Node.js <code>^20.19.0 || >=22.12.0</code>。</li>
+                            <li>创建项目并按提示选择特性：</li>
+                        </ol>
+                        <pre><code class="language-bash">npm create vue@latest
+cd &lt;project-name&gt;
+npm install
+npm run dev</code></pre>
+                        <p>无需构建的场景可用 CDN 直接挂载：</p>
+<pre><code class="language-html">&lt;script src="https://unpkg.com/vue@3/dist/vue.global.js"&gt;&lt;/script&gt;
+&lt;div id="app"&gt;{{ message }}&lt;/div&gt;
+&lt;script&gt;
+  const { createApp, ref } = Vue
+  createApp({
+    setup() {
+      const message = ref('Hello Vue!')
+      return { message }
+    }
+  }).mount('#app')
+&lt;/script&gt;</code></pre>
+                        <ul>
+                            <li>文档：<a href="https://cn.vuejs.org/guide/quick-start" class="link link-primary" target="_blank">快速上手</a>（官方中文）。</li>
+                            <li>推荐 IDE：VS Code + 官方 <code>Vue - Official</code> 扩展。</li>
+                        </ul>
+
+                        <div class="divider text-base-content/20"></div>
+
+                        <h2>样式系统：Tailwind CSS</h2>
+                        <p>Tailwind 扫描模板类名生成样式，零运行时，最顺滑的组合是直接作为 Vite 插件使用。</p>
+                        <ol>
+                            <li>在项目根创建 Vite 项目或复用现有项目。</li>
+                            <li>安装插件：</li>
+                        </ol>
+                        <pre><code class="language-bash">npm install tailwindcss @tailwindcss/vite</code></pre>
+                        <ol start="3">
+                            <li>在 <code>vite.config.ts</code>/<code>.js</code> 中启用插件：</li>
+                        </ol>
+                        <pre><code class="language-ts">import { defineConfig } from 'vite'
+import tailwindcss from '@tailwindcss/vite'
+
+export default defineConfig({
+  plugins: [tailwindcss()],
+})</code></pre>
+                        <ol start="4">
+                            <li>在样式文件（如 <code>src/style.css</code>）引入：</li>
+                        </ol>
+                        <pre><code class="language-css">@import "tailwindcss";</code></pre>
+                        <ol start="5">
+                            <li>运行开发服务器并开始使用原子类：</li>
+                        </ol>
+                        <pre><code class="language-bash">npm run dev</code></pre>
+                        <p>官方指引：<a href="https://tailwindcss.com/docs/installation/using-vite" class="link link-primary" target="_blank">Using Vite</a>。</p>
+
+                        <div class="divider text-base-content/20"></div>
+
+                        <h2>UI 组件：daisyUI</h2>
+                        <p>daisyUI 基于 Tailwind，提供 Button / Card / Modal / Form 等 60+ 组件与主题系统，装好 Tailwind 后直接作为插件使用。</p>
+                        <ol>
+                            <li>安装插件：</li>
+                        </ol>
+                        <pre><code class="language-bash">npm i -D daisyui@latest</code></pre>
+                        <ol start="2">
+                            <li>在主样式中启用：</li>
+                        </ol>
+                        <pre><code class="language-css">@import "tailwindcss";
+@plugin "daisyui";</code></pre>
+                        <p>更多框架安装示例与组件清单：
+                            <a href="https://daisyui.com/docs/install/" class="link link-primary" target="_blank">安装文档</a> ·
+                            <a href="https://daisyui.com/components/" class="link link-primary" target="_blank">组件列表</a>
+                        </p>
+
+                        <div class="divider text-base-content/20"></div>
+
+                        <h2>图片裁剪：Croppie</h2>
+                        <p>轻量图片裁剪库，适合头像、上传前处理。Vue 3 可直接用原生 Croppie；需要旋转/缩放/圆形裁剪时开启相应选项。</p>
+                        <ol>
+                            <li>安装或直接引用静态资源：</li>
+                        </ol>
+                        <pre><code class="language-bash">npm install croppie</code></pre>
+                        <pre><code class="language-html">&lt;link rel="stylesheet" href="croppie.css" /&gt;
+&lt;script src="croppie.js"&gt;&lt;/script&gt;</code></pre>
+                        <ol start="2">
+                            <li>基础用法（原生或 jQuery）：</li>
+                        </ol>
+                        <pre><code class="language-js">// 原生
+const el = document.getElementById('crop');
+const croppie = new Croppie(el, {
+  viewport: { width: 200, height: 200, type: 'circle' },
+  boundary: { width: 320, height: 320 },
+  enableExif: true,
+});
+
+// 绑定图片
+croppie.bind({ url: '/avatar.jpg' });
+
+// 导出结果
+const blob = await croppie.result({ type: 'blob', format: 'png', size: 'viewport' });</code></pre>
+                        <ul>
+                            <li>常用选项：<code>enableExif</code>（读取方向）、<code>enableZoom</code>/<code>enableResize</code>、<code>viewport</code>（宽高与类型）。</li>
+                            <li>文档与 Demo：<a href="https://foliotek.github.io/Croppie/" class="link link-primary" target="_blank">官方站点</a>。</li>
+                        </ul>
+
+                        <div class="divider text-base-content/20"></div>
+
+                        <h2>组合建议</h2>
+                        <ul>
+                            <li><strong>快速 MVP</strong>：Vue 3 + Tailwind + daisyUI，零设计成本；Croppie 按需引入。</li>
+                            <li><strong>设计系统</strong>：daisyUI 主题能力 + Tailwind 原子化，先确定配色与字号 token，再抽象组件。</li>
+                            <li><strong>部署/生产</strong>：Vite 构建，<code>npm run build</code> 产物发布；CDN 模式仅适合静态增强或 Demo。</li>
+                        </ul>
+                    </article>
+
+                    <div class="mt-12 pt-8 border-t border-base-200">
+                        <a href="../index.html#blog" class="btn btn-outline btn-primary gap-2 hover:scale-105 transition-transform"><i class="fas fa-arrow-left"></i> 返回文章列表</a>
+                        <div class="mt-6 p-4 bg-base-200/50 rounded-xl text-center text-sm text-base-content/60">
+                            觉得有帮助？欢迎分享给你的朋友！
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden lg:block lg:col-span-1">
+                <div class="sticky top-24">
+                     <div class="toc-content bg-base-100 rounded-2xl shadow-lg p-6 max-h-[calc(100vh-8rem)] overflow-y-auto border border-base-content/5">
+                        <h3 class="font-bold text-lg mb-4 pb-2 border-b border-base-200 flex items-center gap-2">
+                            <i class="fas fa-list-ul text-primary"></i> 文章目录
+                        </h3>
+                        <nav id="toc" class="text-sm space-y-1">
+                            <!-- TOC logic in script.js will populate this -->
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer footer-center p-8 bg-base-300 text-base-content border-t border-base-200 mt-auto">
+        <aside>
+            <p class="text-sm">
+                <i class="far fa-copyright"></i> 2024 JJasonSun. All Rights Reserved.
+            </p>
+            <p class="text-xs text-base-content/50 mt-2">
+                Built with <i class="fas fa-heart text-red-500"></i> using Tailwind CSS & DaisyUI
+            </p>
+        </aside>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+</body>
+</html>

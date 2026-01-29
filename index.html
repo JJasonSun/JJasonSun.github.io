@@ -235,12 +235,16 @@
         </aside>
     </footer>
 
-    <script src="js/blog-data.js?v=2"></script>
+    <script src="js/blog-data.js?v=3"></script>
     <script src="js/script.js"></script>
     <script>
-        // Load Blog Posts with enhanced card style
-        const blogContainer = document.getElementById('blog-container');
-        if (blogContainer && typeof blogPosts !== 'undefined') {
+        // Render blog posts from static blogPosts array (defined in blog-data.js)
+        // To add a new article: just add an entry to js/blog-data.js
+        (function() {
+            const blogContainer = document.getElementById('blog-container');
+            if (!blogContainer || typeof blogPosts === 'undefined') return;
+
+            blogContainer.innerHTML = '';
             blogPosts.forEach((post, index) => {
                 const article = document.createElement('article');
                 article.className = 'blog-card card bg-base-100 shadow-lg hover:shadow-xl border border-base-200';
@@ -249,10 +253,10 @@
                     <div class="card-body">
                         <div class="flex items-center gap-2 text-xs text-base-content/50 mb-2">
                             <i class="far fa-calendar-alt"></i>
-                            <span>${post.date}</span>
+                            <span>${post.date || ''}</span>
                         </div>
-                        <h2 class="card-title text-lg leading-snug hover:text-primary transition-colors">${post.title}</h2>
-                        <p class="text-sm text-base-content/70 mt-2 line-clamp-3">${post.summary}</p>
+                        <h2 class="card-title text-lg leading-snug hover:text-primary transition-colors">${post.title || ''}</h2>
+                        <p class="text-sm text-base-content/70 mt-2 line-clamp-3">${post.summary || ''}</p>
                         <div class="card-actions justify-end mt-4 pt-4 border-t border-base-200">
                             <a href="${post.link}" class="btn btn-sm btn-primary btn-outline gap-2 hover:gap-3 transition-all">
                                 阅读更多 <i class="fas fa-arrow-right text-xs"></i>
@@ -262,7 +266,7 @@
                 `;
                 blogContainer.appendChild(article);
             });
-        }
+        })();
     </script>
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>现代前端技术栈入门指南：Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI - JJasonSun</title>
-    <meta name="post:meta" content='{"title":"现代前端技术栈入门指南：Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI","date":"2026-01-27","summary":"系统梳理 Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI 技术栈，从框架选型到样式系统的完整入门指南。","link":"articles/frontend-stack.html"}'>
+    <meta name="post:meta" content='{"title":"现代前端技术栈入门指南：Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI","date":"2026-01-27","summary":"一篇面向入门者的前端技术栈指南，梳理 Vue 3、Vite、Vue Router、Tailwind CSS 和 DaisyUI 的分工与学习顺序。","link":"articles/frontend-stack.html"}'>
     <!-- Tailwind CSS with Typography Plugin -->
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
@@ -68,7 +68,7 @@
 
                     <header class="mb-10 border-b border-base-200 pb-8">
                         <h1 class="text-3xl md:text-4xl font-extrabold mb-6 leading-relaxed text-base-content">
-                            🌱 现代前端技术栈入门指南：<br>
+                            现代前端技术栈入门指南：<br>
                             <span class="text-primary">Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI</span>
                         </h1>
                         <div class="flex flex-wrap items-center gap-6 text-sm text-base-content/70">
@@ -99,7 +99,7 @@
                         <h2>一、核心框架：Vue 3</h2>
 
                         <h3>1.1 什么是 Vue 3？</h3>
-                        <p>Vue 3 是渐进式 JavaScript 框架 Vue.js 的最新主要版本，是前端开发的核心工具，负责管理<strong>组件结构</strong>、<strong>状态数据</strong>和<strong>页面交互逻辑</strong>。</p>
+                        <p>Vue 3 是 Vue.js 的当前主力版本之一，也是这套技术栈的核心。它负责组织<strong>组件结构</strong>、<strong>响应式状态</strong>和<strong>页面交互逻辑</strong>。</p>
 
                         <h3>1.2 核心特点</h3>
                         <div class="overflow-x-auto">
@@ -113,15 +113,15 @@
                                 <tbody>
                                     <tr>
                                         <td><strong>Composition API</strong></td>
-                                        <td>全新的组合式 API，让代码逻辑更易组织和复用</td>
+                                        <td>按业务逻辑组织代码，更适合复用和拆分复杂页面</td>
                                     </tr>
                                     <tr>
                                         <td><strong>更好的 TypeScript 支持</strong></td>
-                                        <td>从底层重写，原生支持 TS，类型推断更精准</td>
+                                        <td>和 TS 结合更自然，组件和组合式函数都更容易写出清晰类型</td>
                                     </tr>
                                     <tr>
                                         <td><strong>更高性能</strong></td>
-                                        <td>响应式系统基于 Proxy，内存占用更低，运行更快</td>
+                                        <td>基于 Proxy 的响应式系统，更新更精准，整体开销更低</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -135,17 +135,17 @@
                         <h2>二、构建工具：Vite</h2>
 
                         <h3>2.1 为什么选择 Vite？</h3>
-                        <p>Vite 是 Vue 团队开发的新一代前端构建工具，取代了传统的 Vue CLI。它解决了传统工具<strong>启动慢</strong>、<strong>热更新慢</strong>的痛点：</p>
+                        <p>Vite 是现代前端构建工具，常被用来作为 Vue 项目的默认选择。它把开发体验和生产构建分开处理，重点解决<strong>启动慢</strong>、<strong>热更新慢</strong>这两个老问题：</p>
                         <ul>
                             <li>⚡ <strong>秒级冷启动</strong> — 利用浏览器原生 ES 模块，无需打包即可运行</li>
                             <li>🔥 <strong>瞬时热更新（HMR）</strong> — 修改代码后页面即时响应，不刷新状态</li>
-                            <li>📦 <strong>优化的生产构建</strong> — 使用 Rollup 打包，输出高度优化的静态资源</li>
+                            <li>📦 <strong>优化的生产构建</strong> — 输出适合部署的静态资源</li>
                         </ul>
 
                         <div role="alert" class="alert bg-info/10 border-info/20 shadow-sm mb-6 not-prose flex items-center gap-4">
                             <i class="fas fa-lightbulb text-info text-2xl flex-shrink-0"></i>
                             <div class="text-sm text-base-content/80 text-left">
-                                <p><strong>提示</strong>：Vue CLI 已进入维护模式，官方推荐新项目使用 Vite。</p>
+                                <p><strong>提示</strong>：如果你是新项目，直接从 Vite 开始会更省心。</p>
                             </div>
                         </div>
 
@@ -223,7 +223,7 @@
                                     </tr>
                                     <tr>
                                         <td><strong>主题系统</strong></td>
-                                        <td>内置 30+ 款精美主题，一键切换配色方案</td>
+                                        <td>内置 35 款主题，可以快速切换不同视觉风格</td>
                                     </tr>
                                     <tr>
                                         <td><strong>语义化类名</strong></td>
@@ -387,7 +387,7 @@ const route = useRoute()    // 当前路由信息，获取参数等</code></pre>
                             </table>
                         </div>
 
-                        <p class="mt-6">这套技术栈遵循<strong>"约定优于配置"</strong>的理念，从 Vue 3 的 Composition API 到 Tailwind 的工具类，再到 DaisyUI 的语义化组件，每一层都在<strong>减少样板代码</strong>，让你专注于业务逻辑本身。</p>
+                        <p class="mt-6">这套技术栈整体上偏向<strong>"少配置、快交付"</strong>：Vue 3 负责组件逻辑，Vite 负责开发与构建，Tailwind 负责样式编排，DaisyUI 负责常用界面组件。它们组合起来的好处很直接，就是能明显减少样板代码，让你更快把页面做出来。</p>
 
                         <div role="alert" class="alert bg-success/10 border-success/20 shadow-sm mb-6 not-prose flex items-center gap-4">
                             <i class="fas fa-rocket text-success text-2xl flex-shrink-0"></i>

@@ -108,62 +108,51 @@
                             <div class="text-sm text-base-content/80 text-left">
                                 <h3 class="font-bold text-info text-lg mb-2">核心逻辑</h3>
                                 <div>
-                                    <p class="mb-2"><strong>uv 分为两种使用模式：</strong></p>
+                                    <p class="mb-2"><strong>uv 常见有两条路：</strong></p>
                                     <ul class="list-disc list-inside space-y-1 ml-2">
-                                        <li><strong>「项目模式」</strong>：默认用 pyproject.toml 管理依赖（适合需要打包、共享的项目）；</li>
-                                        <li><strong>「无配置模式」</strong>：用 uv pip 命令，完全兼容 pip 语法，不用任何配置文件（适合机器学习、快速实验类项目）。</li>
+                                        <li><strong>项目模式</strong>：用 <code>uv init</code> / <code>uv add</code> / <code>uv sync</code> 配合 <code>pyproject.toml</code> 管理依赖，适合需要打包、共享的项目。</li>
+                                        <li><strong>pip 接口</strong>：用 <code>uv pip install</code> / <code>uv pip freeze</code> / <code>uv pip sync</code> 直接操作虚拟环境，适合已经习惯 <code>pip</code> 和 <code>requirements.txt</code> 的项目。</li>
                                     </ul>
-                                    <p class="mt-3"><code>流程简述：.venv + requirements.txt + uv pip install</code></p>
+                                    <p class="mt-3"><code>实战里最常见的组合：.venv + requirements.txt + uv pip install / sync</code></p>
                                 </div>
                             </div>
                         </div>
 
-                        <h2>一、无 Python 安装 UV</h2>
+                        <h2>一、安装 uv</h2>
                         
                         <h3>1.1 在线一键脚本（最省事）</h3>
-                        <pre><code class="language-powershell"># 1. 设置环境变量（注意末尾的斜杠不能少）
-# export GITHUB_MIRROR=https://mirror.ghproxy.com/
-
-# 2. 验证变量是否生效
-# echo $GITHUB_MIRROR  # 应输出 https://mirror.ghproxy.com/
-
-# 官方安装脚本会自动把可执行文件放到 ~/.cargo/bin 并写 PATH
+                        <pre><code class="language-powershell"># macOS / Linux
 curl -LsSf https://astral.sh/uv/install.sh | sh
-source ~/.cargo/env      # 让当前终端立即生效
-uv --version             # 验证</code></pre>
 
-                        <pre><code class="language-powershell"># 以管理员权限打开 PowerShell，执行
+# Windows PowerShell
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-# 安装程序会把 uv.exe 放到 C:\Users\<你>\.local\bin
-# 按提示把该目录加进 PATH 后，重新打开终端
+
+# 验证
 uv --version</code></pre>
 
-                        <p>全程不需要 Python，脚本里已经附带对应平台的二进制包 。</p>
+                        <p>官方安装脚本不依赖系统 Python。uv 会把程序装到用户可执行目录，Unix 上通常是 <code>~/.local/bin</code>，Windows 上通常是 <code>%USERPROFILE%\.local\bin</code>。</p>
 
                         <h3>1.2 离线手动下载（内网 / 机器没 curl）</h3>
                         <ol>
-                            <li>在能上网的电脑打开 <a href="https://github.com/astral-sh/uv/releases/latest" target="_blank" class="link link-primary">https://github.com/astral-sh/uv/releases/latest</a> 根据系统下载对应压缩包，例如
+                            <li>在能上网的电脑打开 <a href="https://github.com/astral-sh/uv/releases/latest" target="_blank" class="link link-primary">https://github.com/astral-sh/uv/releases/latest</a>，根据系统下载对应压缩包，例如
                                 <ul>
                                     <li>Windows 10+ 64bit → <code>uv-x86_64-pc-windows-msvc.zip</code></li>
                                     <li>Linux x86_64 → <code>uv-x86_64-unknown-linux-gnu.tar.gz</code></li>
                                     <li>macOS Apple Silicon → <code>uv-aarch64-apple-darwin.tar.gz</code></li>
                                 </ul>
                             </li>
-                            <li>解压后得到单文件 <code>uv</code>（或 <code>uv.exe</code>），把它放到
+                            <li>解压后得到单文件 <code>uv</code>（或 <code>uv.exe</code>），把它放到系统 PATH 已包含的目录里，例如：
                                 <ul>
-                                    <li>Windows：<code>C:\Users\<你>\.local\bin\</code></li>
+                                    <li>Windows：<code>%USERPROFILE%\.local\bin\</code></li>
                                     <li>Linux/macOS：<code>~/.local/bin/</code> 或 <code>/usr/local/bin/</code></li>
                                 </ul>
-                                并确保该目录已在系统 PATH。
                             </li>
-                            <li>终端执行
-                                <pre><code class="language-powershell">uv --version</code></pre>
-                            </li>
+                            <li>终端执行 <code>uv --version</code> 验证。</li>
                         </ol>
 
-                        <p>装完就能直接管理 Python 版本与虚拟环境</p>
+                        <p>装完后就能直接管理 Python 版本与虚拟环境。</p>
 
-                        <pre><code class="language-powershell"># 让 uv 自己下载一个 Python 解释器
+                        <pre><code class="language-powershell"># 让 uv 下载一个 3.12 系列的 Python
 uv python install 3.12
 
 # 建虚拟环境
@@ -175,35 +164,35 @@ uv pip install requests
 # 运行脚本
 uv run python your_script.py</code></pre>
 
-                        <p>全程无需系统里先装 Python，uv 会自动下载所需解释器 。</p>
+                        <p>如果本机已经有符合要求的 Python，uv 也会直接使用；没有的话，它会自动下载可用版本。</p>
 
                         <div class="divider text-base-content/20"></div>
 
                         <h2>二、初始化：为项目创建 .venv 虚拟环境</h2>
                         <h3>2.1 在项目根目录</h3>
-                        <pre><code class="language-powershell">uv venv 
-# 或者
-uv venv --python 3.12 # 省略路径时，uv 默认使用 .venv 这个名字，即建在当前目录下的 .venv/ 里
-# 或者 
-uv venv --python 3.12 new_env # 把环境建在当前目录下的 new_env/ 文件夹里（名字任你取）</code></pre>
+                        <pre><code class="language-powershell">uv venv
+# 或者指定 Python 版本
+uv venv --python 3.12
+# 也可以指定环境目录
+uv venv --python 3.12 new_env</code></pre>
 
                         <p><strong>说明：</strong></p>
                         <ul>
-                            <li>这会在当前目录下新建一个 .venv（只对这个项目生效）。</li>
-                            <li>以后所有 Python 相关操作，都通过 <code>uv</code> 调用 .venv，不需要自己 <code>activate</code>。</li>
+                            <li>默认会在当前目录创建 <code>.venv</code>，只对这个项目生效。</li>
+                            <li>后续用 <code>uv pip</code> 或 <code>uv run</code> 时，uv 会自动优先找到项目里的这个环境，不需要你手动 <code>activate</code>。</li>
                         </ul>
 
-                        <h3>2.2 UV 虚拟环境的本质</h3>
+                        <h3>2.2 虚拟环境的本质</h3>
                         
                         <div role="alert" class="alert bg-warning/10 border-warning/20 shadow-sm mb-8 not-prose flex items-center gap-4">
                             <i class="fas fa-exclamation-triangle text-warning text-2xl flex-shrink-0"></i>
                             <div class="text-sm text-base-content/80 text-left">
                                 <div>
-                                    <p class="mb-2"><code>uv</code> 创建的虚拟环境 <strong>不包含 Python 解释器本身</strong>，只记录了 <strong>绝对路径</strong> 指向原来的解释器</p>
+                                    <p class="mb-2"><code>uv</code> 创建的是一个<strong>隔离环境</strong>：第三方包装进 <code>.venv</code>，不会写进系统 Python 的 <code>site-packages</code>。</p>
                                     <ul class="list-disc list-inside space-y-1 ml-2">
-                                        <li>如果使用<code>uv venv</code>，只要不带 --python <版本>，uv 就会按 <code>PATH</code> 顺序找系统里已安装的任何 Python（官方安装包、Miniconda、MS Store…都可），找到第一个就拿来用，在 <code>pyvenv.cfg</code> 里写下它的路径。这里不会触发下载，也不会去 uv 自己的“工具箱”里翻。</li>
-                                        <li>如果使用<code>uv venv --python 3.12</code>，uv 会先看自己“工具箱”里有没有 <strong>通过 <code>uv python install</code> 下载的 3.12</strong>（<code>~/.local/share/uv/python/python-3.12.*</code> 或 Windows 的 <code>%LOCALAPPDATA%\uv\data\python\...</code>），如果找到了，就直接把虚拟环境指向这一份 <strong>便携版 3.12</strong>；找不到就自动去下载，再指向它。</li>
-                                        <li>所以本质上<code>uv</code>在<code>.venv</code>里管理的只有当前项目的依赖包，而<code>Python</code>全部安装在<code>UV</code>统一管理的 Python 路径（<code>%LOCALAPPDATA%\uv\data\python</code>）中，<code>uv</code>会自动生成快捷方式来指向你想要的版本的<code>Python</code></li>
+                                        <li>如果直接执行 <code>uv venv</code>，uv 会使用当前可用的 Python 来创建环境；如果你想固定某个版本，直接加 <code>--python 3.12</code> 会更清楚。</li>
+                                        <li>如果执行 <code>uv venv --python 3.12</code>，uv 会优先使用已安装或已管理的 3.12；如果没有，就自动下载再创建环境。</li>
+                                        <li>uv 管理的是“项目依赖 + 解释器引用”，不是把系统 Python 整个复制一份到 <code>.venv</code> 里。</li>
                                     </ul>
                                 </div>
                             </div>
@@ -213,25 +202,24 @@ uv venv --python 3.12 new_env # 把环境建在当前目录下的 new_env/ 文�
 
                         <h2>三、安装和维护依赖（核心三件事）</h2>
                         <h3>3.1 首次安装依赖</h3>
-                        <p>直接用 <code>uv pip install</code> 往 .venv 里装包：</p>
+                        <p>直接用 <code>uv pip install</code> 往当前虚拟环境里装包：</p>
 
                         <pre><code class="language-powershell">uv pip install pymysql requests beautifulsoup4 neo4j
 uv pip install -r requirements.txt</code></pre>
 
                         <ul>
-                            <li><code>uv</code> 会自动使用你刚才创建的 .venv，无需手动激活。</li>
+                            <li><code>uv</code> 会自动优先使用项目里的 <code>.venv</code>，通常不需要手动激活。</li>
                         </ul>
 
                         <div role="alert" class="alert bg-warning/10 border-warning/20 shadow-sm mb-8 not-prose flex items-center gap-4">
                              <i class="fas fa-exclamation-triangle text-warning text-2xl flex-shrink-0"></i>
                             <div class="text-sm text-base-content/80 text-left">
-                                <!-- <h3 class="font-bold text-warning text-lg mb-2">警告</h3> -->
                                 <div>
-                                    <p><strong>警告：</strong><code>uv pip install</code> 只把包装进 <strong>当前虚拟环境</strong> 的 <code>site-packages</code> 目录，<strong>不会</strong> 动到那个“真正的”Python 解释器所在目录。</p>
-                                    <p class="mt-2">换句话说：<br>
-                                    虚拟环境 → 独立仓库<br>
-                                    系统 Python → 独立仓库</p>
-                                    <p class="mt-1">两边互不干扰；删掉虚拟环境，系统 Python 依旧干净。</p>
+                                    <p><strong>注意：</strong><code>uv pip install</code> 只会把包装进<strong>当前虚拟环境</strong>的 <code>site-packages</code>，不会修改系统 Python 的安装目录。</p>
+                                    <p class="mt-2">也就是说：<br>
+                                    虚拟环境是项目自己的仓库<br>
+                                    系统 Python 是另一套仓库</p>
+                                    <p class="mt-1">删掉 <code>.venv</code>，项目依赖就跟着没了；系统 Python 本身不会被动到。</p>
                                 </div>
                             </div>
                         </div>
@@ -240,12 +228,33 @@ uv pip install -r requirements.txt</code></pre>
 
                         <pre><code class="language-powershell">uv run python -c "import pymysql, requests, bs4, neo4j; print('imports ok')"</code></pre>
 
-                        <p><strong>这也是使用 UV 跑一小段代码的方式</strong></p>
+                        <p><strong>这也是使用 uv 跑一小段代码的方式。</strong></p>
 
                         <h3>3.2 导出或更新 requirements.txt</h3>
-                        <p>当你对依赖比较满意时，把当前环境“冻结”下来：</p>
+                        <p>当你对依赖比较满意时，可以把当前环境导出来：</p>
 
                         <pre><code class="language-powershell">uv pip freeze > requirements.txt</code></pre>
+
+                        <p>如果你想让环境和 <code>requirements.txt</code> 完全一致，通常用 <code>uv pip sync requirements.txt</code> 会比 <code>install</code> 更稳。</p>
+
+                        <h2>四、其他常用命令</h2>
+
+                        <h3>4.1 查看 Python 版本</h3>
+                        <pre><code class="language-powershell">uv python list</code></pre>
+
+                        <h3>4.2 查看 uv 管理的 Python 路径</h3>
+                        <pre><code class="language-powershell">uv python dir
+uv python dir --bin</code></pre>
+
+                        <p><code>uv python install 3.12</code> 安装的是 uv 管理的 Python 版本。Python 解释器和相关文件通常存放在 uv 的数据目录里，而可执行文件会放到用户的 PATH 目录中。</p>
+
+                        <h3>4.3 卸载某个 uv 管理的 Python</h3>
+                        <pre><code class="language-powershell">uv python uninstall 3.12</code></pre>
+
+                        <h2>五、关于移动 .venv</h2>
+                        <p>如果你只是想把项目目录挪到别的位置，建议把 <code>.venv</code> 也一起带上，然后在新位置先跑一次 <code>uv run</code> 或 <code>uv pip check</code> 看环境是否正常。遇到解释器路径变化时，再让 uv 重新创建或修复环境会更稳妥。</p>
+
+                        <p>如果你确实需要“可重定位”的虚拟环境，可以再单独研究 <code>--relocatable</code> / <code>UV_VENV_RELOCATABLE</code>，但这不是默认行为，所以文章里我不建议把它写成通用结论。</p>
 
                     </article>
                     

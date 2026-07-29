@@ -1,109 +1,40 @@
-<!DOCTYPE html>
-<html lang="zh-CN" data-theme="light">
+<!doctype html>
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>现代前端技术栈入门指南：Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI - JJasonSun</title>
-    <meta name="post:meta" content='{"title":"现代前端技术栈入门指南：Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI","date":"2026-01-27","summary":"一篇面向入门者的前端技术栈指南，梳理 Vue 3、Vite、Vue Router、Tailwind CSS 和 DaisyUI 的分工与学习顺序。","link":"articles/frontend-stack.html"}'>
-    <!-- Tailwind CSS with Typography Plugin -->
-    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Prism.js CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css">
-    
-    <!-- 公共样式文件 -->
-    <link rel="stylesheet" href="../css/common.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>现代前端技术栈入门指南：Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI - J.Jason</title>
+    <meta name="theme-color" content="#f1e8d2">
+    <link rel="icon" href="../assets/profile.png" type="image/png">
+    <link rel="stylesheet" href="../css/site.css">
 </head>
-<body class="min-h-screen bg-base-200 flex flex-col">
+<body class="inner-page article-page">
+    <header class="topline">
+        <strong><a href="../index.html">J.Jason</a></strong>
+        <nav aria-label="主导航"><a href="../index.html#work">项目</a><a href="../index.html#blog">文章</a><a href="../about.html">关于</a><a href="../index.html#contact">联系</a></nav>
+        <span class="place">NOTE / FRONTEND</span>
+    </header>
 
-    <!-- 导航栏 -->
-    <div class="navbar bg-base-100/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-base-200">
-        <div class="navbar-start">
-            <div class="dropdown">
-                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-                </div>
-                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-lg bg-base-100 rounded-box w-52">
-                    <li><a href="../index.html" class="flex items-center gap-2"><i class="fas fa-home w-4"></i>首页</a></li>
-                    <li><a href="../about.html" class="flex items-center gap-2"><i class="fas fa-user w-4"></i>关于我</a></li>
-                    <li><a href="../index.html#blog" class="flex items-center gap-2"><i class="fas fa-blog w-4"></i>博客</a></li>
-                    <li><a href="../index.html#contact" class="flex items-center gap-2"><i class="fas fa-envelope w-4"></i>联系方式</a></li>
-                </ul>
-            </div>
-            <a href="../index.html" class="btn btn-ghost text-xl font-bold">
-                <span class="gradient-text">JJasonSun</span>
-            </a>
-        </div>
-        <div class="navbar-center hidden lg:flex">
-            <ul class="menu menu-horizontal px-1 font-medium gap-1">
-                <li><a href="../index.html" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">首页</a></li>
-                <li><a href="../about.html" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">关于我</a></li>
-                <li><a href="../index.html#blog" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">博客</a></li>
-                <li><a href="../index.html#contact" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">联系方式</a></li>
-            </ul>
-        </div>
-        <div class="navbar-end">
-             <label class="swap swap-rotate btn btn-ghost btn-circle hover:bg-primary/10">
-                <input type="checkbox" class="theme-controller" value="dark" />
-                <svg class="swap-on fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"/></svg>
-                <svg class="swap-off fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/></svg>
-            </label>
-        </div>
-    </div>
+    <main class="article-layout">
+        <div class="article-main">
+            <div class="article-window">
+                <nav class="breadcrumbs" aria-label="面包屑">
+                    <ul><li><a href="../index.html">首页</a></li><li><a href="../index.html#blog">文章</a></li><li>正文</li></ul>
+                </nav>
+                <header class="article-header">
+                    <h1 class="article-title">现代前端技术栈入门指南：<br><span class="accent">Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI</span></h1>
+                    <div class="article-meta"><span>2026-01-27</span><span>前端入门</span></div>
+                </header>
 
-    <div class="container mx-auto px-4 py-8 flex-grow max-w-7xl animate-fade-in-up">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <div class="lg:col-span-3">
-                <div class="bg-base-100 rounded-2xl shadow-xl p-8 md:p-12 mb-8 border border-base-content/5">
-                    <div class="text-sm breadcrumbs mb-6 text-base-content/60">
-                        <ul>
-                            <li><a href="../index.html" class="hover:text-primary">首页</a></li>
-                            <li><a href="../index.html#blog" class="hover:text-primary">博客</a></li>
-                            <li>正文</li>
-                        </ul>
-                    </div>
-
-                    <header class="mb-10 border-b border-base-200 pb-8">
-                        <h1 class="text-3xl md:text-4xl font-extrabold mb-6 leading-relaxed text-base-content">
-                            现代前端技术栈入门指南：<br>
-                            <span class="text-primary">Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI</span>
-                        </h1>
-                        <div class="flex flex-wrap items-center gap-6 text-sm text-base-content/70">
-                            <span class="flex items-center gap-2 bg-base-200 px-3 py-1 rounded-full">
-                                <i class="far fa-calendar-alt text-primary"></i> 2026-01-27
-                            </span>
-                            <span class="flex items-center gap-2 bg-base-200 px-3 py-1 rounded-full">
-                                <i class="far fa-folder text-primary"></i> 前端入门
-                            </span>
-                        </div>
-                    </header>
-
-                    <article class="article-content prose prose-lg max-w-none 
-                        prose-headings:text-base-content prose-headings:font-bold prose-headings:tracking-tight
-                        prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-3 prose-h2:border-b prose-h2:border-base-300
-                        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4
-                        prose-h4:text-lg prose-h4:mt-6 prose-h4:mb-3
-                        prose-p:text-base-content/80 prose-p:leading-relaxed prose-p:my-4
-                        prose-li:text-base-content/80 prose-li:leading-relaxed prose-li:my-2
-                        prose-ul:my-6 prose-ol:my-6
-                        prose-table:my-6
-                        prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-                        prose-strong:text-base-content prose-strong:font-semibold
-                        prose-code:text-sm prose-code:bg-base-200 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
-                        prose-pre:bg-[#272822] prose-pre:p-0 prose-pre:rounded-xl prose-pre:shadow-lg prose-pre:my-6
-                        prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic">
-
-                        <h2>一、核心框架：Vue 3</h2>
+                <article class="article-content">
+<h2>一、核心框架：Vue 3</h2>
 
                         <h3>1.1 什么是 Vue 3？</h3>
                         <p>Vue 3 是 Vue.js 的当前主力版本之一，也是这套技术栈的核心。它负责组织<strong>组件结构</strong>、<strong>响应式状态</strong>和<strong>页面交互逻辑</strong>。</p>
 
                         <h3>1.2 核心特点</h3>
-                        <div class="overflow-x-auto">
-                            <table class="table table-zebra">
+                        <div class="table-scroll">
+                            <table>
                                 <thead>
                                     <tr>
                                         <th>特性</th>
@@ -128,28 +59,26 @@
                         </div>
 
                         <h3>1.3 学习资源</h3>
-                        <p>📘 <a href="https://cn.vuejs.org/guide/quick-start" class="link link-primary" target="_blank">Vue 3 官方中文文档</a> — 最权威的学习指南，包含从安装到进阶的完整教程</p>
+                        <p><a href="https://cn.vuejs.org/guide/quick-start" target="_blank">Vue 3 官方中文文档</a> — 最权威的学习指南，包含从安装到进阶的完整教程</p>
 
-                        <div class="divider text-base-content/20"></div>
+                        <hr>
 
                         <h2>二、构建工具：Vite</h2>
 
                         <h3>2.1 为什么选择 Vite？</h3>
                         <p>Vite 是现代前端构建工具，常被用来作为 Vue 项目的默认选择。它把开发体验和生产构建分开处理，重点解决<strong>启动慢</strong>、<strong>热更新慢</strong>这两个老问题：</p>
                         <ul>
-                            <li>⚡ <strong>秒级冷启动</strong> — 利用浏览器原生 ES 模块，无需打包即可运行</li>
-                            <li>🔥 <strong>瞬时热更新（HMR）</strong> — 修改代码后页面即时响应，不刷新状态</li>
-                            <li>📦 <strong>优化的生产构建</strong> — 输出适合部署的静态资源</li>
+                            <li><strong>秒级冷启动</strong> — 利用浏览器原生 ES 模块，无需打包即可运行</li>
+                            <li><strong>瞬时热更新（HMR）</strong> — 修改代码后页面即时响应，不刷新状态</li>
+                            <li><strong>优化的生产构建</strong> — 输出适合部署的静态资源</li>
                         </ul>
 
-                        <div role="alert" class="alert bg-info/10 border-info/20 shadow-sm mb-6 not-prose flex items-center gap-4">
-                            <i class="fas fa-lightbulb text-info text-2xl flex-shrink-0"></i>
-                            <div class="text-sm text-base-content/80 text-left">
-                                <p><strong>提示</strong>：如果你是新项目，直接从 Vite 开始会更省心。</p>
-                            </div>
-                        </div>
+                        <aside class="article-note" aria-label="提示">
+                            <span class="article-note-label">TIP / 提示</span>
+                            <p>如果你是新项目，直接从 Vite 开始会更省心。</p>
+                        </aside>
 
-                        <div class="divider text-base-content/20"></div>
+                        <hr>
 
                         <h2>三、样式系统</h2>
 
@@ -159,8 +88,8 @@
                         <p>负责<strong>页面布局</strong>与<strong>视觉样式</strong>，采用"工具类优先"（Utility-First）的理念。</p>
 
                         <h4>与传统 CSS 的区别</h4>
-                        <div class="overflow-x-auto">
-                            <table class="table table-zebra">
+                        <div class="table-scroll">
+                            <table>
                                 <thead>
                                     <tr>
                                         <th>传统方式</th>
@@ -199,7 +128,7 @@
 &lt;div class="p-6 rounded-lg shadow-md"&gt;内容&lt;/div&gt;</code></pre>
 
                         <h4>安装方式（Vite 项目）</h4>
-                        <p>📘 <a href="https://tailwindcss.com/docs/installation/using-vite" class="link link-primary" target="_blank">Tailwind CSS + Vite 官方安装指南</a></p>
+                        <p><a href="https://tailwindcss.com/docs/installation/using-vite" target="_blank">Tailwind CSS + Vite 官方安装指南</a></p>
                         <pre><code class="language-bash">npm install -D tailwindcss @tailwindcss/vite</code></pre>
 
                         <h3>3.2 DaisyUI — 基于 Tailwind 的 UI 组件库</h3>
@@ -208,8 +137,8 @@
                         <p>在 Tailwind CSS 基础上提供<strong>语义化的组件层</strong>，让你无需从零搭建界面。</p>
 
                         <h4>核心作用</h4>
-                        <div class="overflow-x-auto">
-                            <table class="table table-zebra">
+                        <div class="table-scroll">
+                            <table>
                                 <thead>
                                     <tr>
                                         <th>功能</th>
@@ -234,12 +163,10 @@
                         </div>
 
                         <h4>依赖关系</h4>
-                        <div role="alert" class="alert bg-warning/10 border-warning/20 shadow-sm mb-6 not-prose flex items-center gap-4">
-                            <i class="fas fa-exclamation-triangle text-warning text-2xl flex-shrink-0"></i>
-                            <div class="text-sm text-base-content/80 text-left">
-                                <p><strong>重要</strong>：DaisyUI 必须<strong>先安装 Tailwind CSS</strong>，它是对 Tailwind 的扩展而非替代。</p>
-                            </div>
-                        </div>
+                        <aside class="article-note article-note--warning" aria-label="重要提示">
+                            <span class="article-note-label">IMPORTANT / 重要</span>
+                            <p>DaisyUI 必须<strong>先安装 Tailwind CSS</strong>，它是对 Tailwind 的扩展而非替代。</p>
+                        </aside>
 
                         <h4>使用示例</h4>
                         <pre><code class="language-html">&lt;!-- 纯 Tailwind：需要写很多工具类 --&gt;
@@ -252,11 +179,11 @@
 
                         <h4>学习资源</h4>
                         <ul>
-                            <li>📘 <a href="https://daisyui.com/docs/install/" class="link link-primary" target="_blank">DaisyUI 安装文档</a></li>
-                            <li>📘 <a href="https://daisyui.com/components/" class="link link-primary" target="_blank">DaisyUI 组件文档</a> — 包含所有组件的视觉示例和代码片段</li>
+                            <li><a href="https://daisyui.com/docs/install/" target="_blank">DaisyUI 安装文档</a></li>
+                            <li><a href="https://daisyui.com/components/" target="_blank">DaisyUI 组件文档</a> — 包含所有组件的视觉示例和代码片段</li>
                         </ul>
 
-                        <div class="divider text-base-content/20"></div>
+                        <hr>
 
                         <h2>四、路由管理：Vue Router 4</h2>
 
@@ -276,7 +203,7 @@ import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()  // 路由实例，用于编程式导航
 const route = useRoute()    // 当前路由信息，获取参数等</code></pre>
 
-                        <div class="divider text-base-content/20"></div>
+                        <hr>
 
                         <h2>五、图片处理：Croppie</h2>
 
@@ -285,20 +212,18 @@ const route = useRoute()    // 当前路由信息，获取参数等</code></pre>
 
                         <h3>5.2 典型使用场景</h3>
                         <ul>
-                            <li>✂️ <strong>头像裁剪</strong> — 用户上传头像时进行选区裁剪</li>
-                            <li>🖼️ <strong>图片上传前处理</strong> — 限制尺寸、调整构图后再上传服务器</li>
+                            <li><strong>头像裁剪</strong> — 用户上传头像时进行选区裁剪</li>
+                            <li><strong>图片上传前处理</strong> — 限制尺寸、调整构图后再上传服务器</li>
                         </ul>
 
                         <h3>5.3 Vue 3 中的注意事项</h3>
-                        <div role="alert" class="alert bg-warning/10 border-warning/20 shadow-sm mb-6 not-prose flex items-center gap-4">
-                            <i class="fas fa-exclamation-triangle text-warning text-2xl flex-shrink-0"></i>
-                            <div class="text-sm text-base-content/80 text-left">
-                                <p><strong>注意</strong>：<code>vue-croppie</code> 插件<strong>不支持 Vue 3</strong>，课程中直接使用原生 <code>Croppie</code> 库，通过 ref 操作 DOM 方式集成。</p>
-                            </div>
-                        </div>
-                        <p>📘 <a href="https://foliotek.github.io/Croppie/" class="link link-primary" target="_blank">Croppie 官方文档</a></p>
+                        <aside class="article-note article-note--warning" aria-label="注意事项">
+                            <span class="article-note-label">NOTICE / 注意</span>
+                            <p><code>vue-croppie</code> 插件<strong>不支持 Vue 3</strong>，课程中直接使用原生 <code>Croppie</code> 库，通过 ref 操作 DOM 方式集成。</p>
+                        </aside>
+                        <p><a href="https://foliotek.github.io/Croppie/" target="_blank">Croppie 官方文档</a></p>
 
-                        <div class="divider text-base-content/20"></div>
+                        <hr>
 
                         <h2>六、技术栈关系图</h2>
                         <pre><code class="language-plaintext">┌─────────────────────────────────────────────────────────┐
@@ -327,7 +252,7 @@ const route = useRoute()    // 当前路由信息，获取参数等</code></pre>
               │   提供语义化组件     │
               └─────────────────────┘</code></pre>
 
-                        <div class="divider text-base-content/20"></div>
+                        <hr>
 
                         <h2>七、学习路径建议</h2>
                         <p>如果你是初学者，建议按以下顺序学习：</p>
@@ -340,11 +265,11 @@ const route = useRoute()    // 当前路由信息，获取参数等</code></pre>
                             <li><strong>Croppie</strong> → 按需集成图片处理功能</li>
                         </ol>
 
-                        <div class="divider text-base-content/20"></div>
+                        <hr>
 
                         <h2>八、总结</h2>
-                        <div class="overflow-x-auto">
-                            <table class="table table-zebra">
+                        <div class="table-scroll">
+                            <table>
                                 <thead>
                                     <tr>
                                         <th>技术</th>
@@ -387,55 +312,35 @@ const route = useRoute()    // 当前路由信息，获取参数等</code></pre>
                             </table>
                         </div>
 
-                        <p class="mt-6">这套技术栈整体上偏向<strong>"少配置、快交付"</strong>：Vue 3 负责组件逻辑，Vite 负责开发与构建，Tailwind 负责样式编排，DaisyUI 负责常用界面组件。它们组合起来的好处很直接，就是能明显减少样板代码，让你更快把页面做出来。</p>
+                        <p>这套技术栈整体上偏向<strong>「少配置、快交付」</strong>：Vue 3 负责组件逻辑，Vite 负责开发与构建，Tailwind 负责样式编排，DaisyUI 负责常用界面组件。它们组合起来的好处很直接，就是能明显减少样板代码，让你更快把页面做出来。</p>
 
-                        <div role="alert" class="alert bg-success/10 border-success/20 shadow-sm mb-6 not-prose flex items-center gap-4">
-                            <i class="fas fa-rocket text-success text-2xl flex-shrink-0"></i>
-                            <div class="text-sm text-base-content/80 text-left">
-                                <p><strong>下一步</strong>：访问 <a href="https://cn.vuejs.org/guide/quick-start" class="link link-primary" target="_blank">Vue 3 官方文档</a> 开始你的第一个 Vite 项目！</p>
-                            </div>
-                        </div>
-                    </article>
+                        <aside class="article-note article-note--action" aria-label="下一步">
+                            <span class="article-note-label">NEXT / 下一步</span>
+                            <p>访问 <a href="https://cn.vuejs.org/guide/quick-start" target="_blank">Vue 3 官方文档</a>，开始你的第一个 Vite 项目。</p>
+                        </aside>
+                </article>
 
-                    <div class="mt-12 pt-8 border-t border-base-200">
-                        <a href="../index.html#blog" class="btn btn-outline btn-primary gap-2 hover:scale-105 transition-transform"><i class="fas fa-arrow-left"></i> 返回文章列表</a>
-                        <div class="mt-6 p-4 bg-base-200/50 rounded-xl text-center text-sm text-base-content/60">
-                            觉得有帮助？欢迎分享给你的朋友！
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="hidden lg:block lg:col-span-1">
-                <div class="sticky top-24">
-                     <div class="toc-content bg-base-100 rounded-2xl shadow-lg p-6 max-h-[calc(100vh-8rem)] overflow-y-auto border border-base-content/5">
-                        <h3 class="font-bold text-lg mb-4 pb-2 border-b border-base-200 flex items-center gap-2">
-                            <i class="fas fa-list-ul text-primary"></i> 文章目录
-                        </h3>
-                        <nav id="toc" class="text-sm space-y-1">
-                            <!-- TOC logic in script.js will populate this -->
-                        </nav>
-                    </div>
+                <div class="article-actions">
+                    <a class="back-link" href="../index.html#blog">← 返回文章列表</a>
+                    <p class="share-note">内容有帮助，可以把链接分享给需要的人。</p>
                 </div>
             </div>
         </div>
-    </div>
 
-    <footer class="footer footer-center p-8 bg-base-300 text-base-content border-t border-base-200 mt-auto">
-        <aside>
-            <p class="text-sm">
-                <i class="far fa-copyright"></i> 2026 JJasonSun. All Rights Reserved.
-            </p>
-            <p class="text-xs text-base-content/50 mt-2">
-                Built with <i class="fas fa-heart text-red-500"></i> using Tailwind CSS & DaisyUI
-            </p>
+        <aside class="article-toc">
+            <div class="toc-window-head">frontend-stack.html</div>
+            <div class="toc-content">
+                <h2>文章目录</h2>
+                <nav id="toc" aria-label="文章目录"></nav>
+            </div>
         </aside>
+    </main>
+
+    <footer class="page-footer">
+        <div class="page-footer-inner"><span>© 2026 J.Jason · Notes</span><a href="../index.html">返回首页</a></div>
     </footer>
 
     <script src="../js/script.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="../js/motion.js"></script>
 </body>
 </html>

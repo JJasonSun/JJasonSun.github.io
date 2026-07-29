@@ -1,195 +1,200 @@
-<!DOCTYPE html>
-<html lang="zh-CN" data-theme="light">
+<!doctype html>
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JJasonSun - 个人主页</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- 公共样式文件 -->
-    <link rel="stylesheet" href="css/common.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="J.Jason 的个人博客，记录 AI Agent、数据科学与 AI 产品原型实践。">
+    <meta name="theme-color" content="#f1e8d2">
+    <title>J.Jason Sun — AI Agent、数据科学与产品原型</title>
+    <link rel="icon" href="assets/profile.png" type="image/png">
+    <link rel="stylesheet" href="css/site.css">
 </head>
-<body class="min-h-screen bg-base-200">
+<body>
+    <header class="topline">
+        <strong>J.Jason</strong>
+        <nav aria-label="主导航">
+            <a href="#work">项目</a>
+            <a href="#blog">文章</a>
+            <a href="about.html">关于</a>
+            <a href="mailto:jiajiesun11@gmail.com">联系</a>
+        </nav>
+        <span class="place">Shanghai · ECNU</span>
+    </header>
 
-    <!-- 导航栏 -->
-    <div class="navbar bg-base-100/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-base-200">
-        <div class="navbar-start">
-            <div class="dropdown">
-                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-inner">
+                <div class="hero-label">
+                    <span>PERSONAL BLOG / ISSUE 01</span>
+                    <span>AI · DATA · PRODUCT</span>
                 </div>
-                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-lg bg-base-100 rounded-box w-52">
-                    <li><a href="#home" class="flex items-center gap-2"><i class="fas fa-home w-4"></i>首页</a></li>
-                    <li><a href="about.html" class="flex items-center gap-2"><i class="fas fa-user w-4"></i>关于我</a></li>
-                    <li><a href="#blog" class="flex items-center gap-2"><i class="fas fa-blog w-4"></i>博客</a></li>
-                    <li><a href="#contact" class="flex items-center gap-2"><i class="fas fa-envelope w-4"></i>联系方式</a></li>
-                </ul>
-            </div>
-            <a class="btn btn-ghost text-xl font-bold">
-                <span class="gradient-text">JJasonSun</span>
-            </a>
-        </div>
-        <div class="navbar-center hidden lg:flex">
-            <ul class="menu menu-horizontal px-1 font-medium gap-1">
-                <li><a href="#home" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">首页</a></li>
-                <li><a href="about.html" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">关于我</a></li>
-                <li><a href="#blog" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">博客</a></li>
-                <li><a href="#contact" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">联系方式</a></li>
-            </ul>
-        </div>
-        <div class="navbar-end">
-            <label class="swap swap-rotate btn btn-ghost btn-circle hover:bg-primary/10">
-                <input type="checkbox" class="theme-controller" value="dark" />
-                <svg class="swap-on fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"/></svg>
-                <svg class="swap-off fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/></svg>
-            </label>
-        </div>
-    </div>
 
-    <!-- Hero区域 -->
-    <div id="home" class="hero min-h-[calc(100vh-64px)] bg-gradient-to-br from-base-200 via-base-100 to-base-200">
-        <div class="hero-content text-center">
-            <div class="max-w-2xl">
-                <!-- Avatar -->
-                <div class="avatar mb-8 animate-fade-in-up">
-                    <div class="w-32 ring ring-primary ring-offset-base-100 ring-offset-4 rounded-full animate-float">
-                        <img src="assets/profile.png" alt="JJason Sun" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'bg-gradient-to-br from-primary to-secondary w-full h-full rounded-full flex items-center justify-center text-4xl text-white font-bold\'>J</div>'" />
+                <h1 class="name">J.<em>Jason</em><br>Sun</h1>
+
+                <div class="hero-layout">
+                    <div class="manifesto">
+                        <p>把模型能力，做成能被理解、验证和继续使用的产品。</p>
+                        <small>华东师范大学数据科学与工程学院硕士生。记录 AI Agent、数据科学与产品原型，也记录过程中真实发生的取舍。</small>
+                    </div>
+
+                    <div class="portrait-window">
+                        <div class="window-head">
+                            <div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
+                            <span>portrait.jpg</span>
+                            <span></span>
+                        </div>
+                        <img src="assets/profile.png" alt="J.Jason 的手绘头像">
+                        <div class="portrait-caption">
+                            <span>SHANGHAI / 2026</span>
+                            <span>CREATING SYSTEMS</span>
+                        </div>
+                    </div>
+
+                    <div class="quick-links">
+                        <p>OPEN A WINDOW</p>
+                        <a href="#work"><span>精选项目</span><span aria-hidden="true">↓</span></a>
+                        <a href="#blog"><span>最近文章</span><span aria-hidden="true">↓</span></a>
+                        <a href="https://github.com/JJasonSun"><span>GitHub</span><img src="assets/github-mark.svg" alt=""></a>
                     </div>
                 </div>
-                
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 animate-fade-in-up">
-                    你好，我是 <span class="gradient-text">JJason Sun</span>
-                </h1>
-                
-                <p class="py-4 text-lg md:text-xl text-base-content/70 animate-fade-in-up-delay-1">
-                    <i class="fas fa-graduation-cap mr-2"></i>Master Student at DaSE, ECNU
-                    <span class="mx-2">·</span>
-                    <i class="fas fa-robot mr-2"></i>Prompt Engineer
-                </p>
-                
-                <div class="py-4 animate-fade-in-up-delay-1">
-                    <div class="inline-flex items-center gap-2 px-6 py-3 bg-base-100 rounded-full shadow-lg border border-base-300">
-                        <i class="fas fa-quote-left text-primary/50"></i>
-                        <span class="font-medium italic text-base-content/80">Prompt is All You Need</span>
-                        <i class="fas fa-quote-right text-primary/50"></i>
+            </div>
+
+            <nav class="dock" aria-label="快捷导航">
+                <a href="#home" title="首页" aria-label="首页">⌂</a>
+                <a href="#work" title="项目" aria-label="项目">◇</a>
+                <a href="#blog" title="文章" aria-label="文章">✎</a>
+                <a href="mailto:jiajiesun11@gmail.com" title="发送邮件" aria-label="发送邮件">@</a>
+                <a href="https://github.com/JJasonSun" title="GitHub" aria-label="GitHub"><img src="assets/github-mark.svg" alt=""></a>
+            </nav>
+        </section>
+
+        <section class="practice-strip" aria-label="关注方向">
+            <div class="practice-inner">
+                <div class="practice">
+                    <b>01 / BUILD</b>
+                    <h2>AI Agent &amp; LLM</h2>
+                    <p>API · Workflow · Research · Generation</p>
+                </div>
+                <div class="practice">
+                    <b>02 / UNDERSTAND</b>
+                    <h2>Data Science</h2>
+                    <p>Storage · Retrieval · Ranking · Evaluation</p>
+                </div>
+                <div class="practice">
+                    <b>03 / SHAPE</b>
+                    <h2>AI Product Prototype</h2>
+                    <p>PRD · Interaction · Human in the Loop</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="projects" id="work">
+            <div class="projects-inner">
+                <div class="section-intro">
+                    <span>SELECTED WORK / 2026</span>
+                    <h2>四个项目，四种把模型放进现实的方法。</h2>
+                </div>
+
+                <a class="project-row" href="https://github.com/JJasonSun/ecnu-api">
+                    <span class="project-number">01</span>
+                    <h3 class="project-title">ecnu-api</h3>
+                    <div class="project-summary-wrap">
+                        <p class="project-summary">为 ECNU 大模型开放平台整理的社区 Agent Skill，让 API 接入知识可以被安装、查询和验证。</p>
+                        <div class="project-meta"><span>AGENT SKILL</span><span>API</span><span>DOCUMENTATION</span></div>
+                    </div>
+                    <span class="circle-open" aria-hidden="true">↗</span>
+                </a>
+
+                <a class="project-row" href="https://github.com/JJasonSun/ai-accounting-agent-prototype">
+                    <span class="project-number">02</span>
+                    <h3 class="project-title">AI 记账 Agent</h3>
+                    <div class="project-summary-wrap">
+                        <p class="project-summary">资料识别、交易匹配和凭证草稿自动执行；低置信度、高金额与异常项目回到会计手中。</p>
+                        <div class="project-meta"><span>PRODUCT</span><span>INTERACTIVE PROTOTYPE</span><span>HITL</span></div>
+                    </div>
+                    <span class="circle-open" aria-hidden="true">↗</span>
+                </a>
+
+                <a class="project-row" href="https://github.com/JJasonSun/multimodal-edu-storybook-generator">
+                    <span class="project-number">03</span>
+                    <h3 class="project-title">多模态教学资源系统</h3>
+                    <div class="project-summary-wrap">
+                        <p class="project-summary">从绘本生成到 SQLite 持久化、混合检索、重排和教师审阅的一条教育数据流水线。</p>
+                        <div class="project-meta"><span>DATA</span><span>MULTIMODAL</span><span>EDUCATION</span></div>
+                    </div>
+                    <span class="circle-open" aria-hidden="true">↗</span>
+                </a>
+
+                <a class="project-row" href="https://github.com/JJasonSun/DeepCastAgent">
+                    <span class="project-number">04</span>
+                    <h3 class="project-title">DeepCast</h3>
+                    <div class="project-summary-wrap">
+                        <p class="project-summary">输入一个主题，Agent 自动完成深度研究、报告、双人对谈脚本与语音合成。</p>
+                        <div class="project-meta"><span>DEEP RESEARCH</span><span>PODCAST</span><span>VOICE</span></div>
+                    </div>
+                    <span class="circle-open" aria-hidden="true">↗</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="writing" id="blog">
+            <div class="writing-inner">
+                <div class="writing-title">
+                    <p>RECENT NOTES</p>
+                    <h2>写下来，才算想清楚一点。</h2>
+                    <small>这里不追逐工具清单，而是梳理技术之间的分工、边界和可复用工作流。</small>
+                </div>
+
+                <div class="notes-window">
+                    <div class="window-head">
+                        <div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
+                        <span>Notes</span>
+                        <span></span>
+                    </div>
+                    <div class="notes-body">
+                        <aside class="notes-sidebar" aria-label="文章分类">
+                            <b>Folders</b>
+                            <span>最近文章</span>
+                            <span>Frontend</span>
+                            <span>Python</span>
+                        </aside>
+                        <div class="note-list" id="blog-list">
+                            <p class="empty-note">正在读取文章列表…</p>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="flex justify-center gap-4 mt-8 animate-fade-in-up-delay-2">
-                    <a href="about.html" class="btn btn-primary btn-lg shadow-lg hover:shadow-primary/25 hover:scale-105 transition-all">
-                        <i class="fas fa-user mr-2"></i>关于我
-                    </a>
-                    <a href="#contact" class="btn btn-outline btn-lg hover:scale-105 transition-all">
-                        <i class="fas fa-paper-plane mr-2"></i>联系我
-                    </a>
-                </div>
-                
-                <!-- Scroll indicator -->
-                <div class="mt-16 animate-bounce">
-                    <a href="#blog" class="text-base-content/30 hover:text-primary transition-colors">
-                        <i class="fas fa-chevron-down text-2xl"></i>
-                    </a>
-                </div>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
-    <!-- 博客预览 -->
-    <section id="blog" class="py-24 bg-base-100">
-        <div class="container mx-auto px-4 max-w-6xl">
-            <div class="text-center mb-16">
-                <span class="badge badge-primary badge-outline mb-4">BLOG</span>
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">最新文章</h2>
-                <p class="text-base-content/60 max-w-md mx-auto">分享我的学习心得、技术探索和项目经验</p>
+    <footer id="contact">
+        <div class="footer-inner">
+            <div>
+                <strong>Token is All You Need.</strong>
+                <p>J.Jason · Shanghai · 2026</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-container">
-                <!-- 文章将通过 JS 动态生成 -->
-            </div>
+            <a href="mailto:jiajiesun11@gmail.com">jiajiesun11@gmail.com ↗</a>
         </div>
-    </section>
-
-    <!-- 联系方式 -->
-    <section id="contact" class="py-24 bg-gradient-to-br from-base-300 to-base-200">
-        <div class="container mx-auto px-4 text-center max-w-4xl">
-            <span class="badge badge-primary badge-outline mb-4">CONTACT</span>
-            <h2 class="text-3xl md:text-4xl font-bold mb-6">联系我</h2>
-            <p class="mb-12 text-lg text-base-content/70 max-w-md mx-auto">
-                有合作意向或技术交流？欢迎通过以下方式联系。
-            </p>
-            
-            <div class="flex justify-center gap-6 flex-wrap">
-                <a href="https://github.com/JJasonSun" target="_blank" 
-                   class="social-icon btn btn-circle btn-lg bg-base-100 border-base-300 hover:bg-[#333] hover:text-white hover:border-[#333]">
-                    <i class="fab fa-github text-xl"></i>
-                </a>
-                <a href="mailto:jiajiesun11@gmail.com" 
-                   class="social-icon btn btn-circle btn-lg bg-base-100 border-base-300 hover:bg-primary hover:text-white hover:border-primary">
-                    <i class="fas fa-envelope text-xl"></i>
-                </a>
-                <a href="#" 
-                   class="social-icon btn btn-circle btn-lg bg-base-100 border-base-300 hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2]">
-                    <i class="fab fa-twitter text-xl"></i>
-                </a>
-                <a href="#" 
-                   class="social-icon btn btn-circle btn-lg bg-base-100 border-base-300 hover:bg-[#0077B5] hover:text-white hover:border-[#0077B5]">
-                    <i class="fab fa-linkedin-in text-xl"></i>
-                </a>
-            </div>
-            
-            <div class="mt-12 p-6 bg-base-100 rounded-2xl shadow-lg inline-block">
-                <p class="text-sm text-base-content/60 mb-2">或者直接发送邮件至</p>
-                <a href="mailto:jiajiesun11@gmail.com" class="text-primary font-medium hover:underline">
-                    jiajiesun11@gmail.com
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer footer-center p-8 bg-base-300 text-base-content border-t border-base-200">
-        <aside>
-            <p class="text-sm">
-                <i class="far fa-copyright"></i> 2026 JJasonSun. All Rights Reserved.
-            </p>
-            <p class="text-xs text-base-content/50 mt-2">
-                Built with <i class="fas fa-heart text-red-500"></i> using Tailwind CSS & DaisyUI
-            </p>
-        </aside>
     </footer>
 
-    <script src="js/blog-data.js?v=3"></script>
-    <script src="js/script.js"></script>
+    <script src="js/blog-data.js?v=4"></script>
     <script>
-        // 从静态 blogPosts 数组渲染博客文章（定义在 blog-data.js 中）
-        // 添加新文章：只需在 js/blog-data.js 中添加条目
-        (function() {
-            const blogContainer = document.getElementById('blog-container');
-            if (!blogContainer || typeof blogPosts === 'undefined') return;
+        (() => {
+            const list = document.getElementById('blog-list');
+            if (!list || typeof blogPosts === 'undefined' || !Array.isArray(blogPosts)) {
+                if (list) list.innerHTML = '<p class="empty-note">文章列表暂不可用。</p>';
+                return;
+            }
 
-            blogContainer.innerHTML = '';
-            blogPosts.forEach((post, index) => {
-                const article = document.createElement('article');
-                article.className = 'blog-card card bg-base-100 shadow-lg hover:shadow-xl border border-base-200';
-                article.style.animationDelay = `${index * 0.1}s`;
-                article.innerHTML = `
-                    <div class="card-body">
-                        <div class="flex items-center gap-2 text-xs text-base-content/50 mb-2">
-                            <i class="far fa-calendar-alt"></i>
-                            <span>${post.date || ''}</span>
-                        </div>
-                        <h2 class="card-title text-lg leading-snug hover:text-primary transition-colors">${post.title || ''}</h2>
-                        <p class="text-sm text-base-content/70 mt-2 line-clamp-3">${post.summary || ''}</p>
-                        <div class="card-actions justify-end mt-4 pt-4 border-t border-base-200">
-                            <a href="${post.link}" class="btn btn-sm btn-primary btn-outline gap-2 hover:gap-3 transition-all">
-                                阅读更多 <i class="fas fa-arrow-right text-xs"></i>
-                            </a>
-                        </div>
-                    </div>
-                `;
-                blogContainer.appendChild(article);
-            });
+            list.innerHTML = blogPosts.map((post) => `
+                <a class="note" href="${post.link}">
+                    <time>${post.date || ''}</time>
+                    <h3>${post.title || ''}</h3>
+                    <p>${post.summary || ''}</p>
+                </a>
+            `).join('');
         })();
     </script>
+    <script src="js/motion.js"></script>
 </body>
 </html>

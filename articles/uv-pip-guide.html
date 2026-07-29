@@ -1,122 +1,42 @@
-<!DOCTYPE html>
-<html lang="zh-CN" data-theme="light">
+<!doctype html>
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>使用 uv pip 管理项目环境：Python 开发新选择 - JJasonSun</title>
-    <meta name="post:meta" content='{"title":"使用 uv pip 管理项目环境：Python 开发新选择","date":"2026-01-06","summary":"uv 是一款极速的 Python 包管理工具，本文讲解如何用 uv 的 pip 接口创建 .venv、安装依赖并保持环境干净。","link":"articles/uv-pip-guide.html"}'>
-    <!-- Tailwind CSS with Typography Plugin -->
-    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Prism.js CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css">
-    
-    <!-- 公共样式文件 -->
-    <link rel="stylesheet" href="../css/common.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>使用 uv pip 管理项目环境：Python 开发新选择 - J.Jason</title>
+    <meta name="theme-color" content="#f1e8d2">
+    <link rel="icon" href="../assets/profile.png" type="image/png">
+    <link rel="stylesheet" href="../css/site.css">
 </head>
-<body class="min-h-screen bg-base-200 flex flex-col">
+<body class="inner-page article-page">
+    <header class="topline">
+        <strong><a href="../index.html">J.Jason</a></strong>
+        <nav aria-label="主导航"><a href="../index.html#work">项目</a><a href="../index.html#blog">文章</a><a href="../about.html">关于</a><a href="../index.html#contact">联系</a></nav>
+        <span class="place">NOTE / PYTHON</span>
+    </header>
 
-    <!-- 导航栏 -->
-    <div class="navbar bg-base-100/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-base-200">
-        <div class="navbar-start">
-            <div class="dropdown">
-                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-                </div>
-                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-lg bg-base-100 rounded-box w-52">
-                    <li><a href="../index.html" class="flex items-center gap-2"><i class="fas fa-home w-4"></i>首页</a></li>
-                    <li><a href="../about.html" class="flex items-center gap-2"><i class="fas fa-user w-4"></i>关于我</a></li>
-                    <li><a href="../index.html#blog" class="flex items-center gap-2"><i class="fas fa-blog w-4"></i>博客</a></li>
-                    <li><a href="../index.html#contact" class="flex items-center gap-2"><i class="fas fa-envelope w-4"></i>联系方式</a></li>
-                </ul>
-            </div>
-            <a href="../index.html" class="btn btn-ghost text-xl font-bold">
-                <span class="gradient-text">JJasonSun</span>
-            </a>
-        </div>
-        <div class="navbar-center hidden lg:flex">
-            <ul class="menu menu-horizontal px-1 font-medium gap-1">
-                <li><a href="../index.html" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">首页</a></li>
-                <li><a href="../about.html" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">关于我</a></li>
-                <li><a href="../index.html#blog" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">博客</a></li>
-                <li><a href="../index.html#contact" class="rounded-lg hover:bg-primary/10 hover:text-primary transition-all">联系方式</a></li>
-            </ul>
-        </div>
-        <div class="navbar-end">
-             <!-- Theme Controller -->
-             <label class="swap swap-rotate btn btn-ghost btn-circle hover:bg-primary/10">
-                <input type="checkbox" class="theme-controller" value="dark" />
-                <svg class="swap-on fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"/></svg>
-                <svg class="swap-off fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/></svg>
-            </label>
-        </div>
-    </div>
+    <main class="article-layout">
+        <div class="article-main">
+            <div class="article-window">
+                <nav class="breadcrumbs" aria-label="面包屑">
+                    <ul><li><a href="../index.html">首页</a></li><li><a href="../index.html#blog">文章</a></li><li>正文</li></ul>
+                </nav>
+                <header class="article-header">
+                    <h1 class="article-title">使用 uv pip 管理项目环境：<br><span class="accent">Python 开发新选择</span></h1>
+                    <div class="article-meta"><span>2026-01-06</span><span>Python 工具</span></div>
+                </header>
 
-    <!-- 主体内容 -->
-    <div class="container mx-auto px-4 py-8 flex-grow max-w-7xl animate-fade-in-up">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <!-- 左侧：文章内容 -->
-            <div class="lg:col-span-3">
-                <div class="bg-base-100 rounded-2xl shadow-xl p-8 md:p-12 mb-8 border border-base-content/5">
-                    
-                    <!-- 面包屑 -->
-                    <div class="text-sm breadcrumbs mb-6 text-base-content/60">
-                        <ul>
-                            <li><a href="../index.html" class="hover:text-primary">首页</a></li>
-                            <li><a href="../index.html#blog" class="hover:text-primary">博客</a></li>
-                            <li>正文</li>
-                        </ul>
-                    </div>
-
-                    <header class="mb-10 border-b border-base-200 pb-8">
-                        <h1 class="text-3xl md:text-4xl font-extrabold mb-6 leading-relaxed text-base-content">
-                            使用 uv pip 管理项目环境：<br>
-                            <span class="text-primary">Python 开发新选择</span>
-                        </h1>
-                        <div class="flex flex-wrap items-center gap-6 text-sm text-base-content/70">
-                            <span class="flex items-center gap-2 bg-base-200 px-3 py-1 rounded-full">
-                                <i class="far fa-calendar-alt text-primary"></i> 2026-01-06
-                            </span>
-                            <span class="flex items-center gap-2 bg-base-200 px-3 py-1 rounded-full">
-                                <i class="far fa-folder text-primary"></i> Python 工具
-                            </span>
-                        </div>
-                    </header>
-
-                    <!-- Article Content -->
-                    <article class="article-content prose prose-lg max-w-none 
-                        prose-headings:text-base-content prose-headings:font-bold prose-headings:tracking-tight
-                        prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-3 prose-h2:border-b prose-h2:border-base-300
-                        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4
-                        prose-h4:text-lg prose-h4:mt-6 prose-h4:mb-3
-                        prose-p:text-base-content/80 prose-p:leading-relaxed prose-p:my-4
-                        prose-li:text-base-content/80 prose-li:leading-relaxed prose-li:my-2
-                        prose-ul:my-6 prose-ol:my-6
-                        prose-table:my-6
-                        prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-                        prose-strong:text-base-content prose-strong:font-semibold
-                        prose-code:text-sm prose-code:bg-base-200 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
-                        prose-pre:bg-[#272822] prose-pre:p-0 prose-pre:rounded-xl prose-pre:shadow-lg prose-pre:my-6
-                        prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic">
-                        
-                        <!-- Callout Info -->
-                        <div role="alert" class="alert bg-info/10 border-info/20 shadow-sm mb-8 not-prose flex items-center gap-4">
-                            <i class="fas fa-info-circle text-info text-2xl flex-shrink-0"></i>
-                            <div class="text-sm text-base-content/80 text-left">
-                                <h3 class="font-bold text-info text-lg mb-2">核心逻辑</h3>
-                                <div>
-                                    <p class="mb-2"><strong>uv 常见有两条路：</strong></p>
-                                    <ul class="list-disc list-inside space-y-1 ml-2">
-                                        <li><strong>项目模式</strong>：用 <code>uv init</code> / <code>uv add</code> / <code>uv sync</code> 配合 <code>pyproject.toml</code> 管理依赖，适合需要打包、共享的项目。</li>
-                                        <li><strong>pip 接口</strong>：用 <code>uv pip install</code> / <code>uv pip freeze</code> / <code>uv pip sync</code> 直接操作虚拟环境，适合已经习惯 <code>pip</code> 和 <code>requirements.txt</code> 的项目。</li>
-                                    </ul>
-                                    <p class="mt-3"><code>实战里最常见的组合：.venv + requirements.txt + uv pip install / sync</code></p>
-                                </div>
-                            </div>
-                        </div>
+                <article class="article-content">
+                        <aside class="article-note article-note--summary" aria-labelledby="core-logic-title">
+                            <span class="article-note-label">CORE / 核心</span>
+                            <h3 id="core-logic-title">核心逻辑</h3>
+                            <p><strong>uv 常见有两条路：</strong></p>
+                            <ul>
+                                <li><strong>项目模式</strong>：用 <code>uv init</code> / <code>uv add</code> / <code>uv sync</code> 配合 <code>pyproject.toml</code> 管理依赖，适合需要打包、共享的项目。</li>
+                                <li><strong>pip 接口</strong>：用 <code>uv pip install</code> / <code>uv pip freeze</code> / <code>uv pip sync</code> 直接操作虚拟环境，适合已经习惯 <code>pip</code> 和 <code>requirements.txt</code> 的项目。</li>
+                            </ul>
+                            <p><code>实战里最常见的组合：.venv + requirements.txt + uv pip install / sync</code></p>
+                        </aside>
 
                         <h2>一、安装 uv</h2>
                         
@@ -134,7 +54,7 @@ uv --version</code></pre>
 
                         <h3>1.2 离线手动下载（内网 / 机器没 curl）</h3>
                         <ol>
-                            <li>在能上网的电脑打开 <a href="https://github.com/astral-sh/uv/releases/latest" target="_blank" class="link link-primary">https://github.com/astral-sh/uv/releases/latest</a>，根据系统下载对应压缩包，例如
+                            <li>在能上网的电脑打开 <a href="https://github.com/astral-sh/uv/releases/latest" target="_blank">https://github.com/astral-sh/uv/releases/latest</a>，根据系统下载对应压缩包，例如
                                 <ul>
                                     <li>Windows 10+ 64bit → <code>uv-x86_64-pc-windows-msvc.zip</code></li>
                                     <li>Linux x86_64 → <code>uv-x86_64-unknown-linux-gnu.tar.gz</code></li>
@@ -166,7 +86,7 @@ uv run python your_script.py</code></pre>
 
                         <p>如果本机已经有符合要求的 Python，uv 也会直接使用；没有的话，它会自动下载可用版本。</p>
 
-                        <div class="divider text-base-content/20"></div>
+                        <hr>
 
                         <h2>二、初始化：为项目创建 .venv 虚拟环境</h2>
                         <h3>2.1 在项目根目录</h3>
@@ -184,21 +104,17 @@ uv venv --python 3.12 new_env</code></pre>
 
                         <h3>2.2 虚拟环境的本质</h3>
                         
-                        <div role="alert" class="alert bg-warning/10 border-warning/20 shadow-sm mb-8 not-prose flex items-center gap-4">
-                            <i class="fas fa-exclamation-triangle text-warning text-2xl flex-shrink-0"></i>
-                            <div class="text-sm text-base-content/80 text-left">
-                                <div>
-                                    <p class="mb-2"><code>uv</code> 创建的是一个<strong>隔离环境</strong>：第三方包装进 <code>.venv</code>，不会写进系统 Python 的 <code>site-packages</code>。</p>
-                                    <ul class="list-disc list-inside space-y-1 ml-2">
-                                        <li>如果直接执行 <code>uv venv</code>，uv 会使用当前可用的 Python 来创建环境；如果你想固定某个版本，直接加 <code>--python 3.12</code> 会更清楚。</li>
-                                        <li>如果执行 <code>uv venv --python 3.12</code>，uv 会优先使用已安装或已管理的 3.12；如果没有，就自动下载再创建环境。</li>
-                                        <li>uv 管理的是“项目依赖 + 解释器引用”，不是把系统 Python 整个复制一份到 <code>.venv</code> 里。</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        <aside class="article-note article-note--warning" aria-label="虚拟环境说明">
+                            <span class="article-note-label">ENVIRONMENT / 环境</span>
+                            <p><code>uv</code> 创建的是一个<strong>隔离环境</strong>：第三方包装进 <code>.venv</code>，不会写进系统 Python 的 <code>site-packages</code>。</p>
+                            <ul>
+                                <li>如果直接执行 <code>uv venv</code>，uv 会使用当前可用的 Python 来创建环境；如果你想固定某个版本，直接加 <code>--python 3.12</code> 会更清楚。</li>
+                                <li>如果执行 <code>uv venv --python 3.12</code>，uv 会优先使用已安装或已管理的 3.12；如果没有，就自动下载再创建环境。</li>
+                                <li>uv 管理的是“项目依赖 + 解释器引用”，不是把系统 Python 整个复制一份到 <code>.venv</code> 里。</li>
+                            </ul>
+                        </aside>
                         
-                        <div class="divider text-base-content/20"></div>
+                        <hr>
 
                         <h2>三、安装和维护依赖（核心三件事）</h2>
                         <h3>3.1 首次安装依赖</h3>
@@ -211,18 +127,12 @@ uv pip install -r requirements.txt</code></pre>
                             <li><code>uv</code> 会自动优先使用项目里的 <code>.venv</code>，通常不需要手动激活。</li>
                         </ul>
 
-                        <div role="alert" class="alert bg-warning/10 border-warning/20 shadow-sm mb-8 not-prose flex items-center gap-4">
-                             <i class="fas fa-exclamation-triangle text-warning text-2xl flex-shrink-0"></i>
-                            <div class="text-sm text-base-content/80 text-left">
-                                <div>
-                                    <p><strong>注意：</strong><code>uv pip install</code> 只会把包装进<strong>当前虚拟环境</strong>的 <code>site-packages</code>，不会修改系统 Python 的安装目录。</p>
-                                    <p class="mt-2">也就是说：<br>
-                                    虚拟环境是项目自己的仓库<br>
-                                    系统 Python 是另一套仓库</p>
-                                    <p class="mt-1">删掉 <code>.venv</code>，项目依赖就跟着没了；系统 Python 本身不会被动到。</p>
-                                </div>
-                            </div>
-                        </div>
+                        <aside class="article-note article-note--warning" aria-label="安装范围说明">
+                            <span class="article-note-label">SCOPE / 安装范围</span>
+                            <p><code>uv pip install</code> 只会把包装进<strong>当前虚拟环境</strong>的 <code>site-packages</code>，不会修改系统 Python 的安装目录。</p>
+                            <p>换句话说：虚拟环境是项目自己的仓库，系统 Python 是另一套仓库。</p>
+                            <p>删掉 <code>.venv</code>，项目依赖就跟着没了；系统 Python 本身不会被动到。</p>
+                        </aside>
                         
                         <p>安装完成后可以测试一下：</p>
 
@@ -255,54 +165,29 @@ uv python dir --bin</code></pre>
                         <p>如果你只是想把项目目录挪到别的位置，建议把 <code>.venv</code> 也一起带上，然后在新位置先跑一次 <code>uv run</code> 或 <code>uv pip check</code> 看环境是否正常。遇到解释器路径变化时，再让 uv 重新创建或修复环境会更稳妥。</p>
 
                         <p>如果你确实需要“可重定位”的虚拟环境，可以再单独研究 <code>--relocatable</code> / <code>UV_VENV_RELOCATABLE</code>，但这不是默认行为，所以文章里我不建议把它写成通用结论。</p>
+                </article>
 
-                    </article>
-                    
-                    <div class="mt-12 pt-8 border-t border-base-200">
-                        <a href="../index.html#blog" class="btn btn-outline btn-primary gap-2 hover:scale-105 transition-transform"><i class="fas fa-arrow-left"></i> 返回文章列表</a>
-                        <div class="mt-6 p-4 bg-base-200/50 rounded-xl text-center text-sm text-base-content/60">
-                            觉得有帮助？欢迎分享给你的朋友！
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 右侧：目录 (Sticky) -->
-            <div class="hidden lg:block lg:col-span-1">
-                <div class="sticky top-24">
-                     <div class="toc-content bg-base-100 rounded-2xl shadow-lg p-6 max-h-[calc(100vh-8rem)] overflow-y-auto border border-base-content/5">
-                        <h3 class="font-bold text-lg mb-4 pb-2 border-b border-base-200 flex items-center gap-2">
-                            <i class="fas fa-list-ul text-primary"></i> 文章目录
-                        </h3>
-                        <nav id="toc" class="text-sm space-y-1">
-                            <!-- TOC logic in script.js will populate this -->
-                        </nav>
-                    </div>
+                <div class="article-actions">
+                    <a class="back-link" href="../index.html#blog">← 返回文章列表</a>
+                    <p class="share-note">内容有帮助，可以把链接分享给需要的人。</p>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Footer -->
-    <footer class="footer footer-center p-8 bg-base-300 text-base-content border-t border-base-200 mt-auto">
-        <aside>
-            <p class="text-sm">
-                <i class="far fa-copyright"></i> 2026 JJasonSun. All Rights Reserved.
-            </p>
-            <p class="text-xs text-base-content/50 mt-2">
-                Built with <i class="fas fa-heart text-red-500"></i> using Tailwind CSS & DaisyUI
-            </p>
+        <aside class="article-toc">
+            <div class="toc-window-head">uv-pip-guide.html</div>
+            <div class="toc-content">
+                <h2>文章目录</h2>
+                <nav id="toc" aria-label="文章目录"></nav>
+            </div>
         </aside>
+    </main>
+
+    <footer class="page-footer">
+        <div class="page-footer-inner"><span>© 2026 J.Jason · Notes</span><a href="../index.html">返回首页</a></div>
     </footer>
 
-    <!-- Scripts -->
-    <!-- Important: script.js might need to be robust about paths. -->
     <script src="../js/script.js"></script>
-    
-    <!-- Prism.js Autoloader -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="../js/motion.js"></script>
 </body>
 </html>

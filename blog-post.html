@@ -1,69 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文章阅读 - JJasonSun</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- 引入 marked.js 用于解析 Markdown -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="J.Jason 的技术文章归档。">
+    <meta name="theme-color" content="#f1e8d2">
+    <title>文章归档 — J.Jason</title>
+    <link rel="icon" href="assets/profile.png" type="image/png">
+    <link rel="stylesheet" href="css/site.css">
 </head>
-<body>
-    <!-- 导航栏 -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">JJasonSun</a>
-            <ul class="nav-links">
-                <li><a href="index.html#home">首页</a></li>
-                <li><a href="index.html#about">关于我</a></li>
-                <li><a href="index.html#blog">博客</a></li>
-                <li><a href="index.html#contact">联系方式</a></li>
-                <li><button id="theme-toggle" class="theme-btn"><i class="fas fa-adjust"></i></button></li>
-            </ul>
-            <div class="hamburger">
-                <i class="fas fa-bars"></i>
+<body class="inner-page">
+    <header class="topline">
+        <strong><a href="index.html">J.Jason</a></strong>
+        <nav aria-label="主导航">
+            <a href="index.html#work">项目</a>
+            <a href="index.html#blog">文章</a>
+            <a href="about.html">关于</a>
+            <a href="index.html#contact">联系</a>
+        </nav>
+        <span class="place">NOTES / ARCHIVE</span>
+    </header>
+
+    <main class="archive">
+        <div class="archive-inner">
+            <span class="page-label">ALL NOTES</span>
+            <h1 class="archive-heading">把工具放回问题里，再把判断<em>写下来</em>。</h1>
+            <div class="archive-list" id="archive-list">
+                <p class="empty-note">正在读取文章列表…</p>
             </div>
         </div>
-    </nav>
+    </main>
 
-    <div class="container">
-        <article class="blog-content" id="article-content">
-            <a href="index.html#blog" class="back-link"><i class="fas fa-arrow-left"></i> 返回文章列表</a>
-            <div id="markdown-render">正在加载文章...</div>
-        </article>
-    </div>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 JJasonSun. All Rights Reserved.</p>
-        </div>
+    <footer class="page-footer">
+        <div class="page-footer-inner"><span>© 2026 J.Jason · Notes</span><a href="index.html">返回首页</a></div>
     </footer>
 
-    <script src="js/script.js"></script>
+    <script src="js/blog-data.js?v=4"></script>
     <script>
-        // 获取 URL 参数中的文章路径
-        const urlParams = new URLSearchParams(window.location.search);
-        const postFile = urlParams.get('post');
+        (() => {
+            const list = document.getElementById('archive-list');
+            if (!list || typeof blogPosts === 'undefined' || !Array.isArray(blogPosts)) {
+                if (list) list.innerHTML = '<p class="empty-note">文章列表暂不可用。</p>';
+                return;
+            }
 
-        if (postFile) {
-            fetch(`posts/${postFile}`)
-                .then(response => {
-                    if (!response.ok) throw new Error('文章未找到');
-                    return response.text();
-                })
-                .then(text => {
-                    document.getElementById('markdown-render').innerHTML = marked.parse(text);
-                    // 简单的代码高亮处理（如果需要更高级的可以使用 highlight.js）
-                    document.title = postFile.replace('.md', '') + " - JJasonSun";
-                })
-                .catch(err => {
-                    document.getElementById('markdown-render').innerHTML = `<p style="color:red">加载文章失败: ${err.message}</p>`;
-                });
-        } else {
-            document.getElementById('markdown-render').innerHTML = '<p>未指定文章。</p>';
-        }
+            list.innerHTML = blogPosts.map((post) => `
+                <a class="archive-item" href="${post.link}">
+                    <time>${post.date || ''}</time>
+                    <div><h2>${post.title || ''}</h2><p>${post.summary || ''}</p></div>
+                    <span class="circle-open" aria-hidden="true">↗</span>
+                </a>
+            `).join('');
+        })();
     </script>
+    <script src="js/motion.js"></script>
 </body>
 </html>

@@ -3,188 +3,41 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="J.Jason 的个人博客，记录 AI Agent、数据科学与 AI 产品原型实践。">
-    <meta name="theme-color" content="#f1e8d2">
-    <title>J.Jason Sun — AI Agent、数据科学与产品原型</title>
+    <meta name="description" content="J.Jason Sun 的个人网站，记录 AI、数据科学和日常技术问题。">
+    <meta name="theme-color" content="#e6e0d2">
+    <title>J.Jason Sun — 文章与记录</title>
     <link rel="icon" href="assets/profile.png" type="image/png">
-    <link rel="stylesheet" href="css/site.css">
+    <link rel="preload" href="assets/fonts/anton.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="stylesheet" href="css/home.css">
+    <script src="js/blog-data.js" defer></script>
+    <script src="js/home.js" defer></script>
 </head>
 <body>
-    <header class="topline">
-        <strong>J.Jason</strong>
-        <nav aria-label="主导航">
-            <a href="#work">项目</a>
-            <a href="#blog">文章</a>
-            <a href="about.html">关于</a>
-            <a href="mailto:jiajiesun11@gmail.com">联系</a>
-        </nav>
-        <span class="place">Shanghai · ECNU</span>
+    <a class="skip-link" href="#main">跳到正文</a>
+    <header class="site-header">
+        <a class="wordmark" href="index.html" aria-label="J.Jason 首页">J.Jason</a>
+        <nav aria-label="主导航"><a href="#blog">文章</a><a href="about.html">关于</a><a href="#contact">联系</a></nav>
     </header>
-
-    <main>
-        <section class="hero" id="home">
-            <div class="hero-inner">
-                <div class="hero-label">
-                    <span>PERSONAL BLOG / ISSUE 01</span>
-                    <span>AI · DATA · PRODUCT</span>
-                </div>
-
-                <h1 class="name">J.<em>Jason</em><br>Sun</h1>
-
-                <div class="hero-layout">
-                    <div class="manifesto">
-                        <p>把模型能力，做成能被理解、验证和继续使用的产品。</p>
-                        <small>华东师范大学数据科学与工程学院硕士生。记录 AI Agent、数据科学与产品原型，也记录过程中真实发生的取舍。</small>
-                    </div>
-
-                    <div class="portrait-window">
-                        <div class="window-head">
-                            <div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
-                            <span>portrait.jpg</span>
-                            <span></span>
-                        </div>
-                        <img src="assets/profile.png" alt="J.Jason 的手绘头像">
-                        <div class="portrait-caption">
-                            <span>SHANGHAI / 2026</span>
-                            <span>CREATING SYSTEMS</span>
-                        </div>
-                    </div>
-
-                    <div class="quick-links">
-                        <p>OPEN A WINDOW</p>
-                        <a href="#work"><span>精选项目</span><span aria-hidden="true">↓</span></a>
-                        <a href="#blog"><span>最近文章</span><span aria-hidden="true">↓</span></a>
-                        <a href="https://github.com/JJasonSun"><span>GitHub</span><img src="assets/github-mark.svg" alt=""></a>
-                    </div>
-                </div>
-            </div>
-
-            <nav class="dock" aria-label="快捷导航">
-                <a href="#home" title="首页" aria-label="首页">⌂</a>
-                <a href="#work" title="项目" aria-label="项目">◇</a>
-                <a href="#blog" title="文章" aria-label="文章">✎</a>
-                <a href="mailto:jiajiesun11@gmail.com" title="发送邮件" aria-label="发送邮件">@</a>
-                <a href="https://github.com/JJasonSun" title="GitHub" aria-label="GitHub"><img src="assets/github-mark.svg" alt=""></a>
-            </nav>
-        </section>
-
-        <section class="practice-strip" aria-label="关注方向">
-            <div class="practice-inner">
-                <div class="practice">
-                    <b>01 / BUILD</b>
-                    <h2>AI Agent &amp; LLM</h2>
-                    <p>API · Workflow · Research · Generation</p>
-                </div>
-                <div class="practice">
-                    <b>02 / UNDERSTAND</b>
-                    <h2>Data Science</h2>
-                    <p>Storage · Retrieval · Ranking · Evaluation</p>
-                </div>
-                <div class="practice">
-                    <b>03 / SHAPE</b>
-                    <h2>AI Product Prototype</h2>
-                    <p>PRD · Interaction · Human in the Loop</p>
-                </div>
+    <main id="main">
+        <section class="hero" aria-labelledby="hero-title">
+            <h1 id="hero-title"><span class="name-line"><span>J.JASON</span></span> <span class="name-line"><span>SUN</span></span></h1>
+            <div class="hero-bottom">
+                <p class="hero-intro">记录 AI、数据科学，<br>和日常遇到的技术问题。</p>
+                <a class="button" href="#blog">阅读文章 <span aria-hidden="true">↘</span></a>
             </div>
         </section>
-
-        <section class="projects" id="work">
-            <div class="projects-inner">
-                <div class="section-intro">
-                    <span>SELECTED WORK / 2026</span>
-                    <h2>三个项目，三种把模型放进现实的方法。</h2>
-                </div>
-
-                <a class="project-row" href="https://github.com/JJasonSun/ecnu-api">
-                    <span class="project-number">01</span>
-                    <h3 class="project-title">ecnu-api</h3>
-                    <div class="project-summary-wrap">
-                        <p class="project-summary">为 ECNU 大模型开放平台整理的社区 Agent Skill，让 API 接入知识可以被安装、查询和验证。</p>
-                        <div class="project-meta"><span>AGENT SKILL</span><span>API</span><span>DOCUMENTATION</span></div>
-                    </div>
-                    <span class="circle-open" aria-hidden="true">↗</span>
-                </a>
-
-                <a class="project-row" href="https://github.com/JJasonSun/ai-accounting-agent-prototype">
-                    <span class="project-number">02</span>
-                    <h3 class="project-title">AI 记账 Agent</h3>
-                    <div class="project-summary-wrap">
-                        <p class="project-summary">资料识别、交易匹配和凭证草稿自动执行；低置信度、高金额与异常项目回到会计手中。</p>
-                        <div class="project-meta"><span>PRODUCT</span><span>INTERACTIVE PROTOTYPE</span><span>HITL</span></div>
-                    </div>
-                    <span class="circle-open" aria-hidden="true">↗</span>
-                </a>
-
-                <a class="project-row" href="https://github.com/JJasonSun/DeepCastAgent">
-                    <span class="project-number">03</span>
-                    <h3 class="project-title">DeepCast</h3>
-                    <div class="project-summary-wrap">
-                        <p class="project-summary">输入一个主题，Agent 自动完成深度研究、报告、双人对谈脚本与语音合成。</p>
-                        <div class="project-meta"><span>DEEP RESEARCH</span><span>PODCAST</span><span>VOICE</span></div>
-                    </div>
-                    <span class="circle-open" aria-hidden="true">↗</span>
-                </a>
-            </div>
-        </section>
-
-        <section class="writing" id="blog">
-            <div class="writing-inner">
-                <div class="writing-title">
-                    <p>RECENT NOTES</p>
-                    <h2>写下来，才算想清楚一点。</h2>
-                    <small>这里不追逐工具清单，而是梳理技术之间的分工、边界和可复用工作流。</small>
-                </div>
-
-                <div class="notes-window">
-                    <div class="window-head">
-                        <div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
-                        <span>Notes</span>
-                        <span></span>
-                    </div>
-                    <div class="notes-body">
-                        <aside class="notes-sidebar" aria-label="文章分类">
-                            <b>Folders</b>
-                            <span>最近文章</span>
-                            <span>Frontend</span>
-                            <span>Python</span>
-                        </aside>
-                        <div class="note-list" id="blog-list">
-                            <p class="empty-note">正在读取文章列表…</p>
-                        </div>
-                    </div>
-                </div>
+        <section class="writing-section" id="blog" aria-labelledby="writing-title">
+            <h2 id="writing-title" data-reveal>文章</h2>
+            <div class="writing-list" id="blog-list">
+                <a class="writing-item" href="articles/macos-apple-account-passkey.html"><p class="note-title">macOS：修改 Apple 账户通行密钥显示的旧邮箱</p></a>
+                <a class="writing-item" href="articles/frontend-stack.html"><p class="note-title">现代前端技术栈入门指南：Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI</p></a>
+                <a class="writing-item" href="articles/uv-pip-guide.html"><p class="note-title">使用 uv pip 管理项目环境：Python 开发新选择</p></a>
             </div>
         </section>
     </main>
-
-    <footer id="contact">
-        <div class="footer-inner">
-            <div>
-                <strong>Token is All You Need.</strong>
-                <p>J.Jason · Shanghai · 2026</p>
-            </div>
-            <a href="mailto:jiajiesun11@gmail.com">jiajiesun11@gmail.com ↗</a>
-        </div>
+    <footer class="site-footer" id="contact">
+        <div class="footer-intro"><p>关于文章，或一个值得讨论的问题。</p><a class="email-link" href="mailto:jiajiesun11@gmail.com">jiajiesun11@gmail.com</a></div>
+        <div class="footer-bottom"><span>© 2026 J.Jason Sun</span><a href="#main">回到顶部</a></div>
     </footer>
-
-    <script src="js/blog-data.js?v=4"></script>
-    <script>
-        (() => {
-            const list = document.getElementById('blog-list');
-            if (!list || typeof blogPosts === 'undefined' || !Array.isArray(blogPosts)) {
-                if (list) list.innerHTML = '<p class="empty-note">文章列表暂不可用。</p>';
-                return;
-            }
-
-            list.innerHTML = blogPosts.map((post) => `
-                <a class="note" href="${post.link}">
-                    <time>${post.date || ''}</time>
-                    <h3>${post.title || ''}</h3>
-                    <p>${post.summary || ''}</p>
-                </a>
-            `).join('');
-        })();
-    </script>
-    <script src="js/motion.js"></script>
 </body>
 </html>

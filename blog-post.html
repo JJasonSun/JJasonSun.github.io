@@ -3,56 +3,33 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="J.Jason 的技术文章归档。">
-    <meta name="theme-color" content="#f1e8d2">
-    <title>文章归档 — J.Jason</title>
+    <meta name="theme-color" content="#e6e0d2">
     <link rel="icon" href="assets/profile.png" type="image/png">
-    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/home.css">
+    <script src="js/blog-data.js" defer></script>
+    <script src="js/home.js" defer></script>
+    <meta name="description" content="J.Jason 的技术文章：macOS、前端与 Python 工具实践。">
+    <title>文章归档 — J.Jason Sun</title>
 </head>
-<body class="inner-page">
-    <header class="topline">
-        <strong><a href="index.html">J.Jason</a></strong>
-        <nav aria-label="主导航">
-            <a href="index.html#work">项目</a>
-            <a href="index.html#blog">文章</a>
-            <a href="about.html">关于</a>
-            <a href="index.html#contact">联系</a>
-        </nav>
-        <span class="place">NOTES / ARCHIVE</span>
+<body>
+    <a class="skip-link" href="#main">跳到正文</a>
+    <header class="site-header">
+        <a class="wordmark" href="index.html" aria-label="J.Jason 首页">J.Jason</a>
+        <nav aria-label="主导航"><a href="index.html#blog">文章</a><a href="about.html">关于</a><a href="#contact">联系</a></nav>
     </header>
-
-    <main class="archive">
-        <div class="archive-inner">
-            <span class="page-label">ALL NOTES</span>
-            <h1 class="archive-heading">把工具放回问题里，再把判断<em>写下来</em>。</h1>
-            <div class="archive-list" id="archive-list">
-                <p class="empty-note">正在读取文章列表…</p>
+    <main id="main">
+        <header class="page-heading"><h1 data-reveal>文章归档</h1><p data-reveal>工具怎么用，问题怎么解。</p></header>
+        <section class="archive-main" aria-label="全部文章">
+            <div class="writing-list" data-article-list>
+                <a class="writing-item" href="articles/macos-apple-account-passkey.html"><p class="note-title">macOS：修改 Apple 账户通行密钥显示的旧邮箱</p></a>
+                <a class="writing-item" href="articles/frontend-stack.html"><p class="note-title">现代前端技术栈入门指南：Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI</p></a>
+                <a class="writing-item" href="articles/uv-pip-guide.html"><p class="note-title">使用 uv pip 管理项目环境：Python 开发新选择</p></a>
             </div>
-        </div>
+        </section>
     </main>
-
-    <footer class="page-footer">
-        <div class="page-footer-inner"><span>© 2026 J.Jason · Notes</span><a href="index.html">返回首页</a></div>
+    <footer class="site-footer" id="contact">
+        <div class="footer-intro"><p>关于文章，或一个值得讨论的问题。</p><a class="email-link" href="mailto:jiajiesun11@gmail.com">jiajiesun11@gmail.com</a></div>
+        <div class="footer-bottom"><span>© 2026 J.Jason Sun</span><a href="#main">回到顶部</a></div>
     </footer>
-
-    <script src="js/blog-data.js?v=4"></script>
-    <script>
-        (() => {
-            const list = document.getElementById('archive-list');
-            if (!list || typeof blogPosts === 'undefined' || !Array.isArray(blogPosts)) {
-                if (list) list.innerHTML = '<p class="empty-note">文章列表暂不可用。</p>';
-                return;
-            }
-
-            list.innerHTML = blogPosts.map((post) => `
-                <a class="archive-item" href="${post.link}">
-                    <time>${post.date || ''}</time>
-                    <div><h2>${post.title || ''}</h2><p>${post.summary || ''}</p></div>
-                    <span class="circle-open" aria-hidden="true">↗</span>
-                </a>
-            `).join('');
-        })();
-    </script>
-    <script src="js/motion.js"></script>
 </body>
 </html>

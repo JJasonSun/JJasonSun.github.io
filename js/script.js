@@ -123,14 +123,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tocPanel) {
         tocPanel.hidden = false;
         tocPanel.open = !window.matchMedia('(max-width: 900px)').matches;
+        const chevron = document.createElement('span');
+        chevron.className = 'toc-chevron';
+        chevron.textContent = '▸';
+        chevron.setAttribute('aria-hidden', 'true');
+        tocPanel.querySelector('summary').prepend(chevron);
     }
 
     const links = [...toc.querySelectorAll('a')];
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let activeLink;
     const activate = (id) => {
         links.forEach((link) => {
             const active = link.getAttribute('href') === `#${id}`;
             link.classList.toggle('active', active);
-            if (active) link.setAttribute('aria-current', 'location');
+            if (active) {
+                if (activeLink && activeLink !== link && !reduceMotion.matches) {
+                    link.animate([
+                        { opacity: .8, transform: 'translateX(-4px)' },
+                        { opacity: 1, transform: 'none' }
+                    ], { duration: 220, easing: 'cubic-bezier(.22, 1, .36, 1)' });
+                }
+                activeLink = link;
+                link.setAttribute('aria-current', 'location');
+            }
             else link.removeAttribute('aria-current');
         });
     };

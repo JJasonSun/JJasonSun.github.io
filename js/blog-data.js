@@ -1,5 +1,11 @@
 const blogPosts = [
     {
+        title: "macOS：修改 Apple 账户通行密钥显示的旧邮箱",
+        date: "2026-10-15",
+        summary: "实测通过 AuthKit StandardPasskeys 显示 Apple 账户通行密钥、修改旧邮箱，记录必须重启的步骤、社区来源和撤销方法。",
+        link: "articles/macos-apple-account-passkey.html"
+    },
+    {
         title: "现代前端技术栈入门指南：Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI",
         date: "2026-01-27",
         summary: "面向入门者梳理 Vue 3、Vite、Vue Router、Tailwind CSS 和 DaisyUI 的分工、关系与学习顺序。",

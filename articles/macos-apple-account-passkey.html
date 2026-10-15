@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>macOS：修改 Apple 账户通行密钥显示的旧邮箱 - J.Jason</title>
+    <meta name="theme-color" content="#f1e8d2">
+    <link rel="icon" href="../assets/profile.png" type="image/png">
+    <link rel="stylesheet" href="../css/site.css">
+</head>
+<body class="inner-page article-page">
+    <header class="topline">
+        <strong><a href="../index.html">J.Jason</a></strong>
+        <nav aria-label="主导航"><a href="../index.html#work">项目</a><a href="../index.html#blog">文章</a><a href="../about.html">关于</a><a href="../index.html#contact">联系</a></nav>
+        <span class="place">NOTE / MACOS</span>
+    </header>
+
+    <main class="article-layout">
+        <div class="article-main">
+            <div class="article-window">
+                <nav class="breadcrumbs" aria-label="面包屑">
+                    <ul><li><a href="../index.html">首页</a></li><li><a href="../index.html#blog">文章</a></li><li>正文</li></ul>
+                </nav>
+                <header class="article-header">
+                    <h1 class="article-title">macOS：修改 Apple 账户通行密钥<br><span class="accent">显示的旧邮箱</span></h1>
+                    <div class="article-meta"><span>2026-10-15</span><span>macOS · 通行密钥</span></div>
+                </header>
+
+                <article class="article-content">
+<h2>问题与实测结果</h2>
+<p>Apple 账户已改用新邮箱作为主要邮箱，旧邮箱已移除。但在 Chrome 登录 Apple 网站、调用 Apple「密码」中的通行密钥时，弹窗仍显示旧邮箱，且「密码」App 中找不到这条 Apple 账户通行密钥。</p>
+<p><strong>实测验证：启用 <code>AuthKit → StandardPasskeys</code> 后，以下方法有效，而且必须重启 Mac 才能生效。</strong> 不保证其他 macOS 版本或设备同样适用。</p>
+<h2>社区反馈与方案来源</h2>
+<ul>
+<li><strong>问题反馈：</strong> <a href="https://www.reddit.com/r/MacOS/comments/1whuik2/you_can_finally_manage_your_apple_account_passkey/">Reddit r/MacOS 的方案帖</a>提到，Apple 账户更换邮箱后，通行密钥仍可能显示旧地址。相关讨论另见 <a href="https://discussions.apple.com/thread/256223803">Apple 支持社区</a>。</li>
+<li><strong>显示名称的含义：</strong> Apple 在 <a href="https://developer.apple.com/videos/play/wwdc2025/279/">WWDC25《What’s new in passkeys》</a>中说明，通行密钥的用户名是本地显示标签，认证时不会回传服务器。因此，仅显示旧邮箱不能证明旧邮箱仍是账户登录标识。</li>
+<li><strong>解决方案：</strong> 上述 Reddit 方案帖给出了启用 <code>AuthKit → StandardPasskeys</code>、重启、编辑用户名及撤销开关的方法，标注适用于 macOS 27；另有 <a href="https://www.reddit.com/r/MacOSBeta/comments/1v7gpjc/macos_27_will_finally_allow_you_to_manage_your/">r/MacOSBeta 讨论</a>。这是社区发现的实验性方法，并非 Apple 官方公开支持的修复流程。未确认 macOS 26 的适用性。</li>
+</ul>
+<h2>1. 启用功能开关</h2>
+<p>打开「终端」，执行：</p>
+<pre><code class="language-bash">sudo mkdir -p /Library/Preferences/FeatureFlags/Domain
+sudo defaults write /Library/Preferences/FeatureFlags/Domain/AuthKit StandardPasskeys -dict Enabled -bool true
+</code></pre>
+<p>按提示输入 Mac 管理员密码，输入时终端不会显示字符。</p>
+<p><strong>执行成功后，必须重启 Mac。仅退出并重新打开「密码」App 不能替代重启。</strong></p>
+<h2>2. 在「密码」App 修改用户名</h2>
+<p>重启后：</p>
+<ol>
+<li>打开 Apple「密码」（Passwords）App，并解锁。</li>
+<li>进入「通行密钥」（Passkeys），搜索 <code>apple.com</code>，找到对应的 Apple 账户条目。</li>
+<li>打开条目，点击「编辑」。</li>
+<li>将「用户名」中的旧邮箱改为新邮箱，保存。</li>
+</ol>
+<p>如果条目仍未出现，社区方案建议在 Safari 打开 <a href="https://account.apple.com">Apple 账户网站</a>，使用通行密钥登录一次，再重新检查「密码」App。</p>
+<p>这里修改的是通行密钥条目中的用户名；Apple 账户主要邮箱应已提前完成变更。无需删除通行密钥或退出 iCloud。</p>
+<h2>3. 在 Chrome 验证</h2>
+<ol>
+<li>用 Chrome 打开 <a href="https://account.apple.com">account.apple.com</a>。</li>
+<li>如当前已登录，先退出网站账户，再发起通行密钥登录。</li>
+<li>确认 Apple「密码」的通行密钥选择或确认弹窗显示新邮箱，并确认能正常登录。</li>
+</ol>
+<h2>4. 撤销功能开关</h2>
+<p>在「终端」执行：</p>
+<pre><code class="language-bash">sudo defaults delete /Library/Preferences/FeatureFlags/Domain/AuthKit StandardPasskeys
+</code></pre>
+<p><strong>执行成功后，再次重启 Mac。</strong></p>
+<p>这条命令仅移除 <code>StandardPasskeys</code> 覆盖项，不会把已编辑的用户名改回旧邮箱。若此前已自行配置过同名开关，应恢复原值，而非直接删除。撤销后的条目显示与登录行为需重新验证。</p>
+<h2>注意事项</h2>
+<ul>
+<li>这是实验性的系统功能开关，不属于 Apple 官方公开支持的修复流程；系统更新后可能失效或改变行为。</li>
+<li>只编辑确认属于自己 Apple 账户的条目，不删除通行密钥，不改动其他系统开关。</li>
+<li>Reddit 方案帖称，用户名修改可同步到其他 Apple 设备；此项属于社区反馈，不包含在上述实测结论中。</li>
+</ul>
+                </article>
+
+                <div class="article-actions">
+                    <a class="back-link" href="../index.html#blog">← 返回文章列表</a>
+                    <p class="share-note">内容有帮助，可以把链接分享给需要的人。</p>
+                </div>
+            </div>
+        </div>
+
+        <aside class="article-toc">
+            <div class="toc-window-head">macos-apple-account-passkey.html</div>
+            <div class="toc-content">
+                <h2>文章目录</h2>
+                <nav id="toc" aria-label="文章目录"></nav>
+            </div>
+        </aside>
+    </main>
+
+    <footer class="page-footer">
+        <div class="page-footer-inner"><span>© 2026 J.Jason · Notes</span><a href="../index.html">返回首页</a></div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/motion.js"></script>
+</body>
+</html>

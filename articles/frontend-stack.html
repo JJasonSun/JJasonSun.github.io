@@ -3,8 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="从页面、状态、导航和样式的需求理解 Vue 3 技术栈，完整配置 Vite、Tailwind CSS 与 daisyUI，并验证运行和构建。">
     <meta name="theme-color" content="#e6e0d2">
-    <title>现代前端技术栈入门指南：Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI - J.Jason</title>
+    <title>Vue 3 技术栈：从分工到跑通一个页面 - J.Jason</title>
     <link rel="icon" href="../assets/profile.png" type="image/png">
     <link rel="stylesheet" href="../css/site.css?v=20261015-toc">
     <script src="../js/script.js?v=20261015-toc" defer></script>
@@ -17,8 +18,8 @@
     </header>
     <main id="main" class="reader">
         <header class="article-header">
-            <h1 class="article-title">现代前端技术栈入门指南：Vue 3 + Vite + Vue Router + Tailwind CSS + DaisyUI</h1>
-            <div class="article-meta"><span>2026-01-27</span><span>前端入门</span></div>
+            <h1 class="article-title">Vue 3 技术栈：从分工到跑通一个页面</h1>
+            <div class="article-meta"><span>发布于 <time datetime="2026-01-27">2026-01-27</time></span><span>更新于 <time datetime="2026-10-15">2026-10-15</time></span><span>前端入门</span></div>
         </header>
         <div class="article-layout">
             <details class="article-toc" open hidden>
@@ -27,297 +28,124 @@
             </details>
             <div class="article-main">
                 <article class="article-content">
-<h2>一、核心框架：Vue 3</h2>
+                    <p>浏览器用 HTML 描述内容，用 CSS 控制外观，用 JavaScript 处理交互。页面变复杂后，需要把界面拆成组件、维护状态，再处理不同地址之间的导航。前端工具的价值，就在于帮助开发者管理这些工作。</p>
+                    <p>下面从这些需求出发，说明 Vue 3、Vite、Vue Router、Tailwind CSS 和 daisyUI 的分工，再搭建一个包含计数按钮和页面导航的小应用。</p>
 
-                        <h3>1.1 什么是 Vue 3？</h3>
-                        <p>Vue 3 是 Vue.js 的当前主力版本之一，也是这套技术栈的核心。它负责组织<strong>组件结构</strong>、<strong>响应式状态</strong>和<strong>页面交互逻辑</strong>。</p>
+                    <h2 id="tool-responsibilities">各个工具解决什么问题</h2>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>需求</th><th>工具</th><th>负责的工作</th></tr></thead>
+                            <tbody>
+                                <tr><td>数据变化后更新界面</td><td>Vue 3</td><td>组织组件、跟踪响应式状态、处理事件</td></tr>
+                                <tr><td>开发和发布代码</td><td>Vite</td><td>启动开发服务器、转换源码、生成生产构建</td></tr>
+                                <tr><td>通过地址访问不同页面</td><td>Vue Router</td><td>把 URL 映射到组件，处理前进、后退和导航</td></tr>
+                                <tr><td>编排布局与视觉样式</td><td>Tailwind CSS</td><td>提供间距、颜色、布局等工具类，减少手写 CSS</td></tr>
+                                <tr><td>复用按钮等常见外观</td><td>daisyUI</td><td>在 Tailwind 基础上提供组件类和主题</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>这些工具围绕同一个应用协作。Vue Router 与样式系统各自独立；在下面的构建方案中，daisyUI 作为 Tailwind 插件使用。Vite 则在开发和构建阶段处理这些源码。</p>
+                    <p>静态介绍页可以直接使用 HTML 和 CSS；只有一个交互区域时，也可以先只用 Vue。需要多个可访问的页面地址时，再加入路由。工具是否必要，取决于页面要完成的功能。</p>
+                    <p>Vite 开发时按需处理源文件，也会预打包依赖。热更新能保留部分应用状态，遇到无法局部更新的改动时仍会重载页面。</p>
 
-                        <h3>1.2 核心特点</h3>
-                        <div class="table-scroll">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>特性</th>
-                                        <th>说明</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>Composition API</strong></td>
-                                        <td>按业务逻辑组织代码，更适合复用和拆分复杂页面</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>更好的 TypeScript 支持</strong></td>
-                                        <td>和 TS 结合更自然，组件和组合式函数都更容易写出清晰类型</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>更高性能</strong></td>
-                                        <td>基于 Proxy 的响应式系统，更新更精准，整体开销更低</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <h2 id="create-project">创建 Vue 与路由项目</h2>
+                    <p>先安装 <a href="https://nodejs.org/en/download" target="_blank" rel="noopener noreferrer">Node.js 24 LTS</a> 的较新版本，至少 24.12。脚手架对 Node.js 的完整要求见 <a href="https://vuejs.org/guide/quick-start.html" target="_blank" rel="noopener noreferrer">Vue 官方快速开始</a>。在准备存放项目的目录执行：</p>
+                    <pre><code class="language-bash">npm create vue@latest my-vue-app -- --router
+cd my-vue-app
+npm install</code></pre>
+                    <p><code>--router</code> 会让 Vue 官方脚手架加入路由、首页和关于页。这个例子使用 JavaScript，保留脚手架生成的 <code>src/main.js</code> 和 <code>src/router/index.js</code>。</p>
+                    <p>截至 2026 年 10 月，当前脚手架使用 Vue Router 5。旧教程中的 Vue Router 4 也支持 Vue 3；对于手写路由配置，官方说明从 4 升级到 5 没有破坏性变化，详见 <a href="https://router.vuejs.org/guide/migration/v4-to-v5" target="_blank" rel="noopener noreferrer">迁移说明</a>。</p>
 
-                        <h3>1.3 学习资源</h3>
-                        <p><a href="https://cn.vuejs.org/guide/quick-start" target="_blank">Vue 3 官方中文文档</a> — 最权威的学习指南，包含从安装到进阶的完整教程</p>
+                    <h2 id="configure-styles">接入 Tailwind 与 daisyUI</h2>
+                    <p>下面使用 Tailwind CSS 4 和 daisyUI 5，配置方式与 Tailwind 3 的旧教程不同。在项目目录安装：</p>
+                    <pre><code class="language-bash">npm install -D tailwindcss@4 @tailwindcss/vite@4 daisyui@5</code></pre>
+                    <p>在 <code>vite.config.js</code> 中导入并启用 Tailwind 插件。保留 Vue 插件、开发工具插件和路径别名，完整配置如下：</p>
+                    <pre><code class="language-javascript">import { fileURLToPath, URL } from 'node:url'
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import vueDevTools from 'vite-plugin-vue-devtools'
+import tailwindcss from '@tailwindcss/vite'
 
-                        <hr>
+export default defineConfig({
+  plugins: [vue(), vueDevTools(), tailwindcss()],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
+})</code></pre>
+                    <p>将 <code>src/assets/main.css</code> 的内容替换为：</p>
+                    <pre><code class="language-css">@import "tailwindcss";
+@plugin "daisyui";</code></pre>
+                    <p>脚手架已在 <code>src/main.js</code> 中导入这个 CSS 文件，保留该导入。至此，安装依赖、启用构建插件、引入样式三个环节才完整。</p>
+                    <p>Tailwind 的 <code>p-6</code>、<code>flex</code> 等类处理具体样式；daisyUI 的 <code>btn</code>、<code>btn-primary</code> 等类组合出按钮外观。项目仍然有 CSS 入口，也可以继续编写自定义 CSS。daisyUI 提供样式，点击后执行什么操作仍由 Vue 或原生 HTML 行为决定。</p>
 
-                        <h2>二、构建工具：Vite</h2>
+                    <h2 id="connect-state-and-navigation">连接状态与页面导航</h2>
+                    <p>将 <code>src/App.vue</code> 替换为下面的内容。<code>RouterLink</code> 负责导航，<code>RouterView</code> 显示当前地址匹配到的页面：</p>
+                    <pre><code class="language-vue">&lt;script setup&gt;
+import { RouterLink, RouterView } from 'vue-router'
+&lt;/script&gt;
 
-                        <h3>2.1 为什么选择 Vite？</h3>
-                        <p>Vite 是现代前端构建工具，常被用来作为 Vue 项目的默认选择。它把开发体验和生产构建分开处理，重点解决<strong>启动慢</strong>、<strong>热更新慢</strong>这两个老问题：</p>
-                        <ul>
-                            <li><strong>秒级冷启动</strong> — 利用浏览器原生 ES 模块，无需打包即可运行</li>
-                            <li><strong>瞬时热更新（HMR）</strong> — 修改代码后页面即时响应，不刷新状态</li>
-                            <li><strong>优化的生产构建</strong> — 输出适合部署的静态资源</li>
-                        </ul>
+&lt;template&gt;
+  &lt;main class="mx-auto max-w-3xl p-6"&gt;
+    &lt;h1 class="mb-6 text-3xl font-bold"&gt;我的 Vue 应用&lt;/h1&gt;
+    &lt;nav class="mb-8 flex gap-2" aria-label="页面导航"&gt;
+      &lt;RouterLink to="/" class="btn btn-ghost"&gt;首页&lt;/RouterLink&gt;
+      &lt;RouterLink to="/about" class="btn btn-ghost"&gt;关于&lt;/RouterLink&gt;
+    &lt;/nav&gt;
+    &lt;RouterView /&gt;
+  &lt;/main&gt;
+&lt;/template&gt;</code></pre>
+                    <p>将 <code>src/views/HomeView.vue</code> 替换为一个计数按钮：</p>
+                    <pre><code class="language-vue">&lt;script setup&gt;
+import { ref } from 'vue'
 
-                        <aside class="article-note" aria-label="提示">
-                            <span class="article-note-label">TIP / 提示</span>
-                            <p>如果你是新项目，直接从 Vite 开始会更省心。</p>
-                        </aside>
+const count = ref(0)
+&lt;/script&gt;
 
-                        <hr>
+&lt;template&gt;
+  &lt;section aria-labelledby="counter-title"&gt;
+    &lt;h2 id="counter-title" class="mb-4 text-xl font-semibold"&gt;计数示例&lt;/h2&gt;
+    &lt;button type="button" class="btn btn-primary" @click="count++"&gt;
+      已点击 {{ count }} 次
+    &lt;/button&gt;
+  &lt;/section&gt;
+&lt;/template&gt;</code></pre>
+                    <p><code>ref(0)</code> 声明响应式状态；<code>@click</code> 修改状态；Vue 根据模板更新按钮文字。写在模板中的 ref 会自动解包。若在 JavaScript 代码中读写这个值，则使用 <code>count.value</code>。</p>
+                    <p>关于页可以保留脚手架的示例，也可以将 <code>src/views/AboutView.vue</code> 替换为：</p>
+                    <pre><code class="language-vue">&lt;template&gt;
+  &lt;h2 class="text-xl font-semibold"&gt;关于这个应用&lt;/h2&gt;
+&lt;/template&gt;</code></pre>
+                    <p>应用此时已有三类独立行为：Vue 更新计数，路由切换页面，Tailwind 与 daisyUI 控制外观。这个例子把计数保存在首页组件中，离开首页后再返回，计数会重置。需要跨页面保留数据时，再设计共享状态。</p>
 
-                        <h2>三、样式系统</h2>
+                    <h2 id="run-and-build">运行、检查与构建</h2>
+                    <pre><code class="language-bash">npm run dev</code></pre>
+                    <p>打开终端显示的本地地址，依次检查：</p>
+                    <ol>
+                        <li>点击按钮后数字递增，按钮显示 daisyUI 的样式。</li>
+                        <li>点击“关于”后，地址变为 <code>/about</code>，页面内容随之切换。</li>
+                        <li>浏览器的后退按钮可以回到首页。</li>
+                    </ol>
+                    <p>检查完成后按 <code>Ctrl+C</code> 停止开发服务器，再执行构建和本地预览：</p>
+                    <pre><code class="language-bash">npm run build
+npm run preview</code></pre>
+                    <p><code>build</code> 会生成 <code>dist/</code>；<code>preview</code> 用于本地检查构建结果。正式部署时，将构建产物交给静态托管服务。</p>
+                    <aside class="article-note article-note--warning" aria-label="部署时的路由要求">
+                        <span class="article-note-label">部署时的路由要求</span>
+                        <p>脚手架默认使用 history 路由。部署后直接打开或刷新 <code>/about</code>，需要托管服务把未匹配的页面路径回退到 <code>index.html</code>。如果平台无法配置回退，可以选择 hash 路由；部署到子目录时还要配置 Vite 的 <code>base</code>。详见 <a href="https://router.vuejs.org/guide/essentials/history-mode.html" target="_blank" rel="noopener noreferrer">路由模式</a>和 <a href="https://vite.dev/guide/static-deploy.html" target="_blank" rel="noopener noreferrer">Vite 部署指南</a>。</p>
+                    </aside>
 
-                        <h3>3.1 Tailwind CSS — 原子化 CSS 框架</h3>
+                    <h2 id="add-tools-when-needed">有具体需求后再扩展</h2>
+                    <p>学习时先掌握 JavaScript 的模块、事件和异步操作，再理解 Vue 的模板、状态与组件通信。能解释上面的计数按钮后，再研究路由参数、导航守卫和更复杂的样式组织。</p>
+                    <p>图片裁剪属于业务功能。出现头像上传等需求时，再选择裁剪库。例如，<a href="https://www.npmjs.com/package/vue-croppie" target="_blank" rel="noopener noreferrer">vue-croppie</a> 的说明将其定位为 Vue 2 封装，不能直接照搬到 Vue 3。若使用原生 <a href="https://foliotek.github.io/Croppie/" target="_blank" rel="noopener noreferrer">Croppie</a>，需要在组件挂载后通过 DOM ref 创建实例，并在卸载时销毁；选型时也应核对维护状态和浏览器兼容性。</p>
 
-                        <h4>定位</h4>
-                        <p>负责<strong>页面布局</strong>与<strong>视觉样式</strong>，采用"工具类优先"（Utility-First）的理念。</p>
-
-                        <h4>与传统 CSS 的区别</h4>
-                        <div class="table-scroll">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>传统方式</th>
-                                        <th>Tailwind CSS 方式</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>编写 .css 文件，自定义类名</td>
-                                        <td>直接在 HTML/模板中使用预定义工具类</td>
-                                    </tr>
-                                    <tr>
-                                        <td>需要思考类名命名（BEM 规范）</td>
-                                        <td>直接组合 flex、pt-4、text-center 等原子类</td>
-                                    </tr>
-                                    <tr>
-                                        <td>样式与结构分离</td>
-                                        <td>样式即结构，快速迭代</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <h4>示例对比</h4>
-                        <pre><code class="language-html">&lt;!-- 传统方式 --&gt;
-&lt;style&gt;
-.card {
-  padding: 1.5rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-&lt;/style&gt;
-&lt;div class="card"&gt;内容&lt;/div&gt;
-
-&lt;!-- Tailwind CSS 方式 --&gt;
-&lt;div class="p-6 rounded-lg shadow-md"&gt;内容&lt;/div&gt;</code></pre>
-
-                        <h4>安装方式（Vite 项目）</h4>
-                        <p><a href="https://tailwindcss.com/docs/installation/using-vite" target="_blank">Tailwind CSS + Vite 官方安装指南</a></p>
-                        <pre><code class="language-bash">npm install -D tailwindcss @tailwindcss/vite</code></pre>
-
-                        <h3>3.2 DaisyUI — 基于 Tailwind 的 UI 组件库</h3>
-
-                        <h4>定位</h4>
-                        <p>在 Tailwind CSS 基础上提供<strong>语义化的组件层</strong>，让你无需从零搭建界面。</p>
-
-                        <h4>核心作用</h4>
-                        <div class="table-scroll">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>功能</th>
-                                        <th>说明</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>现成组件</strong></td>
-                                        <td>提供 Button、Card、Modal、Form、Navbar 等常用组件</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>主题系统</strong></td>
-                                        <td>内置 35 款主题，可以快速切换不同视觉风格</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>语义化类名</strong></td>
-                                        <td>使用 btn、card、modal 等直观类名，代替冗长的工具类组合</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <h4>依赖关系</h4>
-                        <aside class="article-note article-note--warning" aria-label="重要提示">
-                            <span class="article-note-label">IMPORTANT / 重要</span>
-                            <p>DaisyUI 必须<strong>先安装 Tailwind CSS</strong>，它是对 Tailwind 的扩展而非替代。</p>
-                        </aside>
-
-                        <h4>使用示例</h4>
-                        <pre><code class="language-html">&lt;!-- 纯 Tailwind：需要写很多工具类 --&gt;
-&lt;button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2"&gt;
-  提交
-&lt;/button&gt;
-
-&lt;!-- DaisyUI：语义化类名，简洁优雅 --&gt;
-&lt;button class="btn btn-primary"&gt;提交&lt;/button&gt;</code></pre>
-
-                        <h4>学习资源</h4>
-                        <ul>
-                            <li><a href="https://daisyui.com/docs/install/" target="_blank">DaisyUI 安装文档</a></li>
-                            <li><a href="https://daisyui.com/components/" target="_blank">DaisyUI 组件文档</a> — 包含所有组件的视觉示例和代码片段</li>
-                        </ul>
-
-                        <hr>
-
-                        <h2>四、路由管理：Vue Router 4</h2>
-
-                        <h3>4.1 作用</h3>
-                        <p>Vue Router 是 Vue.js 的官方路由管理器，负责<strong>单页应用（SPA）的页面导航</strong>：</p>
-                        <ul>
-                            <li>定义 URL 与组件的映射关系</li>
-                            <li>实现页面无刷新切换</li>
-                            <li>管理导航守卫、动态路由、路由参数等</li>
-                        </ul>
-
-                        <h3>4.2 与 Vue 3 的协同</h3>
-                        <p>Vue Router 4 专为 Vue 3 设计，完美支持 Composition API 风格：</p>
-                        <pre><code class="language-javascript">// 组合式 API 风格的路由使用
-import { useRouter, useRoute } from 'vue-router'
-
-const router = useRouter()  // 路由实例，用于编程式导航
-const route = useRoute()    // 当前路由信息，获取参数等</code></pre>
-
-                        <hr>
-
-                        <h2>五、图片处理：Croppie</h2>
-
-                        <h3>5.1 定位</h3>
-                        <p><strong>图片裁剪库</strong>，常用于需要用户上传并编辑图片的场景。</p>
-
-                        <h3>5.2 典型使用场景</h3>
-                        <ul>
-                            <li><strong>头像裁剪</strong> — 用户上传头像时进行选区裁剪</li>
-                            <li><strong>图片上传前处理</strong> — 限制尺寸、调整构图后再上传服务器</li>
-                        </ul>
-
-                        <h3>5.3 Vue 3 中的注意事项</h3>
-                        <aside class="article-note article-note--warning" aria-label="注意事项">
-                            <span class="article-note-label">NOTICE / 注意</span>
-                            <p><code>vue-croppie</code> 插件<strong>不支持 Vue 3</strong>，课程中直接使用原生 <code>Croppie</code> 库，通过 ref 操作 DOM 方式集成。</p>
-                        </aside>
-                        <p><a href="https://foliotek.github.io/Croppie/" target="_blank">Croppie 官方文档</a></p>
-
-                        <hr>
-
-                        <h2>六、技术栈关系图</h2>
-                        <pre><code class="language-plaintext">┌─────────────────────────────────────────────────────────┐
-│                    Vue 3（核心框架）                      │
-│         负责：组件逻辑、状态管理、响应式数据                 │
-└─────────────────────────────────────────────────────────┘
-                           │
-    ┌──────────────────────┼──────────────────────┐
-    ▼                      ▼                      ▼
-┌─────────┐         ┌─────────────┐         ┌──────────┐
-│  Vite   │         │ Vue Router  │         │ Croppie  │
-│ 构建工具 │         │   路由管理   │         │ 图片裁剪 │
-└─────────┘         └─────────────┘         └──────────┘
-                           │
-                           ▼
-              ┌─────────────────────┐
-              │   Tailwind CSS      │
-              │   原子化样式框架     │
-              │   负责：布局、视觉    │
-              └─────────────────────┘
-                           │
-                           ▼
-              ┌─────────────────────┐
-              │      DaisyUI        │
-              │   基于 Tailwind     │
-              │   提供语义化组件     │
-              └─────────────────────┘</code></pre>
-
-                        <hr>
-
-                        <h2>七、学习路径建议</h2>
-                        <p>如果你是初学者，建议按以下顺序学习：</p>
-                        <ol>
-                            <li><strong>Vue 3 基础</strong> → 掌握模板语法、响应式数据、组件通信</li>
-                            <li><strong>Vite 使用</strong> → 了解项目结构、开发服务器、构建命令</li>
-                            <li><strong>Tailwind CSS</strong> → 熟悉常用工具类、布局方式</li>
-                            <li><strong>DaisyUI</strong> → 使用现成组件快速搭建界面</li>
-                            <li><strong>Vue Router</strong> → 添加多页面导航能力</li>
-                            <li><strong>Croppie</strong> → 按需集成图片处理功能</li>
-                        </ol>
-
-                        <hr>
-
-                        <h2>八、总结</h2>
-                        <div class="table-scroll">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>技术</th>
-                                        <th>一句话定位</th>
-                                        <th>核心价值</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>Vue 3</strong></td>
-                                        <td>前端核心框架</td>
-                                        <td>组件化开发、响应式数据、逻辑复用</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Vite</strong></td>
-                                        <td>现代构建工具</td>
-                                        <td>极速开发体验、优化生产构建</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Vue Router</strong></td>
-                                        <td>官方路由管理</td>
-                                        <td>单页应用导航、深度集成 Vue</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Tailwind CSS</strong></td>
-                                        <td>原子化样式框架</td>
-                                        <td>不写 CSS 文件、快速构建界面</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>DaisyUI</strong></td>
-                                        <td>Tailwind 组件库</td>
-                                        <td>现成组件、主题系统、语义化类名</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Croppie</strong></td>
-                                        <td>图片裁剪库</td>
-                                        <td>头像处理、上传前编辑</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <p>这套技术栈整体上偏向<strong>「少配置、快交付」</strong>：Vue 3 负责组件逻辑，Vite 负责开发与构建，Tailwind 负责样式编排，DaisyUI 负责常用界面组件。它们组合起来的好处很直接，就是能明显减少样板代码，让你更快把页面做出来。</p>
-
-                        <aside class="article-note article-note--action" aria-label="下一步">
-                            <span class="article-note-label">NEXT / 下一步</span>
-                            <p>访问 <a href="https://cn.vuejs.org/guide/quick-start" target="_blank">Vue 3 官方文档</a>，开始你的第一个 Vite 项目。</p>
-                        </aside>
+                    <h2 id="references">参考资料</h2>
+                    <ul>
+                        <li><a href="https://vuejs.org/guide/quick-start.html" target="_blank" rel="noopener noreferrer">Vue 官方快速开始</a>与 <a href="https://vuejs.org/guide/essentials/reactivity-fundamentals.html" target="_blank" rel="noopener noreferrer">响应式基础</a></li>
+                        <li><a href="https://vite.dev/guide/features.html" target="_blank" rel="noopener noreferrer">Vite：开发功能与依赖预打包</a></li>
+                        <li><a href="https://tailwindcss.com/docs/installation/using-vite" target="_blank" rel="noopener noreferrer">Tailwind CSS：Vite 安装方式</a></li>
+                        <li><a href="https://daisyui.com/docs/install/vite/" target="_blank" rel="noopener noreferrer">daisyUI：Vite 安装方式</a></li>
+                    </ul>
                 </article>
                 <div class="article-actions">
                     <a class="text-link" href="../index.html#blog">返回文章列表</a>

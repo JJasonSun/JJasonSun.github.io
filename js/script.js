@@ -23,21 +23,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const language = languageClass?.replace('language-', '') || 'plaintext';
             const shell = document.createElement('div');
             const toolbar = document.createElement('div');
-            const lights = document.createElement('span');
             const label = document.createElement('span');
             const copyButton = document.createElement('button');
 
             shell.className = 'code-shell';
             toolbar.className = 'code-toolbar';
-            lights.className = 'code-lights';
-            lights.setAttribute('aria-hidden', 'true');
-            lights.innerHTML = '<i></i><i></i><i></i>';
             label.className = 'code-language';
             label.textContent = languageNames[language] || language;
             copyButton.className = 'code-copy';
             copyButton.type = 'button';
             copyButton.title = '复制代码';
             copyButton.setAttribute('aria-label', '复制代码');
+            copyButton.textContent = '复制';
+            copyButton.setAttribute('aria-live', 'polite');
 
             copyButton.addEventListener('click', async () => {
                 try {
@@ -49,23 +47,39 @@ document.addEventListener('DOMContentLoaded', () => {
                     textarea.style.opacity = '0';
                     document.body.appendChild(textarea);
                     textarea.select();
-                    document.execCommand('copy');
-                    textarea.remove();
+                    try {
+                        if (!document.execCommand('copy')) throw new Error('Copy failed');
+                    } catch {
+                        copyButton.textContent = '复制失败';
+                        copyButton.title = '请选中代码后手动复制';
+                        copyButton.setAttribute('aria-label', '复制失败，请选中代码后手动复制');
+                        return;
+                    } finally {
+                        textarea.remove();
+                    }
                 }
 
                 copyButton.dataset.copied = 'true';
                 copyButton.title = '已复制';
                 copyButton.setAttribute('aria-label', '代码已复制');
+                copyButton.textContent = '已复制';
                 window.setTimeout(() => {
                     delete copyButton.dataset.copied;
                     copyButton.title = '复制代码';
                     copyButton.setAttribute('aria-label', '复制代码');
+                    copyButton.textContent = '复制';
                 }, 1200);
             });
 
             pre.before(shell);
-            toolbar.append(lights, label, copyButton);
+            toolbar.append(label, copyButton);
             shell.append(toolbar, pre);
+        });
+
+        content.querySelectorAll('.table-scroll').forEach((table) => {
+            table.tabIndex = 0;
+            table.setAttribute('role', 'region');
+            table.setAttribute('aria-label', '可横向滚动的表格');
         });
     }
 
@@ -101,21 +115,24 @@ document.addEventListener('DOMContentLoaded', () => {
         link.href = `#${id}`;
         link.textContent = heading.textContent;
         link.className = heading.tagName === 'H3' ? 'toc-h3' : 'toc-h2';
-        link.addEventListener('click', (event) => {
-            event.preventDefault();
-            const top = heading.getBoundingClientRect().top + window.scrollY - 62;
-            window.scrollTo({ top, behavior: 'smooth' });
-            history.replaceState(null, '', `#${id}`);
-        });
         item.appendChild(link);
         list.appendChild(item);
     });
 
     toc.replaceChildren(list);
+    if (tocPanel) {
+        tocPanel.hidden = false;
+        tocPanel.open = !window.matchMedia('(max-width: 900px)').matches;
+    }
 
     const links = [...toc.querySelectorAll('a')];
     const activate = (id) => {
-        links.forEach((link) => link.classList.toggle('active', link.hash === `#${id}`));
+        links.forEach((link) => {
+            const active = link.getAttribute('href') === `#${id}`;
+            link.classList.toggle('active', active);
+            if (active) link.setAttribute('aria-current', 'location');
+            else link.removeAttribute('aria-current');
+        });
     };
 
     const observer = new IntersectionObserver((entries) => {
